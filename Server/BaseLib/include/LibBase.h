@@ -21,7 +21,8 @@
 #include "BaseApplication.h"
 #include "InspectorService.h"
 #include "DataTime.h"
-
+#include "BaseHttp.h"
+#include "Encrypt.h"
 
 #endif
 

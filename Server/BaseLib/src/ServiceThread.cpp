@@ -788,3 +788,42 @@ void ThreadPool::threadProc(Thread& thread)
         }
     }
 }
+
+
+
+CThreadMsgQueue::CThreadMsgQueue() 
+{
+
+}
+
+CThreadMsgQueue::~CThreadMsgQueue()
+{
+
+}
+
+void   CThreadMsgQueue::OnProcess()
+{
+	if (msgQueue_.empty())
+	{
+		return;
+	}
+
+	std::deque<MsgTask> msgQueueTmp;
+
+	{
+		AutoLocker locker(mutex_);
+		msgQueueTmp.swap(msgQueue_);
+	}
+
+	for (auto& it : msgQueueTmp)
+	{
+		it();
+	}
+
+}
+
+void  CThreadMsgQueue::AddTask(const MsgTask& task)
+{
+	AutoLocker locker(mutex_);
+	msgQueue_.push_back(task);
+}

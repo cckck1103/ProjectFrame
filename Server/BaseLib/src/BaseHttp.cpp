@@ -4,6 +4,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "BaseHttp.h"
+#include "LogManager.h"
+#include "base64.h"
+#include "sha1.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 // Misc Routines
@@ -1528,4 +1531,421 @@ void HttpServer::onTcpSendComplete(const TcpConnectionPtr& connection, const Con
     default:
         break;
     }
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+//WebSocket Session
+
+/*
+					0                   1                   2                   3
+					0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+					+-+-+-+-+-------+-+-------------+-------------------------------+
+					|F|R|R|R| opcode|M| Payload len |    Extended payload length    |
+					|I|S|S|S|  (4)  |A|     (7)     |             (16/64)           |
+					|N|V|V|V|       |S|             |   (if payload len==126/127)   |
+					| |1|2|3|       |K|             |                               |
+					+-+-+-+-+-------+-+-------------+ - - - - - - - - - - - - - - - +
+					|     Extended payload length continued, if payload len == 127  |
+					+ - - - - - - - - - - - - - - - +-------------------------------+
+					|                               |Masking-key, if MASK set to 1  |
+					+-------------------------------+-------------------------------+
+					| Masking-key (continued)       |          Payload Data         |
+					+-------------------------------- - - - - - - - - - - - - - - - +
+					:                     Payload Data continued ...                :
+					+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
+					|                     Payload Data continued ...                |
+					+---------------------------------------------------------------+
+
+					opcode:
+					*  %x0 denotes a continuation frame
+					*  %x1 denotes a text frame
+					*  %x2 denotes a binary frame
+					*  %x3-7 are reserved for further non-control frames
+					*  %x8 denotes a connection close
+					*  %x9 denotes a ping
+					*  %xA denotes a pong
+					*  %xB-F are reserved for further control frames
+
+					Payload length:  7 bits, 7+16 bits, or 7+64 bits
+
+					Masking-key:  0 or 4 bytes
+*/
+
+/// 将从client发过来的数据帧进行解码
+/// inbuf      : 接收到的client发送的数据
+/// insize     : 接收到的数据大小
+/// outbuf     : 解码缓冲区
+/// return     : WsFrameType
+WsFrameType decodeFrame(const char* inbuf, int inlength, std::vector<char>* outbuf)
+{
+	if (inlength < 3) return WS_INCOMPLETE_FRAME;
+
+	const unsigned char* inp = (const unsigned char*)(inbuf);
+
+	unsigned char msg_opcode = inp[0] & 0x0F;
+	unsigned char msg_fin = (inp[0] >> 7) & 0x01;
+	unsigned char msg_masked = (inp[1] >> 7) & 0x01;
+
+	int payload_length = 0;
+	int pos = 2;
+	int length_field = inp[1] & (~0x80);
+	unsigned int mask = 0;
+
+	if (length_field <= PAYLOAD_SIZE_BASIC)
+	{
+		payload_length = length_field;
+	}
+	else if (length_field == 126)  //msglen is 16bit!
+	{
+		payload_length = (inp[2] << 8) + inp[3];
+		pos += 2;
+	}
+	else if (length_field == 127)  //msglen is 64bit!
+	{
+		payload_length = ((unsigned long long)inp[2] << 56) + ((unsigned long long)inp[3] << 48) +
+			((unsigned long long)inp[4] << 40) + ((unsigned long long)inp[5] << 32) +
+			((unsigned long long)inp[6] << 24) + ((unsigned long long)inp[7] << 16) +
+			((unsigned long long)inp[8] << 8) + ((unsigned long long)inp[9] << 0);
+		payload_length = payload_length / 2;
+		pos += 8;
+	}
+
+	if (inlength < payload_length + pos)
+	{
+		return WS_INCOMPLETE_FRAME;
+	}
+	else if (payload_length > (int)outbuf->size())
+	{
+		outbuf->resize(payload_length + 1);
+	}
+
+	if (outbuf->size() > 0)
+	{
+		if (msg_masked)
+		{
+			mask = *((unsigned int*)(inp + pos));
+			pos += 4;
+			memcpy(&*outbuf->begin(), (void*)(inp + pos), payload_length);
+			// unmask data:
+			char* c = &*outbuf->begin();
+			for (int i = 0; i < payload_length; i++)
+			{
+				c[i] = c[i] ^ ((unsigned char*)(&mask))[i % 4];
+			}
+		}
+		(*outbuf)[payload_length] = 0;
+	}
+
+	if (msg_opcode == 0x0) return (msg_fin) ? WS_TEXT_FRAME : WS_INCOMPLETE_TEXT_FRAME; // continuation frame ?
+	if (msg_opcode == 0x1) return (msg_fin) ? WS_TEXT_FRAME : WS_INCOMPLETE_TEXT_FRAME;
+	if (msg_opcode == 0x2) return (msg_fin) ? WS_BINARY_FRAME : WS_INCOMPLETE_BINARY_FRAME;
+	if (msg_opcode == 0x8) return WS_CLOSE_FRAME;
+	if (msg_opcode == 0x9) return WS_PING_FRAME;
+	if (msg_opcode == 0xA) return WS_PONG_FRAME;
+
+	return WS_ERROR_FRAME;
+}
+
+/// 将发回给client的数据进行编码
+/// msg        : 发回给client的数据
+/// msglen     : 发回的数据大小
+/// outbuf     : 编码缓冲区
+/// outsize    : 编码缓冲区大小（建议outsize > insize + 10）
+int encodeFrame(WsFrameType frame_type, const char* msg, int msg_length, char* outbuf, int bufsize)
+{
+	//std::cout << "makeFrame : " <<  frame_type << "\t" << msg << "\t" << msg_length << "\n";
+	int pos = 0;
+	int size = msg_length;
+	outbuf[pos++] = (unsigned char)frame_type; // text frame
+	if (size <= PAYLOAD_SIZE_BASIC)  // 125
+	{
+		outbuf[pos++] = size;
+	}
+	else if (size <= PAYLOAD_SIZE_EXTENDED)   // 65535
+	{
+		outbuf[pos++] = 126; //16 bit length
+		outbuf[pos++] = (size >> 8) & 0xFF; // rightmost first
+		outbuf[pos++] = size & 0xFF;
+	}
+	else  // >2^16-1
+	{
+		outbuf[pos++] = 127; //64 bit length
+
+							 // write 8 bytes length (significant first)
+							 // since msg_length is int it can be no longer than 4 bytes = 2^32-1
+							 // padd zeroes for the first 4 bytes
+		for (int i = 3; i >= 0; i--)
+		{
+			outbuf[pos++] = 0;
+		}
+		// write the actual 32bit msg_length in the next 4 bytes
+		for (int i = 3; i >= 0; i--)
+		{
+			outbuf[pos++] = ((size >> 8 * i) & 0xFF);
+		}
+	}
+	memcpy((void*)(outbuf + pos), msg, size);
+	//printf("makeFrame [%s]\n", outbuf);
+	//printf("makeFrame [%s]\n", outbuf + 2);
+	return (size + pos);
+}
+
+
+void WebSocketPacketSplitter(const char *data, int bytes, int& retrieveBytes)
+{
+	retrieveBytes = 0;
+
+	if (bytes < 3)
+		return ;
+
+	const unsigned char* inp = (const unsigned char*)(data);
+
+	unsigned char msg_opcode = inp[0] & 0x0F;
+	unsigned char msg_fin = (inp[0] >> 7) & 0x01;
+	unsigned char msg_masked = (inp[1] >> 7) & 0x01;
+
+	int payload_length = 0;
+	int pos = 2;
+	int length_field = inp[1] & (~0x80);
+	unsigned int mask = 0;
+
+	if (length_field <= PAYLOAD_SIZE_BASIC)
+	{
+		payload_length = length_field;
+	}
+	else if (length_field == 126)  //msglen is 16bit!
+	{
+		payload_length = (inp[2] << 8) + inp[3];
+		pos += 2;
+	}
+	else if (length_field == 127)  //msglen is 64bit!
+	{
+		payload_length = ((unsigned long long)inp[2] << 56) + ((unsigned long long)inp[3] << 48) +
+			((unsigned long long)inp[4] << 40) + ((unsigned long long)inp[5] << 32) +
+			((unsigned long long)inp[6] << 24) + ((unsigned long long)inp[7] << 16) +
+			((unsigned long long)inp[8] << 8) + ((unsigned long long)inp[9] << 0);
+		payload_length = payload_length / 2;
+		pos += 8;
+	}
+
+	if (bytes < payload_length + pos)
+	{
+		return;
+	}
+
+	retrieveBytes = payload_length + pos + 4;
+}
+
+// 无论收到多少字节都立即获取的分包器
+const PacketSplitter WEBSOCKET_PACKET_SPLITTER = &WebSocketPacketSplitter;
+
+WebSocketServer::WebSocketServer(std::shared_ptr<IoService> service,
+								TcpCallbacks* _callback,
+								WORD port) : 
+	m_TcpServer(service,this,port),
+	m_callback(_callback)
+{
+}
+
+WebSocketServer::~WebSocketServer()
+{
+
+
+
+}
+
+void WebSocketServer::open()
+{
+	m_TcpServer.open();
+}
+void WebSocketServer::close()
+{
+	m_TcpServer.close();
+}
+
+// 接受了一个新的TCP连接
+void WebSocketServer::onTcpConnected(const TcpConnectionPtr& connection)
+{
+	INFO_LOG("new websocket connected %x", connection.get());
+	connection->setContext(WebConnContextPtr(new WebConnContext()));
+	connection->recv(LINE_PACKET_SPLITTER, EMPTY_CONTEXT, DEF_HEART_BEAT_TIME);
+
+}
+
+// 断开了一个TCP连接
+void WebSocketServer::onTcpDisconnected(const TcpConnectionPtr& connection)
+{
+	if (m_callback)
+	{
+		INFO_LOG("websocket disconnected %x", connection.get());
+		m_callback->onTcpDisconnected(connection);
+	}
+}
+// TCP连接上的一个接收任务已完成
+void WebSocketServer::onTcpRecvComplete(const TcpConnectionPtr& connection, void *packetBuffer,
+	int packetSize, const Context& context)
+{
+	if (!IsHandSharked(connection))
+	{
+		bool res = handshark(connection, packetBuffer, packetSize);
+		if (!res)
+		{
+			connection->recv(LINE_PACKET_SPLITTER, EMPTY_CONTEXT, DEF_HEART_BEAT_TIME);
+		}
+		else
+		{
+			if (m_callback)
+			{
+				m_callback->onTcpConnected(connection);
+			}
+
+			connection->recv(WEBSOCKET_PACKET_SPLITTER, EMPTY_CONTEXT, DEF_HEART_BEAT_TIME);
+		}
+	}
+	else
+	{
+		WebConnContextPtr connContext = connection->getContext().AnyCast<WebConnContextPtr>();
+
+		std::vector<char> outbuf;
+		WsFrameType type = decodeFrame((const char*)packetBuffer, packetSize, &outbuf);
+
+		connContext->buff.insert(connContext->buff.end(), outbuf.begin(), outbuf.end());
+
+		switch (type)
+		{
+		case WS_TEXT_FRAME:
+		case WS_BINARY_FRAME:
+			{
+				if (m_callback && connContext->buff.size() > 0)
+				{
+					m_callback->onTcpRecvComplete(connection, 
+						reinterpret_cast<char*>(connContext->buff.data()),
+						connContext->buff.size(),
+						context
+					);
+				}
+				connContext->buff.clear();
+			}
+			break;
+		case WS_CLOSE_FRAME:
+			{
+				connection->shutdown();
+				connContext->buff.clear();
+			}
+			return;
+		case WS_INCOMPLETE_TEXT_FRAME:
+		case WS_INCOMPLETE_BINARY_FRAME:
+			break;
+		default:
+			WARN_LOG("No this [%d] opcode handler", type);
+			break;
+		}
+
+		connection->recv(WEBSOCKET_PACKET_SPLITTER, EMPTY_CONTEXT, DEF_HEART_BEAT_TIME);
+	}
+}
+
+
+// TCP连接上的一个发送任务已完成
+void WebSocketServer::onTcpSendComplete(const TcpConnectionPtr& connection, const Context& context)
+{
+	if (m_callback)
+	{
+		m_callback->onTcpSendComplete(connection, context);
+	}
+}
+
+bool		WebSocketServer::handshark(const TcpConnectionPtr& connection,void *packetBuffer, int packetSize)
+{
+	WebConnContextPtr connContext = connection->getContext().AnyCast<WebConnContextPtr>();
+
+	std::string line((const char*)packetBuffer, packetSize);
+	line = trimString(line);
+
+	if (!line.empty())
+	{
+		StrList parts;
+		splitString(line, ':', parts, true);
+		if (parts.getCount() == 2 && !parts[0].empty())
+		{
+			connContext->argStr.add(parts[0], parts[1]);
+		}
+	}
+	else
+	{
+		parse_str(connection);
+		connContext->handshaked = true;
+		return true;
+	}
+
+	return false;
+}
+
+bool WebSocketServer::IsHandSharked(const TcpConnectionPtr& connection)
+{
+	WebConnContextPtr connContext = connection->getContext().AnyCast<WebConnContextPtr>();
+
+	return connContext->handshaked;
+}
+
+
+void	WebSocketServer::parse_str(const TcpConnectionPtr& connection )
+{
+	WebConnContextPtr connContext = connection->getContext().AnyCast<WebConnContextPtr>();
+
+	StrList strList;
+
+	strList.add(formatString("HTTP/1.1 101 Switching Protocols"));
+	strList.add(formatString("Connection: upgrade"));
+
+	std::string server_key;
+	bool res = connContext->argStr.getValue("Sec-WebSocket-Key", server_key);
+	server_key += WEBSOCKET_MAGIC_KEY;
+	
+	SHA1 sha;
+	unsigned int message_digest[5];
+	sha.Reset();
+	sha << server_key.c_str();
+
+	sha.Result(message_digest);
+	for (int i = 0; i < 5; i++) {
+		message_digest[i] = htonl(message_digest[i]);
+	}
+	server_key = base64_encode(reinterpret_cast<const unsigned char*>(message_digest), 20);
+
+	strList.add(formatString("Sec-WebSocket-Accept:%s", server_key.c_str()));
+	
+	strList.add(formatString("Upgrade: websocket\r\n"));
+
+	std::string msg = strList.getText();
+
+	connection->send(msg.data(),msg.size());
+}
+
+void	WebSocketServer::sendText(const TcpConnectionPtr& conn, const char* data, size_t size)
+{
+	senddata(conn, data, size, WS_TEXT_FRAME);
+}
+void	WebSocketServer::sendBinary(const TcpConnectionPtr& conn, const char* data, size_t size)
+{
+	senddata(conn, data, size, WS_BINARY_FRAME);
+}
+
+void	WebSocketServer::senddata(const TcpConnectionPtr& conn, const char* data, size_t size, WsFrameType type)
+{
+	LOCAL_CACHE_DATA(cache, size);
+	int encodesize = encodeFrame(type, data, size, cache, size);
+	conn->send(cache, encodesize);
+}
+
+
+void	WebSocketServer::closeTcpConnection(const TcpConnectionPtr& conn, WsCloseReason code)
+{
+	size_t len = 0;
+	char buf[128];
+	unsigned short code_be = htons(code);
+	memcpy(buf, &code_be, 2);
+	len += 2;
+	senddata(conn, buf, len, WS_CLOSE_FRAME);
 }

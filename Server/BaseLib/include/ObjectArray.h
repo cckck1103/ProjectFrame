@@ -4,7 +4,8 @@
 #define _OBJ_ARRAY_H_
 
 #include "GlobalDefs.h"
-class Mutex;
+#include "BaseMutex.h"
+
 /************************************************************************/
 /*
 PointerList - ¡–±Ì¿‡

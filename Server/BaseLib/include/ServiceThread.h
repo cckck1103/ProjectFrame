@@ -350,4 +350,22 @@
 	};
 
 	///////////////////////////////////////////////////////////////////////////////
+	//CThreadMsgQueue
+
+	class CThreadMsgQueue
+	{
+		CThreadMsgQueue();
+		virtual ~CThreadMsgQueue();
+		typedef std::function<void()> MsgTask;
+	public:
+		void   OnProcess();
+
+		void   AddTask(const MsgTask& task);
+	private:
+		std::deque<MsgTask> msgQueue_;
+		Mutex mutex_;
+	};
+
+
+	//////////////////////////////////////////////////////////////////////////
 #endif // 

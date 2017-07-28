@@ -204,6 +204,57 @@ bool isBoolStr(const std::string& str)
 }
 
 
+
+//-----------------------------------------------------------------------------
+// 描述: 字符串转换成浮点型(若转换失败，则返回 defaultVal)
+//-----------------------------------------------------------------------------
+double strToFloat(const std::string& str, double defaultVal)
+{
+	if (isFloatStr(str))
+		return strtod(str.c_str(), NULL);
+	else
+		return defaultVal;
+}
+
+//-----------------------------------------------------------------------------
+// 描述: 浮点型转换成字符串
+//-----------------------------------------------------------------------------
+std::string floatToStr(double value, const char *format)
+{
+	char temp[256];
+	sprintf(temp, format, value);
+	return &temp[0];
+}
+
+//-----------------------------------------------------------------------------
+// 描述: 字符串转换成布尔型
+//-----------------------------------------------------------------------------
+bool strToBool(const std::string& str, bool defaultVal)
+{
+	if (isBoolStr(str))
+	{
+		if (sameText(str, TRUE_STR))
+			return true;
+		else if (sameText(str, FALSE_STR))
+			return false;
+		else
+			return (strToFloat(str, 0) != 0);
+	}
+	else
+		return defaultVal;
+}
+
+//-----------------------------------------------------------------------------
+// 描述: 布尔型转换成字符串
+//-----------------------------------------------------------------------------
+std::string boolToStr(bool value, bool useBoolStrs)
+{
+	if (useBoolStrs)
+		return (value ? TRUE_STR : FALSE_STR);
+	else
+		return (value ? "1" : "0");
+}
+
 //-----------------------------------------------------------------------------
 // 描述: 比较两个字符串 (不区分大小写)
 //-----------------------------------------------------------------------------

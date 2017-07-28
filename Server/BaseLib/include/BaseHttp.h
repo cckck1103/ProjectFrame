@@ -605,4 +605,161 @@ private:
 
 ///////////////////////////////////////////////////////////////////////////////
 
+//////////////////////////////////////////////////////////////////////////
+//WebSocket Session
+
+#define WS_FRAGMENT_FIN (1 << 7)
+
+enum WsOpcode
+{
+	WS_OPCODE_CONTINUE = 0x0,
+	WS_OPCODE_TEXT = 0x1,
+	WS_OPCODE_BINARY = 0x2,
+	WS_OPCODE_CLOSE = 0x8,
+	WS_OPCODE_PING = 0x9,
+	WS_OPCODE_PONG = 0xa
+};
+
+enum WsFrameType
+{
+	WS_ERROR_FRAME = 0xFF00,
+	WS_INCOMPLETE_FRAME = 0xFE00,
+
+	WS_OPENING_FRAME = 0x3300,
+	WS_CLOSING_FRAME = 0x3400,
+
+	WS_INCOMPLETE_TEXT_FRAME = 0x01,
+	WS_INCOMPLETE_BINARY_FRAME = 0x02,
+
+	WS_TEXT_FRAME = 0x81,       // 128 + 1 == WS_FRAGMENT_FIN | WS_OPCODE_TEXT
+	WS_BINARY_FRAME = 0x82,       // 128 + 2
+	WS_RSV3_FRAME = 0x83,       // 128 + 3
+	WS_RSV4_FRAME = 0x84,
+	WS_RSV5_FRAME = 0x85,
+	WS_RSV6_FRAME = 0x86,
+	WS_RSV7_FRAME = 0x87,
+	WS_CLOSE_FRAME = 0x88,
+	WS_PING_FRAME = 0x89,
+	WS_PONG_FRAME = 0x8A,
+};
+
+enum WsCloseReason
+{
+	WS_CLOSE_NORMAL = 1000,
+	WS_CLOSE_GOING_AWAY = 1001,
+	WS_CLOSE_PROTOCOL_ERROR = 1002,
+	WS_CLOSE_NOT_ALLOWED = 1003,
+	WS_CLOSE_RESERVED = 1004,
+	WS_CLOSE_NO_CODE = 1005,
+	WS_CLOSE_DIRTY = 1006,
+	WS_CLOSE_WRONG_TYPE = 1007,
+	WS_CLOSE_POLICY_VIOLATION = 1008,
+	WS_CLOSE_MESSAGE_TOO_BIG = 1009,
+	WS_CLOSE_UNEXPECTED_ERROR = 1011
+};
+
+#define STATE_SHOULD_CLOSE (1 << 0)
+#define STATE_SENT_CLOSE_FRAME (1 << 1)
+#define STATE_CONNECTING (1 << 2)
+#define STATE_IS_SSL (1 << 3)
+#define STATE_CONNECTED (1 << 4)
+#define STATE_SENDING_FRAGMENT (1 << 5)
+#define STATE_RECEIVING_FRAGMENT (1 << 6)
+#define STATE_RECEIVED_CLOSE_FRAME (1 << 7)
+#define STATE_FAILING_CONNECTION (1 << 8)
+
+enum WsConnState
+{
+	WS_CONN_CONNECTING = 0,
+	WS_CONN_OPEN = 1,
+	WS_CONN_CLOSING = 2,
+	WS_COOO_CLOSED = 3
+};
+
+enum PAYLOADSIZE
+{
+	/// Maximum size of a basic WebSocket payload
+	PAYLOAD_SIZE_BASIC = 125,     // 2^7 -1
+
+	// Maximum size of an extended WebSocket payload (basic payload = 126)
+	PAYLOAD_SIZE_EXTENDED = 0xFFFF, // 2^16 - 1, 65535
+
+	// Maximum size of a jumbo WebSocket payload (basic payload = 127)
+	//PAYLOAD_SIZE_JUMBO = 0x7FFFFFFFFFFFFFFFLL ,  //2^63 -1
+};
+
+enum WsHeaderFlag
+{
+	WS_FLAG_NULL = 0x0,
+	WS_FLAG_UPGRAGE = 0x0001,
+	WS_FLAG_CONNECTION = 0x0002,
+	WS_FLAG_HOST = 0x0004,
+	WS_FLAG_ORIGIN = 0x0008,
+	WS_FLAG_SEC_ORIGIN = 0x0010,
+	WS_FLAG_SEC_KEY = 0x0020,
+	WS_FLAG_SEC_VERSION = 0x0040,
+	WS_FLAG_SEC_KEY1 = 0x0080,
+	WS_FLAG_SEC_KEY2 = 0x0100,
+	WS_FLAG_SEC_PROTOCOL = 0x0200,
+};
+
+#define WEBSOCKET_MAGIC_KEY "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
+
+typedef std::map<std::string, std::string> HEADER_MAP;
+
+class WebSocketServer : public TcpCallbacks
+{
+	struct WebConnContext
+	{
+	public:
+		bool			handshaked;
+		PropertyList	argStr;
+		std::vector<char> buff;
+	public:
+		WebConnContext()
+		{
+			handshaked = false;
+			argStr.clear();
+			buff.clear();
+		}
+	};
+
+	typedef std::shared_ptr<WebConnContext> WebConnContextPtr;
+
+public:
+	WebSocketServer(std::shared_ptr<IoService> service,
+					TcpCallbacks* _callback,
+					WORD port);
+	virtual ~WebSocketServer();
+
+	// 接受了一个新的TCP连接
+	virtual void onTcpConnected(const TcpConnectionPtr& connection);
+	// 断开了一个TCP连接
+	virtual void onTcpDisconnected(const TcpConnectionPtr& connection);
+	// TCP连接上的一个接收任务已完成
+	virtual void onTcpRecvComplete(const TcpConnectionPtr& connection, void *packetBuffer,
+		int packetSize, const Context& context);
+	// TCP连接上的一个发送任务已完成
+	virtual void onTcpSendComplete(const TcpConnectionPtr& connection, const Context& context);
+
+	void open();
+	void close();
+
+	bool	IsHandSharked(const TcpConnectionPtr& connection);
+	void	sendText(const TcpConnectionPtr& conn, const char* data, size_t size);
+	void	sendBinary(const TcpConnectionPtr& conn, const char* data, size_t size);
+	void	senddata(const TcpConnectionPtr& conn, const char* data, size_t size, WsFrameType type = WS_TEXT_FRAME);
+	void	closeTcpConnection(const TcpConnectionPtr& conn, WsCloseReason code = WS_CLOSE_NORMAL);
+protected:
+	bool	handshark(const TcpConnectionPtr& connection, void *packetBuffer, int packetSize);
+	void	parse_str(const TcpConnectionPtr& connection);
+
+private:
+
+	TcpServer  m_TcpServer;
+	TcpCallbacks* m_callback;
+};
+
+
+
 #endif // 

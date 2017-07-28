@@ -104,7 +104,7 @@ class LinuxTcpEventLoop;
 class MainTcpServer;
 
 #define DEF_TCP_CONT_MAX_BUFF_SIZE   1024*1024*64
-#define DEF_HEART_BEAT_TIME  1*60*1000
+#define DEF_HEART_BEAT_TIME  60*1000
 ///////////////////////////////////////////////////////////////////////////////
 // 类型定义
 
@@ -153,6 +153,8 @@ const PacketSplitter LINE_PACKET_SPLITTER = &linePacketSplitter;
 const PacketSplitter NULL_TERMINATED_PACKET_SPLITTER = &nullTerminatedPacketSplitter;
 // 无论收到多少字节都立即获取的分包器
 const PacketSplitter ANY_PACKET_SPLITTER = &anyPacketSplitter;
+
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // class TcpInspectInfo

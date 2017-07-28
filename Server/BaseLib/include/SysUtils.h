@@ -153,6 +153,37 @@ std::string intToStr(int value);
 */
 std::string intToStr(INT64 value);
 
+/*
+* 函数名： strToFloat
+* 功能：   string 转换 double
+* 参数：   std::string
+* 返回值： double
+*/
+double strToFloat(const std::string& str, double defaultVal = 0);
+
+/*
+* 函数名： floatToStr
+* 功能：   double 转换 string
+* 参数：   double
+* 返回值： string
+*/
+std::string floatToStr(double value, const char *format = "%f");
+
+/*
+* 函数名： strToBool
+* 功能：   string 转换 bool
+* 参数：   string
+* 返回值： bool
+*/
+bool strToBool(const std::string& str, bool defaultVal = false);
+
+/*
+* 函数名： boolToStr
+* 功能：   bool 转换 string
+* 参数：   bool
+* 返回值： string
+*/
+std::string boolToStr(bool value, bool useBoolStrs = false);
 
 /*
 * 函数名： sameText
