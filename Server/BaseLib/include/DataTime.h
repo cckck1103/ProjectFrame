@@ -7,7 +7,7 @@
 #include "GlobalDefs.h"
 
 ///////////////////////////////////////////////////////////////////////////////
-// class DateTime - ÈÕÆÚÊ±¼äÀà
+// class DateTime - æ—¥æœŸæ—¶é—´ç±»
 class Timestamp;
 
 class DateTime
@@ -50,12 +50,12 @@ public:
 		const std::string& dateTimeSep = " ", const std::string& timeSep = ":") const;
 
 private:
-	time_t time_;     // (´Ó1970-01-01 00:00:00 ËãÆðµÄÃëÊý£¬UTCÊ±¼ä)
+	time_t time_;     // (ä»Ž1970-01-01 00:00:00 ç®—èµ·çš„ç§’æ•°ï¼ŒUTCæ—¶é—´)
 };
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// class Timestamp - Ê±¼ä´ÁÀà (ºÁÃë¾«¶È)
+// class Timestamp - æ—¶é—´æˆ³ç±» (æ¯«ç§’ç²¾åº¦)
 
 class Timestamp
 {

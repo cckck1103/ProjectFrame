@@ -3,8 +3,8 @@
 
 #include <stdio.h>
 #include <string.h>
-//Êı¾İ´óĞ¡
-#define ENCRYPT_KEY_LEN					5									//ÃÜÔ¿³¤¶È
+//æ•°æ®å¤§å°
+#define ENCRYPT_KEY_LEN					5									//å¯†é’¥é•¿åº¦
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -62,47 +62,47 @@
 
 //////////////////////////////////////////////////////////////////////////
 
-//MD5 ¼ÓÃÜÀà
+//MD5 åŠ å¯†ç±»
 class CMD5
 {
-	//±äÁ¿¶¨Òå
+	//å˜é‡å®šä¹‰
 private:
 	unsigned long int				state[4];
 	unsigned long int				count[2];
 	unsigned char					buffer[64];
 	unsigned char					PADDING[64];
 
-	//º¯Êı¶¨Òå
+	//å‡½æ•°å®šä¹‰
 public:
-	//¹¹Ôìº¯Êı
+	//æ„é€ å‡½æ•°
 	CMD5() { MD5Init(); }
 
-	//¹¦ÄÜº¯Êı
+	//åŠŸèƒ½å‡½æ•°
 public:
-	//×îÖÕ½á¹û
+	//æœ€ç»ˆç»“æœ
 	void MD5Final(unsigned char digest[16]);
-	//ÉèÖÃÊıÖµ
+	//è®¾ç½®æ•°å€¼
 	void MD5Update(unsigned char * input, unsigned int inputLen);
 
-	//ÄÚ²¿º¯Êı
+	//å†…éƒ¨å‡½æ•°
 private:
-	//³õÊ¼»¯
+	//åˆå§‹åŒ–
 	void MD5Init();
-	//ÖÃÎ»º¯Êı
+	//ç½®ä½å‡½æ•°
 	void MD5_memset(unsigned char * output, int value, unsigned int len);
-	//¿½±´º¯Êı
+	//æ‹·è´å‡½æ•°
 	void MD5_memcpy(unsigned char * output, unsigned char * input, unsigned int len);
-	//×ª»»º¯Êı
+	//è½¬æ¢å‡½æ•°
 	void MD5Transform(unsigned long int state[4], unsigned char block[64]);
-	//±àÂëº¯Êı
+	//ç¼–ç å‡½æ•°
 	void Encode(unsigned char * output, unsigned long int * input, unsigned int len);
-	//½âÂëº¯Êı
+	//è§£ç å‡½æ•°
 	void Decode(unsigned long int *output, unsigned char * input, unsigned int len);
 };
 
 //////////////////////////////////////////////////////////////////////////
 
-//³õÊ¼»¯
+//åˆå§‹åŒ–
 void CMD5::MD5Init()
 {
 	count[0]=0;
@@ -116,7 +116,7 @@ void CMD5::MD5Init()
 	return;
 }
 
-//¸üĞÂº¯Êı
+//æ›´æ–°å‡½æ•°
 void CMD5::MD5Update (unsigned char * input, unsigned int inputLen)
 {
 	unsigned int i,index,partLen;
@@ -136,7 +136,7 @@ void CMD5::MD5Update (unsigned char * input, unsigned int inputLen)
 	return;
 }
 
-//×îÖÕ½á¹û
+//æœ€ç»ˆç»“æœ
 void CMD5::MD5Final(unsigned char digest[16])
 {
 	unsigned char bits[8];
@@ -152,7 +152,7 @@ void CMD5::MD5Final(unsigned char digest[16])
 	return;
 }
 
-//×ª»»º¯Êı
+//è½¬æ¢å‡½æ•°
 void CMD5::MD5Transform(unsigned long int state[4], unsigned char block[64])
 {
 	unsigned long int a=state[0],b=state[1],c=state[2],d=state[3],x[16];
@@ -236,7 +236,7 @@ void CMD5::MD5Transform(unsigned long int state[4], unsigned char block[64])
 	return;
 }
 
-//±àÂëº¯Êı
+//ç¼–ç å‡½æ•°
 void CMD5::Encode(unsigned char * output, unsigned long int * input,unsigned int len)
 {
 	unsigned int i, j;
@@ -250,7 +250,7 @@ void CMD5::Encode(unsigned char * output, unsigned long int * input,unsigned int
 	return;
 }
 
-//½âÂëº¯Êı
+//è§£ç å‡½æ•°
 void CMD5::Decode(unsigned long int *output, unsigned char *input, unsigned int len)
 {
 	unsigned int i,j;
@@ -262,13 +262,13 @@ void CMD5::Decode(unsigned long int *output, unsigned char *input, unsigned int 
 	return;
 }
 
-//¿½±´º¯Êı
+//æ‹·è´å‡½æ•°
 void CMD5::MD5_memcpy(unsigned char * output, unsigned char * input,unsigned int len)
 {
 	for (unsigned int i=0;i<len;i++) output[i]=input[i];
 }
 
-//ÖÃÎ»º¯Êı
+//ç½®ä½å‡½æ•°
 void CMD5::MD5_memset (unsigned char * output, int value, unsigned int len)
 {
 	for (unsigned int i=0;i<len;i++) ((char *)output)[i]=(char)value;
@@ -276,16 +276,16 @@ void CMD5::MD5_memset (unsigned char * output, int value, unsigned int len)
 
 //////////////////////////////////////////////////////////////////////////
 
-//Éú³ÉÃÜÎÄ
+//ç”Ÿæˆå¯†æ–‡
 void CMD5Encrypt::EncryptData(const char * pszSrcData, char szMD5Result[16])
 {
-	//¼ÓÃÜÃÜÎÄ
+	//åŠ å¯†å¯†æ–‡
 	CMD5 MD5Encrypt;
 	unsigned char szResult[16];
 	MD5Encrypt.MD5Update((unsigned char *)pszSrcData,(unsigned int)strlen(pszSrcData)*sizeof(char));
 	MD5Encrypt.MD5Final(szResult);
 
-	//Êä³ö½á¹û
+	//è¾“å‡ºç»“æœ
 	szMD5Result[0]=0;
 	for (int i=0;i<16;i++) 
 		sprintf(&szMD5Result[i*2],"%02x",szResult[i]);
@@ -1020,7 +1020,7 @@ void CDESEncrypt::SetKey(const_DES_cblock *key)
 	return;
 }
 
-//Éú³ÉÃÜÎÄ
+//ç”Ÿæˆå¯†æ–‡
 int CDESEncrypt::EncdecData(void* inData, unsigned int inSize, void* outBuff, unsigned int buffSize, bool enc)
 {
 	return encdec_des((unsigned char *)inData, inSize, (unsigned char *)outBuff, buffSize, enc);

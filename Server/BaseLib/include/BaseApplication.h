@@ -28,24 +28,24 @@
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////
-// ÀàĞÍ¶¨Òå
+// ç±»å‹å®šä¹‰
 
 
-// ÓÃ»§ĞÅºÅ´¦Àí»Øµ÷
+// ç”¨æˆ·ä¿¡å·å¤„ç†å›è°ƒ
 typedef std::function<void (int signalNumber)> UserSignalHandlerCallback;
 
 ///////////////////////////////////////////////////////////////////////////////
-// class BaseApplication - Ó¦ÓÃ³ÌĞò»ù´¡Àà
+// class BaseApplication - åº”ç”¨ç¨‹åºåŸºç¡€ç±»
 //
-// ËµÃ÷:
-// 1. ´ËÀàÊÇÕû¸ö·şÎñ³ÌĞòµÄÖ÷¿ò¼Ü£¬È«¾Öµ¥Àı¶ÔÏó(Application)ÔÚ³ÌĞòÆô¶¯Ê±¼´±»´´½¨£»
-// 2. Ò»°ãÀ´Ëµ£¬·şÎñ³ÌĞòÊÇÓÉÍâ²¿·¢³öÃüÁî(kill)¶øÍË³öµÄ¡£³ÌĞòÊÕµ½killÍË³öÃüÁîºó
-//    (´ËÊ±µ±Ç°Ö´ĞĞµãÒ»¶¨ÔÚ App().run() ÖĞ)£¬»á´¥·¢ exitProgramSignalHandler
-//    ĞÅºÅ´¦ÀíÆ÷£¬½ø¶øÀûÓÃ longjmp ·½·¨Ê¹Ö´ĞĞµãÄ£Äâ´Ó run() ÖĞÍË³ö£¬¼Ì¶øÖ´ĞĞ finalize¡£
-// 3. Èô³ÌĞò·¢ÉúÖÂÃüµÄ·Ç·¨²Ù×÷´íÎó£¬»áÏÈ´¥·¢ fatalErrorSignalHandler ĞÅºÅ´¦ÀíÆ÷£¬
-//    È»ºóÍ¬Ñù°´ÕÕÕı³£µÄÎö¹¹Ë³ĞòÍË³ö¡£
-// 4. Èô³ÌĞòÄÚ²¿ÏëÕı³£ÍË³ö£¬²»ÍÆ¼öÊ¹ÓÃexitº¯Êı¡£¶øÊÇ setTeraminted(true).
-//    ÕâÑù²ÅÄÜÈÃ³ÌĞò°´ÕÕÕı³£µÄÎö¹¹Ë³ĞòÍË³ö¡£
+// è¯´æ˜:
+// 1. æ­¤ç±»æ˜¯æ•´ä¸ªæœåŠ¡ç¨‹åºçš„ä¸»æ¡†æ¶ï¼Œå…¨å±€å•ä¾‹å¯¹è±¡(Application)åœ¨ç¨‹åºå¯åŠ¨æ—¶å³è¢«åˆ›å»ºï¼›
+// 2. ä¸€èˆ¬æ¥è¯´ï¼ŒæœåŠ¡ç¨‹åºæ˜¯ç”±å¤–éƒ¨å‘å‡ºå‘½ä»¤(kill)è€Œé€€å‡ºçš„ã€‚ç¨‹åºæ”¶åˆ°killé€€å‡ºå‘½ä»¤å
+//    (æ­¤æ—¶å½“å‰æ‰§è¡Œç‚¹ä¸€å®šåœ¨ App().run() ä¸­)ï¼Œä¼šè§¦å‘ exitProgramSignalHandler
+//    ä¿¡å·å¤„ç†å™¨ï¼Œè¿›è€Œåˆ©ç”¨ longjmp æ–¹æ³•ä½¿æ‰§è¡Œç‚¹æ¨¡æ‹Ÿä» run() ä¸­é€€å‡ºï¼Œç»§è€Œæ‰§è¡Œ finalizeã€‚
+// 3. è‹¥ç¨‹åºå‘ç”Ÿè‡´å‘½çš„éæ³•æ“ä½œé”™è¯¯ï¼Œä¼šå…ˆè§¦å‘ fatalErrorSignalHandler ä¿¡å·å¤„ç†å™¨ï¼Œ
+//    ç„¶ååŒæ ·æŒ‰ç…§æ­£å¸¸çš„ææ„é¡ºåºé€€å‡ºã€‚
+// 4. è‹¥ç¨‹åºå†…éƒ¨æƒ³æ­£å¸¸é€€å‡ºï¼Œä¸æ¨èä½¿ç”¨exitå‡½æ•°ã€‚è€Œæ˜¯ setTeraminted(true).
+//    è¿™æ ·æ‰èƒ½è®©ç¨‹åºæŒ‰ç…§æ­£å¸¸çš„ææ„é¡ºåºé€€å‡ºã€‚
 
 class BaseApplication : noncopyable
 {
@@ -60,7 +60,7 @@ public:
 	bool parseArguments(int argc, char *argv[]);
 	void Initialize();
 	void Finalize();
-	//Ö÷Ñ­»·
+	//ä¸»å¾ªç¯
 	void run();
 
     void setTerminated(bool value) { terminated_ = value; }
@@ -68,18 +68,18 @@ public:
 
 	void setMultiInstance(bool value) { multInstance_ = value; };
 
-    // È¡µÃ¿ÉÖ´ĞĞÎÄ¼şµÄÈ«Ãû(º¬¾ø¶ÔÂ·¾¶)
+    // å–å¾—å¯æ‰§è¡Œæ–‡ä»¶çš„å…¨å(å«ç»å¯¹è·¯å¾„)
     std::string getExeName() { return exeName_; }
-    // È¡µÃ¿ÉÖ´ĞĞÎÄ¼şËùÔÚµÄÂ·¾¶
+    // å–å¾—å¯æ‰§è¡Œæ–‡ä»¶æ‰€åœ¨çš„è·¯å¾„
 	std::string getExePath();
-    // È¡µÃÃüÁîĞĞ²ÎÊı¸öÊı(Ê×¸ö²ÎÊıÎª³ÌĞòÂ·¾¶ÎÄ¼şÃû)
+    // å–å¾—å‘½ä»¤è¡Œå‚æ•°ä¸ªæ•°(é¦–ä¸ªå‚æ•°ä¸ºç¨‹åºè·¯å¾„æ–‡ä»¶å)
     int getArgCount() { return argList_.getCount(); }
-    // È¡µÃÃüÁîĞĞ²ÎÊı×Ö·û´® (index: 0-based)
+    // å–å¾—å‘½ä»¤è¡Œå‚æ•°å­—ç¬¦ä¸² (index: 0-based)
 	std::string getArgString(int index);
-    // È¡µÃ³ÌĞòÆô¶¯Ê±µÄÊ±¼ä
+    // å–å¾—ç¨‹åºå¯åŠ¨æ—¶çš„æ—¶é—´
     time_t getAppStartTime() { return appStartTime_; }
 
-    // ×¢²áÓÃ»§ĞÅºÅ´¦ÀíÆ÷
+    // æ³¨å†Œç”¨æˆ·ä¿¡å·å¤„ç†å™¨
     void registerUserSignalHandler(const UserSignalHandlerCallback& callback);
 
 private:
@@ -92,13 +92,13 @@ private:
     void doFinalize();
 
 private:
-    StrList argList_;										// ÃüÁîĞĞ²ÎÊı (²»°üÀ¨³ÌĞòÃû argv[0])
-    std::string exeName_;									// ¿ÉÖ´ĞĞÎÄ¼şµÄÈ«Ãû(º¬¾ø¶ÔÂ·¾¶)
-    time_t appStartTime_;									// ³ÌĞòÆô¶¯Ê±µÄÊ±¼ä
-    bool initialized_;										// ÊÇ·ñ³É¹¦³õÊ¼»¯
-    bool terminated_;										// ÊÇ·ñÓ¦ÍË³öµÄ±êÖ¾
-	bool multInstance_;										// ÊÇ·ñÔÊĞí¶à¸öÊµÀıÔËĞĞ
-    CallbackList<UserSignalHandlerCallback> onUserSignal_;  // ÓÃ»§ĞÅºÅ´¦Àí»Øµ÷
+    StrList argList_;										// å‘½ä»¤è¡Œå‚æ•° (ä¸åŒ…æ‹¬ç¨‹åºå argv[0])
+    std::string exeName_;									// å¯æ‰§è¡Œæ–‡ä»¶çš„å…¨å(å«ç»å¯¹è·¯å¾„)
+    time_t appStartTime_;									// ç¨‹åºå¯åŠ¨æ—¶çš„æ—¶é—´
+    bool initialized_;										// æ˜¯å¦æˆåŠŸåˆå§‹åŒ–
+    bool terminated_;										// æ˜¯å¦åº”é€€å‡ºçš„æ ‡å¿—
+	bool multInstance_;										// æ˜¯å¦å…è®¸å¤šä¸ªå®ä¾‹è¿è¡Œ
+    CallbackList<UserSignalHandlerCallback> onUserSignal_;  // ç”¨æˆ·ä¿¡å·å¤„ç†å›è°ƒ
 	
     friend void userSignalHandler(BaseApplication* baseApp, int sigNo);
 };

@@ -11,7 +11,7 @@
 #include <deque>
 
 ///////////////////////////////////////////////////////////////////////////////
-// class Logger - ÈÕÖ¾Àà   Òì²½Ğ´ÈëÈÕÖ¾ÎÄ¼ş   Ïß³Ì°²È«
+// class Logger - æ—¥å¿—ç±»   å¼‚æ­¥å†™å…¥æ—¥å¿—æ–‡ä»¶   çº¿ç¨‹å®‰å…¨
 
 enum LOG_LVL
 {
@@ -24,7 +24,7 @@ enum LOG_LVL
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// È«¾Öº¯Êı
+// å…¨å±€å‡½æ•°
 
 #define TRACE_LOG(f,...)			Logger::instance().trace(__FILE__, __LINE__,f,##__VA_ARGS__)
 #define DEBUG_LOG(f,...)            Logger::instance().debug(__FILE__, __LINE__,f,##__VA_ARGS__)
@@ -68,7 +68,7 @@ private:
 	void PushLog(const std::string& str);
 	void writeLogToFile(const std::string& str);
 private:
-	std::string				fileName_;       // ÈÕÖ¾ÎÄ¼şÃû
+	std::string				fileName_;       // æ—¥å¿—æ–‡ä»¶å
 	LOG_LVL					m_lvl;
 	std::deque<std::string> m_logDeque;
 	Condition::Mutex		m_mutex;

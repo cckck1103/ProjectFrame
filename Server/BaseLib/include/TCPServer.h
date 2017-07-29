@@ -3,60 +3,60 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////
-// ËµÃ÷:
+// è¯´æ˜:
 //
-// * ÊÕµ½Á¬½Óºó(onTcpConnected)£¬¼´Ê¹ÓÃ»§²»µ÷ÓÃ connection->recv()£¬Ò²»áÔÚºóÌ¨
-//   ×Ô¶¯½ÓÊÕÊı¾İ¡£½ÓÊÕµ½µÄÊı¾İÔİ´æÓÚ»º´æÖĞ¡£
+// * æ”¶åˆ°è¿æ¥å(onTcpConnected)ï¼Œå³ä½¿ç”¨æˆ·ä¸è°ƒç”¨ connection->recv()ï¼Œä¹Ÿä¼šåœ¨åå°
+//   è‡ªåŠ¨æ¥æ”¶æ•°æ®ã€‚æ¥æ”¶åˆ°çš„æ•°æ®æš‚å­˜äºç¼“å­˜ä¸­ã€‚
 //
-// * ¼´Ê¹ÓÃ»§ÔÚÁ¬½ÓÉÏÎŞÈÎºÎ¶¯×÷(¼È²» send Ò²²» recv)£¬µ±¶Ô·½¶Ï¿ªÁ¬½Ó (close/shutdown) Ê±£¬
-//   ÎÒ·½Ò²ÄÜ¹»¸ĞÖª£¬²¢Í¨¹ı onTcpDisconnected() Í¨ÖªÓÃ»§¡£
+// * å³ä½¿ç”¨æˆ·åœ¨è¿æ¥ä¸Šæ— ä»»ä½•åŠ¨ä½œ(æ—¢ä¸ send ä¹Ÿä¸ recv)ï¼Œå½“å¯¹æ–¹æ–­å¼€è¿æ¥ (close/shutdown) æ—¶ï¼Œ
+//   æˆ‘æ–¹ä¹Ÿèƒ½å¤Ÿæ„ŸçŸ¥ï¼Œå¹¶é€šè¿‡ onTcpDisconnected() é€šçŸ¥ç”¨æˆ·ã€‚
 //
-// * ¹ØÓÚÁ¬½ÓµÄ¶Ï¿ª:
-//   connection->disconnect() »áÁ¢¼´¹Ø±Õ (shutdown) ·¢ËÍÍ¨µÀ£¬¶ø²»¹Ü¸ÃÁ¬½ÓµÄ
-//   »º´æÖĞÓĞÃ»ÓĞÎ´·¢ËÍÍêµÄÊı¾İ¡£ÓÉÓÚÃ»ÓĞ¹Ø±Õ½ÓÊÕÍ¨µÀ£¬ËùÒÔ´ËÊ±³ÌĞòÈÔ¿ÉÒÔ½Ó
-//   ÊÕ¶Ô·½µÄÊı¾İ¡£Õı³£Çé¿öÏÂ£¬¶Ô·½ÔÚ¼ì²âµ½ÎÒ·½¹Ø±Õ·¢ËÍ (read ·µ»Ø 0) ºó£¬Ó¦¶Ï
-//   ¿ªÁ¬½Ó (close)£¬ÕâÑùÎÒ·½²ÅÄÜÒı·¢½ÓÊÕ´íÎó£¬½øÈë errorOccurred()£¬¼È¶øÏú»ÙÁ¬½Ó¡£
+// * å…³äºè¿æ¥çš„æ–­å¼€:
+//   connection->disconnect() ä¼šç«‹å³å…³é—­ (shutdown) å‘é€é€šé“ï¼Œè€Œä¸ç®¡è¯¥è¿æ¥çš„
+//   ç¼“å­˜ä¸­æœ‰æ²¡æœ‰æœªå‘é€å®Œçš„æ•°æ®ã€‚ç”±äºæ²¡æœ‰å…³é—­æ¥æ”¶é€šé“ï¼Œæ‰€ä»¥æ­¤æ—¶ç¨‹åºä»å¯ä»¥æ¥
+//   æ”¶å¯¹æ–¹çš„æ•°æ®ã€‚æ­£å¸¸æƒ…å†µä¸‹ï¼Œå¯¹æ–¹åœ¨æ£€æµ‹åˆ°æˆ‘æ–¹å…³é—­å‘é€ (read è¿”å› 0) åï¼Œåº”æ–­
+//   å¼€è¿æ¥ (close)ï¼Œè¿™æ ·æˆ‘æ–¹æ‰èƒ½å¼•å‘æ¥æ”¶é”™è¯¯ï¼Œè¿›å…¥ errorOccurred()ï¼Œæ—¢è€Œé”€æ¯è¿æ¥ã€‚
 //
-//   Èç¹ûÏ£Íû°Ñ»º´æÖĞµÄÊı¾İ·¢ËÍÍê±ÏºóÔÙ disconnect()£¬¿ÉÔÚ onTcpSendComplete()
-//   ÖĞ½øĞĞ¶Ï¿ª²Ù×÷¡£
+//   å¦‚æœå¸Œæœ›æŠŠç¼“å­˜ä¸­çš„æ•°æ®å‘é€å®Œæ¯•åå† disconnect()ï¼Œå¯åœ¨ onTcpSendComplete()
+//   ä¸­è¿›è¡Œæ–­å¼€æ“ä½œã€‚
 //
-//   TcpConnection Ìá¹©ÁË¸üÁé»îµÄ shutdown(bool closeSend, bool closeRecv) ·½·¨¡£
-//   ÓÃ»§Èç¹ûÏ£Íû¶Ï¿ªÁ¬½ÓÊ±Ë«Ïò¹Ø±Õ£¬¿ÉÖ±½Óµ÷ÓÃ connection->shutdown() ·½·¨£¬
-//   ¶ø²»ÊÇ connection->disconnect()¡£
+//   TcpConnection æä¾›äº†æ›´çµæ´»çš„ shutdown(bool closeSend, bool closeRecv) æ–¹æ³•ã€‚
+//   ç”¨æˆ·å¦‚æœå¸Œæœ›æ–­å¼€è¿æ¥æ—¶åŒå‘å…³é—­ï¼Œå¯ç›´æ¥è°ƒç”¨ connection->shutdown() æ–¹æ³•ï¼Œ
+//   è€Œä¸æ˜¯ connection->disconnect()ã€‚
 //
-//   ÒÔÏÂÇé¿ö»áÁ¢¼´Ë«Ïò¹Ø±Õ (shutdown(true, true)) Á¬½Ó:
-//   1. Á¬½ÓÉÏÓĞ´íÎó·¢Éú (errorOccurred())£»
-//   2. ·¢ËÍ»ò½ÓÊÕ³¬Ê± (checkTimeout())£»
-//   3. ³ÌĞòÍË³öÊ±¹Ø±ÕÏÖ´æÁ¬½Ó (clearConnections())¡£
+//   ä»¥ä¸‹æƒ…å†µä¼šç«‹å³åŒå‘å…³é—­ (shutdown(true, true)) è¿æ¥:
+//   1. è¿æ¥ä¸Šæœ‰é”™è¯¯å‘ç”Ÿ (errorOccurred())ï¼›
+//   2. å‘é€æˆ–æ¥æ”¶è¶…æ—¶ (checkTimeout())ï¼›
+//   3. ç¨‹åºé€€å‡ºæ—¶å…³é—­ç°å­˜è¿æ¥ (clearConnections())ã€‚
 //
-// * Á¬½Ó¶ÔÏó (TcpConnection) ²ÉÓÃ std::shared_ptr ¹ÜÀí£¬ÓÉÒÔÏÂ¼¸¸ö½ÇÉ«³ÖÓĞ:
+// * è¿æ¥å¯¹è±¡ (TcpConnection) é‡‡ç”¨ std::shared_ptr ç®¡ç†ï¼Œç”±ä»¥ä¸‹å‡ ä¸ªè§’è‰²æŒæœ‰:
 //   1. TcpEventLoop.
-//      ÓÉ TcpEventLoop::tcpConnMap_ ³ÖÓĞ£¬TcpEventLoop::removeConnection() Ê±ÊÍ·Å¡£
-//      µ±µ÷ÓÃ TcpConnection::setEventLoop(NULL) Ê±£¬½«Òı·¢ removeConnection()¡£
-//      ³ÌĞòÕı³£ÍË³ö (kill »ò App().setTerminated(true)) Ê±£¬½«ÇåÀíÈ«²¿Á¬½Ó
-//      (TcpEventLoop::clearConnections())£¬´Ó¶øÊ¹ TcpEventLoop ÊÍ·ÅËü³ÖÓĞµÄÈ«²¿
-//      std::shared_ptr¡£
+//      ç”± TcpEventLoop::tcpConnMap_ æŒæœ‰ï¼ŒTcpEventLoop::removeConnection() æ—¶é‡Šæ”¾ã€‚
+//      å½“è°ƒç”¨ TcpConnection::setEventLoop(NULL) æ—¶ï¼Œå°†å¼•å‘ removeConnection()ã€‚
+//      ç¨‹åºæ­£å¸¸é€€å‡º (kill æˆ– App().setTerminated(true)) æ—¶ï¼Œå°†æ¸…ç†å…¨éƒ¨è¿æ¥
+//      (TcpEventLoop::clearConnections())ï¼Œä»è€Œä½¿ TcpEventLoop é‡Šæ”¾å®ƒæŒæœ‰çš„å…¨éƒ¨
+//      std::shared_ptrã€‚
 //   2. WINDOWS::IOCP.
-//      ÓÉ IocpTaskData::callback_ ³ÖÓĞ¡£callback_ ×÷ÎªÒ»¸ö std::function£¬±£´æ
-//      ÁËÓÉ TcpConnection::shared_from_this() ´«µİ¹ıÀ´µÄ shared_ptr¡£
-//      µ±Ò»´ÎIOCPÂÖÑ­Íê±Ïºó£¬»áµ÷ÓÃ IocpObject::destroyOverlappedData()£¬´Ë´¦»á
-//      Îö¹¹ callback_£¬´Ó¶øÊÍ·Å shared_ptr¡£
-//      ÕâËµÃ÷ÒªÏëÏú»ÙÒ»¸öÁ¬½Ó¶ÔÏó£¬ÖÁÉÙÓ¦±£Ö¤ÔÚ¸ÃÁ¬½ÓÉÏÍ¶µİ¸øIOCPµÄÇëÇóÔÚÂÖÑ­ÖĞ
-//      µÃµ½ÁË´¦Àí¡£Ö»ÓĞ´¦ÀíÍêÇëÇó£¬IOCP ²Å»áÊÍ·Å shared_ptr¡£
-//   3. ÓÃ»§.
-//      ÒµÎñ½Ó¿ÚÖĞ Business::onTcpXXX() ÏµÁĞº¯Êı½«Á¬½Ó¶ÔÏóÒÔ shared_ptr ĞÎÊ½
-//      ´«µİ¸øÓÃ»§¡£´ó²¿·ÖÇé¿öÏÂ£¬¶ÔÁ¬½Ó¶ÔÏóµÄ×Ô¶¯¹ÜÀíÄÜÂú×ãÊµ¼ÊĞèÒª£¬µ«ÓÃ»§
-//      ÈÔÈ»¿ÉÒÔ³ÖÓĞ shared_ptr£¬ÒÔÃâÁ¬½Ó±»×Ô¶¯Ïú»Ù¡£
+//      ç”± IocpTaskData::callback_ æŒæœ‰ã€‚callback_ ä½œä¸ºä¸€ä¸ª std::functionï¼Œä¿å­˜
+//      äº†ç”± TcpConnection::shared_from_this() ä¼ é€’è¿‡æ¥çš„ shared_ptrã€‚
+//      å½“ä¸€æ¬¡IOCPè½®å¾ªå®Œæ¯•åï¼Œä¼šè°ƒç”¨ IocpObject::destroyOverlappedData()ï¼Œæ­¤å¤„ä¼š
+//      ææ„ callback_ï¼Œä»è€Œé‡Šæ”¾ shared_ptrã€‚
+//      è¿™è¯´æ˜è¦æƒ³é”€æ¯ä¸€ä¸ªè¿æ¥å¯¹è±¡ï¼Œè‡³å°‘åº”ä¿è¯åœ¨è¯¥è¿æ¥ä¸ŠæŠ•é€’ç»™IOCPçš„è¯·æ±‚åœ¨è½®å¾ªä¸­
+//      å¾—åˆ°äº†å¤„ç†ã€‚åªæœ‰å¤„ç†å®Œè¯·æ±‚ï¼ŒIOCP æ‰ä¼šé‡Šæ”¾ shared_ptrã€‚
+//   3. ç”¨æˆ·.
+//      ä¸šåŠ¡æ¥å£ä¸­ Business::onTcpXXX() ç³»åˆ—å‡½æ•°å°†è¿æ¥å¯¹è±¡ä»¥ shared_ptr å½¢å¼
+//      ä¼ é€’ç»™ç”¨æˆ·ã€‚å¤§éƒ¨åˆ†æƒ…å†µä¸‹ï¼Œå¯¹è¿æ¥å¯¹è±¡çš„è‡ªåŠ¨ç®¡ç†èƒ½æ»¡è¶³å®é™…éœ€è¦ï¼Œä½†ç”¨æˆ·
+//      ä»ç„¶å¯ä»¥æŒæœ‰ shared_ptrï¼Œä»¥å…è¿æ¥è¢«è‡ªåŠ¨é”€æ¯ã€‚
 //
-// * Á¬½Ó¶ÔÏó (TcpConnection) µÄ¼¸¸öÏú»Ù³¡¾°:
-//   1. onTcpConnected() Ö®ºó£¬ÓÃ»§µ÷ÓÃÁË connection->disconnect()£¬
-//      Òı·¢ IOCP/EPoll ´íÎó£¬µ÷ÓÃ errorOccurred()£¬Ö´ĞĞ onTcpDisconnected() ºÍ
-//      TcpConnecton::setEventLoop(NULL)¡£
-//   2. onTcpConnected() Ö®ºó£¬ÓÃ»§Ã»ÓĞÈÎºÎ¶¯×÷£¬µ«¶Ô·½¶Ï¿ªÁËÁ¬½Ó£¬
-//      ÎÒ·½¼ì²âµ½ºóÒı·¢ IOCP/EPoll ´íÎó£¬Ö®ºóÍ¬1¡£
-//   3. ³ÌĞòÔÚ Linux ÏÂ±» kill£¬»ò³ÌĞòÖĞÖ´ĞĞÁË App().setTerminated(true)£¬
-//      µ±Ç°Ê£ÓàÁ¬½ÓÈ«²¿ÔÚ TcpEventLoop::clearConnections() ÖĞ ±» disconnect()£¬
-//      ÔÚ½ÓÏÂÀ´µÄÂÖÑ­ÖĞÒı·¢ÁË IOCP/EPoll ´íÎó£¬Ö®ºóÍ¬1¡£
+// * è¿æ¥å¯¹è±¡ (TcpConnection) çš„å‡ ä¸ªé”€æ¯åœºæ™¯:
+//   1. onTcpConnected() ä¹‹åï¼Œç”¨æˆ·è°ƒç”¨äº† connection->disconnect()ï¼Œ
+//      å¼•å‘ IOCP/EPoll é”™è¯¯ï¼Œè°ƒç”¨ errorOccurred()ï¼Œæ‰§è¡Œ onTcpDisconnected() å’Œ
+//      TcpConnecton::setEventLoop(NULL)ã€‚
+//   2. onTcpConnected() ä¹‹åï¼Œç”¨æˆ·æ²¡æœ‰ä»»ä½•åŠ¨ä½œï¼Œä½†å¯¹æ–¹æ–­å¼€äº†è¿æ¥ï¼Œ
+//      æˆ‘æ–¹æ£€æµ‹åˆ°åå¼•å‘ IOCP/EPoll é”™è¯¯ï¼Œä¹‹ååŒ1ã€‚
+//   3. ç¨‹åºåœ¨ Linux ä¸‹è¢« killï¼Œæˆ–ç¨‹åºä¸­æ‰§è¡Œäº† App().setTerminated(true)ï¼Œ
+//      å½“å‰å‰©ä½™è¿æ¥å…¨éƒ¨åœ¨ TcpEventLoop::clearConnections() ä¸­ è¢« disconnect()ï¼Œ
+//      åœ¨æ¥ä¸‹æ¥çš„è½®å¾ªä¸­å¼•å‘äº† IOCP/EPoll é”™è¯¯ï¼Œä¹‹ååŒ1ã€‚
 
 
 #ifndef _TCP_SERVER__H_
@@ -81,7 +81,7 @@
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////
-// ÌáÇ°ÉùÃ÷
+// æå‰å£°æ˜
 
 class IoBuffer;
 class TcpEventLoop;
@@ -106,7 +106,7 @@ class MainTcpServer;
 #define DEF_TCP_CONT_MAX_BUFF_SIZE   1024*1024*64
 #define DEF_HEART_BEAT_TIME  60*1000
 ///////////////////////////////////////////////////////////////////////////////
-// ÀàĞÍ¶¨Òå
+// ç±»å‹å®šä¹‰
 
 typedef std::shared_ptr<TcpConnection> TcpConnectionPtr;
 
@@ -118,40 +118,40 @@ class TcpCallbacks
 public:
 	virtual ~TcpCallbacks() {}
 
-	// ½ÓÊÜÁËÒ»¸öĞÂµÄTCPÁ¬½Ó
+	// æ¥å—äº†ä¸€ä¸ªæ–°çš„TCPè¿æ¥
 	virtual void onTcpConnected(const TcpConnectionPtr& connection) = 0;
-	// ¶Ï¿ªÁËÒ»¸öTCPÁ¬½Ó
+	// æ–­å¼€äº†ä¸€ä¸ªTCPè¿æ¥
 	virtual void onTcpDisconnected(const TcpConnectionPtr& connection) = 0;
-	// TCPÁ¬½ÓÉÏµÄÒ»¸ö½ÓÊÕÈÎÎñÒÑÍê³É
+	// TCPè¿æ¥ä¸Šçš„ä¸€ä¸ªæ¥æ”¶ä»»åŠ¡å·²å®Œæˆ
 	virtual void onTcpRecvComplete(const TcpConnectionPtr& connection, void *packetBuffer,
 		int packetSize, const Context& context) = 0;
-	// TCPÁ¬½ÓÉÏµÄÒ»¸ö·¢ËÍÈÎÎñÒÑÍê³É
+	// TCPè¿æ¥ä¸Šçš„ä¸€ä¸ªå‘é€ä»»åŠ¡å·²å®Œæˆ
 	virtual void onTcpSendComplete(const TcpConnectionPtr& connection, const Context& context) = 0;
 };
 
 
-// ·Ö°üÆ÷
+// åˆ†åŒ…å™¨
 typedef std::function<void (
-    const char *data,   // »º´æÖĞ¿ÉÓÃÊı¾İµÄÊ××Ö½ÚÖ¸Õë
-    int bytes,          // »º´æÖĞ¿ÉÓÃÊı¾İµÄ×Ö½ÚÊı
-    int& retrieveBytes  // ·µ»Ø·ÖÀë³öÀ´µÄÊı¾İ°ü´óĞ¡£¬·µ»Ø0±íÊ¾ÏÖ´æÊı¾İÖĞÉĞ²»×ãÒÔ·ÖÀë³öÒ»¸öÍêÕûÊı¾İ°ü
+    const char *data,   // ç¼“å­˜ä¸­å¯ç”¨æ•°æ®çš„é¦–å­—èŠ‚æŒ‡é’ˆ
+    int bytes,          // ç¼“å­˜ä¸­å¯ç”¨æ•°æ®çš„å­—èŠ‚æ•°
+    int& retrieveBytes  // è¿”å›åˆ†ç¦»å‡ºæ¥çš„æ•°æ®åŒ…å¤§å°ï¼Œè¿”å›0è¡¨ç¤ºç°å­˜æ•°æ®ä¸­å°šä¸è¶³ä»¥åˆ†ç¦»å‡ºä¸€ä¸ªå®Œæ•´æ•°æ®åŒ…
 )> PacketSplitter;
 
 ///////////////////////////////////////////////////////////////////////////////
-// Ô¤¶¨Òå·Ö°üÆ÷
+// é¢„å®šä¹‰åˆ†åŒ…å™¨
 
 void bytePacketSplitter(const char *data, int bytes, int& retrieveBytes);
 void linePacketSplitter(const char *data, int bytes, int& retrieveBytes);
 void nullTerminatedPacketSplitter(const char *data, int bytes, int& retrieveBytes);
 void anyPacketSplitter(const char *data, int bytes, int& retrieveBytes);
 
-// Ã¿´Î½ÓÊÕÒ»¸ö×Ö½ÚµÄ·Ö°üÆ÷
+// æ¯æ¬¡æ¥æ”¶ä¸€ä¸ªå­—èŠ‚çš„åˆ†åŒ…å™¨
 const PacketSplitter BYTE_PACKET_SPLITTER = &bytePacketSplitter;
-// ÒÔ '\r'»ò'\n' »òÆä×éºÏÎª·Ö½ç×Ö·ûµÄ·Ö°üÆ÷
+// ä»¥ '\r'æˆ–'\n' æˆ–å…¶ç»„åˆä¸ºåˆ†ç•Œå­—ç¬¦çš„åˆ†åŒ…å™¨
 const PacketSplitter LINE_PACKET_SPLITTER = &linePacketSplitter;
-// ÒÔ '\0' Îª·Ö½ç×Ö·ûµÄ·Ö°üÆ÷
+// ä»¥ '\0' ä¸ºåˆ†ç•Œå­—ç¬¦çš„åˆ†åŒ…å™¨
 const PacketSplitter NULL_TERMINATED_PACKET_SPLITTER = &nullTerminatedPacketSplitter;
-// ÎŞÂÛÊÕµ½¶àÉÙ×Ö½Ú¶¼Á¢¼´»ñÈ¡µÄ·Ö°üÆ÷
+// æ— è®ºæ”¶åˆ°å¤šå°‘å­—èŠ‚éƒ½ç«‹å³è·å–çš„åˆ†åŒ…å™¨
 const PacketSplitter ANY_PACKET_SPLITTER = &anyPacketSplitter;
 
 
@@ -162,15 +162,15 @@ const PacketSplitter ANY_PACKET_SPLITTER = &anyPacketSplitter;
 class TcpInspectInfo : public Singleton<TcpInspectInfo>
 {
 public:
-    AtomicInt tcpConnCreateCount;    // TcpConnection ¶ÔÏóµÄ´´½¨´ÎÊı
-    AtomicInt tcpConnDestroyCount;   // TcpConnection ¶ÔÏóµÄÏú»Ù´ÎÊı
-    AtomicInt errorOccurredCount;    // TcpConnection::errorOccurred() µÄµ÷ÓÃ´ÎÊı
-    AtomicInt addConnCount;          // TcpEventLoop::addConnection() µÄµ÷ÓÃ´ÎÊı
-    AtomicInt removeConnCount;       // TcpEventLoop::removeConnection() µÄµ÷ÓÃ´ÎÊı
+    AtomicInt tcpConnCreateCount;    // TcpConnection å¯¹è±¡çš„åˆ›å»ºæ¬¡æ•°
+    AtomicInt tcpConnDestroyCount;   // TcpConnection å¯¹è±¡çš„é”€æ¯æ¬¡æ•°
+    AtomicInt errorOccurredCount;    // TcpConnection::errorOccurred() çš„è°ƒç”¨æ¬¡æ•°
+    AtomicInt addConnCount;          // TcpEventLoop::addConnection() çš„è°ƒç”¨æ¬¡æ•°
+    AtomicInt removeConnCount;       // TcpEventLoop::removeConnection() çš„è°ƒç”¨æ¬¡æ•°
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class IoBuffer - ÊäÈëÊä³ö»º´æ
+// class IoBuffer - è¾“å…¥è¾“å‡ºç¼“å­˜
 //
 // +-----------------+------------------+------------------+
 // |  useless bytes  |  readable bytes  |  writable bytes  |
@@ -215,7 +215,7 @@ private:
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class TcpEventLoop - ÊÂ¼şÑ­»·Àà
+// class TcpEventLoop - äº‹ä»¶å¾ªç¯ç±»
 
 class TcpEventLoop : public OsEventLoop
 {
@@ -242,7 +242,7 @@ private:
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class TcpEventLoopList - ÊÂ¼şÑ­»·ÁĞ±í
+// class TcpEventLoopList - äº‹ä»¶å¾ªç¯åˆ—è¡¨
 
 class TcpEventLoopList : public EventLoopList
 {
@@ -281,7 +281,7 @@ private:
 
 std::shared_ptr<IoService> CreateIOService(int loopCount);
 ///////////////////////////////////////////////////////////////////////////////
-// class TcpConnection - ProactorÄ£ĞÍÏÂµÄTCPÁ¬½Ó
+// class TcpConnection - Proactoræ¨¡å‹ä¸‹çš„TCPè¿æ¥
 
 class TcpConnection :
     public BaseTcpConnection,
@@ -363,15 +363,15 @@ private:
     void init();
 
 protected:
-    TcpServer *tcpServer_;                // ËùÊô TcpServer
-    TcpEventLoop *eventLoop_;             // ËùÊô TcpEventLoop
-    mutable std::string connectionName_;       // Á¬½ÓÃû³Æ
-    IoBuffer sendBuffer_;                 // Êı¾İ·¢ËÍ»º´æ
-    IoBuffer recvBuffer_;                 // Êı¾İ½ÓÊÕ»º´æ
-    SendTaskQueue sendTaskQueue_;         // ·¢ËÍÈÎÎñ¶ÓÁĞ
-    RecvTaskQueue recvTaskQueue_;         // ½ÓÊÕÈÎÎñ¶ÓÁĞ
-    bool isErrorOccurred_;                // Á¬½ÓÉÏÊÇ·ñ·¢ÉúÁË´íÎó
-	TcpCallbacks* m_callback;			  // »Øµ÷½Ó¿Ú
+    TcpServer *tcpServer_;                // æ‰€å± TcpServer
+    TcpEventLoop *eventLoop_;             // æ‰€å± TcpEventLoop
+    mutable std::string connectionName_;       // è¿æ¥åç§°
+    IoBuffer sendBuffer_;                 // æ•°æ®å‘é€ç¼“å­˜
+    IoBuffer recvBuffer_;                 // æ•°æ®æ¥æ”¶ç¼“å­˜
+    SendTaskQueue sendTaskQueue_;         // å‘é€ä»»åŠ¡é˜Ÿåˆ—
+    RecvTaskQueue recvTaskQueue_;         // æ¥æ”¶ä»»åŠ¡é˜Ÿåˆ—
+    bool isErrorOccurred_;                // è¿æ¥ä¸Šæ˜¯å¦å‘ç”Ÿäº†é”™è¯¯
+	TcpCallbacks* m_callback;			  // å›è°ƒæ¥å£
 	int	  m_maxbuffszie;
     friend class TcpEventLoop;
     friend class TcpEventLoopList;
@@ -436,7 +436,7 @@ private:
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class TcpConnector - TCPÁ¬½ÓÆ÷Àà
+// class TcpConnector - TCPè¿æ¥å™¨ç±»
 
 class TcpConnector : noncopyable
 {
@@ -532,10 +532,10 @@ private:
     void onRecvCallback(const IocpTaskData& taskData);
 
 private:
-    bool isSending_;       // ÊÇ·ñÒÑÏòIOCPÌá½»·¢ËÍÈÎÎñµ«ÉĞÎ´ÊÕµ½»Øµ÷Í¨Öª
-    bool isRecving_;       // ÊÇ·ñÒÑÏòIOCPÌá½»½ÓÊÕÈÎÎñµ«ÉĞÎ´ÊÕµ½»Øµ÷Í¨Öª
-    int bytesSent_;        // ×Ô´ÓÉÏ´Î·¢ËÍÈÎÎñÍê³É»Øµ÷ÒÔÀ´¹²·¢ËÍÁË¶àÉÙ×Ö½Ú
-    int bytesRecved_;      // ×Ô´ÓÉÏ´Î½ÓÊÕÈÎÎñÍê³É»Øµ÷ÒÔÀ´¹²½ÓÊÕÁË¶àÉÙ×Ö½Ú
+    bool isSending_;       // æ˜¯å¦å·²å‘IOCPæäº¤å‘é€ä»»åŠ¡ä½†å°šæœªæ”¶åˆ°å›è°ƒé€šçŸ¥
+    bool isRecving_;       // æ˜¯å¦å·²å‘IOCPæäº¤æ¥æ”¶ä»»åŠ¡ä½†å°šæœªæ”¶åˆ°å›è°ƒé€šçŸ¥
+    int bytesSent_;        // è‡ªä»ä¸Šæ¬¡å‘é€ä»»åŠ¡å®Œæˆå›è°ƒä»¥æ¥å…±å‘é€äº†å¤šå°‘å­—èŠ‚
+    int bytesRecved_;      // è‡ªä»ä¸Šæ¬¡æ¥æ”¶ä»»åŠ¡å®Œæˆå›è°ƒä»¥æ¥å…±æ¥æ”¶äº†å¤šå°‘å­—èŠ‚
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -591,9 +591,9 @@ private:
     static void afterPostRecvTask(const TcpConnectionPtr& thisObj);
 
 private:
-    int bytesSent_;                  // ×Ô´ÓÉÏ´Î·¢ËÍÈÎÎñÍê³É»Øµ÷ÒÔÀ´¹²·¢ËÍÁË¶àÉÙ×Ö½Ú
-    bool enableSend_;                // ÊÇ·ñ¼àÊÓ¿É·¢ËÍÊÂ¼ş
-    bool enableRecv_;                // ÊÇ·ñ¼àÊÓ¿É½ÓÊÕÊÂ¼ş
+    int bytesSent_;                  // è‡ªä»ä¸Šæ¬¡å‘é€ä»»åŠ¡å®Œæˆå›è°ƒä»¥æ¥å…±å‘é€äº†å¤šå°‘å­—èŠ‚
+    bool enableSend_;                // æ˜¯å¦ç›‘è§†å¯å‘é€äº‹ä»¶
+    bool enableRecv_;                // æ˜¯å¦ç›‘è§†å¯æ¥æ”¶äº‹ä»¶
 
     friend class LinuxTcpEventLoop;
 };
@@ -604,7 +604,7 @@ private:
 class LinuxTcpEventLoop : public TcpEventLoop
 {
 public:
-    LinuxTcpEventLoop(){};
+    LinuxTcpEventLoop();
     virtual ~LinuxTcpEventLoop();
 
     void updateConnection(TcpConnection *connection, bool enableSend, bool enableRecv);

@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-// ÎÄ¼þÃû³Æ: win_iocp.cpp
-// ¹¦ÄÜÃèÊö: Íê³É¶Ë¿ÚÊµÏÖ
+// æ–‡ä»¶åç§°: win_iocp.cpp
+// åŠŸèƒ½æè¿°: å®Œæˆç«¯å£å®žçŽ°
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "win_iocp.h"
@@ -255,18 +255,18 @@ void IocpObject::work()
             }
         } finalizer(*this, overlappedPtr);
 
-        // ¼ÆËãµÈ´ý³¬Ê±Ê±¼ä (ºÁÃë)
+        // è®¡ç®—ç­‰å¾…è¶…æ—¶æ—¶é—´ (æ¯«ç§’)
         int timeout = eventLoop_->calcLoopWaitTimeout();
 
-        // µÈ´ýÊÂ¼þ
+        // ç­‰å¾…äº‹ä»¶
         BOOL ret = ::GetQueuedCompletionStatus(iocpHandle_, &bytesTransferred, &nTemp,
             (LPOVERLAPPED*)&overlappedPtr, timeout);
 
-        // ´¦Àí¶¨Ê±Æ÷ÊÂ¼þ
+        // å¤„ç†å®šæ—¶å™¨äº‹ä»¶
         if (timeout != TIMEOUT_INFINITE)
             eventLoop_->processExpiredTimers();
 
-        // ´¦ÀíIOÊÂ¼þ
+        // å¤„ç†IOäº‹ä»¶
         if (ret)
         {
             if (overlappedPtr != NULL && bytesTransferred == 0)
@@ -414,8 +414,8 @@ IocpOverlappedData* IocpObject::createOverlappedData(IOCP_TASK_TYPE taskType,
 
 void IocpObject::destroyOverlappedData(IocpOverlappedData *ovDataPtr)
 {
-    // ºÜÖØÒª¡£ovDataPtr->taskData ÖÐµÄ¶ÔÏóÐèÒªÎö¹¹¡£
-    // ±ÈÈç taskData.callback_ ÖÐ³ÖÓÐ TcpConnection µÄ shared_ptr¡£
+    // å¾ˆé‡è¦ã€‚ovDataPtr->taskData ä¸­çš„å¯¹è±¡éœ€è¦æžæž„ã€‚
+    // æ¯”å¦‚ taskData.callback_ ä¸­æŒæœ‰ TcpConnection çš„ shared_ptrã€‚
     ovDataPtr->~IocpOverlappedData();
 
     bufferAlloc_.returnBuffer(ovDataPtr);

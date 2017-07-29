@@ -1,21 +1,21 @@
 ///////////////////////////////////////////////////////////////////////////////
 // CDataBase.h
 // Classes:
-//   * DbConnParams          - Êı¾İ¿âÁ¬½Ó²ÎÊıÀà
-//   * DbOptions             - Êı¾İ¿âÅäÖÃ²ÎÊıÀà
-//   * DbConnection          - Êı¾İ¿âÁ¬½Ó»ùÀà
-//   * DbConnectionPool      - Êı¾İ¿âÁ¬½Ó³Ø»ùÀà
-//   * DbFieldDef            - ×Ö¶Î¶¨ÒåÀà
-//   * DbFieldDefList        - ×Ö¶Î¶¨ÒåÁĞ±íÀà
-//   * DbField               - ×Ö¶ÎÊı¾İÀà
-//   * DbFieldList           - ×Ö¶ÎÊı¾İÁĞ±íÀà
-//   * DbParam               - SQL²ÎÊıÀà
-//   * DbParamList           - SQL²ÎÊıÁĞ±íÀà
-//   * DbDataSet             - Êı¾İ¼¯Àà
-//   * DbQuery               - Êı¾İ²éÑ¯Æ÷Àà
-//   * DbQueryWrapper        - Êı¾İ²éÑ¯Æ÷°ü×°Àà
-//   * DbDataSetWrapper      - Êı¾İ¼¯°ü×°Àà
-//   * Database              - Êı¾İ¿âÀà
+//   * DbConnParams          - æ•°æ®åº“è¿æ¥å‚æ•°ç±»
+//   * DbOptions             - æ•°æ®åº“é…ç½®å‚æ•°ç±»
+//   * DbConnection          - æ•°æ®åº“è¿æ¥åŸºç±»
+//   * DbConnectionPool      - æ•°æ®åº“è¿æ¥æ± åŸºç±»
+//   * DbFieldDef            - å­—æ®µå®šä¹‰ç±»
+//   * DbFieldDefList        - å­—æ®µå®šä¹‰åˆ—è¡¨ç±»
+//   * DbField               - å­—æ®µæ•°æ®ç±»
+//   * DbFieldList           - å­—æ®µæ•°æ®åˆ—è¡¨ç±»
+//   * DbParam               - SQLå‚æ•°ç±»
+//   * DbParamList           - SQLå‚æ•°åˆ—è¡¨ç±»
+//   * DbDataSet             - æ•°æ®é›†ç±»
+//   * DbQuery               - æ•°æ®æŸ¥è¯¢å™¨ç±»
+//   * DbQueryWrapper        - æ•°æ®æŸ¥è¯¢å™¨åŒ…è£…ç±»
+//   * DbDataSetWrapper      - æ•°æ®é›†åŒ…è£…ç±»
+//   * Database              - æ•°æ®åº“ç±»
 ///////////////////////////////////////////////////////////////////////////////
 
 #ifndef __DATABASE_H_
@@ -29,7 +29,7 @@
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// ÌáÇ°ÉùÃ÷
+// æå‰å£°æ˜
 
 class DbConnParams;
 class DbOptions;
@@ -48,7 +48,7 @@ class DbDataSetWrapper;
 class Database;
 
 ///////////////////////////////////////////////////////////////////////////////
-// class DbConnParams - Êı¾İ¿âÁ¬½Ó²ÎÊıÀà
+// class DbConnParams - æ•°æ®åº“è¿æ¥å‚æ•°ç±»
 
 class DbConnParams
 {
@@ -71,20 +71,20 @@ public:
     void setPort(const int value) { port_ = value; }
 
 private:
-    std::string hostName_;      // Ö÷»úµØÖ·
-    std::string userName_;      // ÓÃ»§Ãû
-    std::string password_;      // ÓÃ»§¿ÚÁî
-    std::string dbName_;        // Êı¾İ¿âÃû
-    int port_;             // Á¬½Ó¶Ë¿ÚºÅ
+    std::string hostName_;      // ä¸»æœºåœ°å€
+    std::string userName_;      // ç”¨æˆ·å
+    std::string password_;      // ç”¨æˆ·å£ä»¤
+    std::string dbName_;        // æ•°æ®åº“å
+    int port_;             // è¿æ¥ç«¯å£å·
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class DbOptions - Êı¾İ¿âÅäÖÃ²ÎÊıÀà
+// class DbOptions - æ•°æ®åº“é…ç½®å‚æ•°ç±»
 
 class DbOptions
 {
 public:
-    enum { DEF_MAX_DB_CONNECTIONS = 100 };      // Á¬½Ó³Ø×î´óÁ¬½ÓÊıÈ±Ê¡Öµ
+    enum { DEF_MAX_DB_CONNECTIONS = 100 };      // è¿æ¥æ± æœ€å¤§è¿æ¥æ•°ç¼ºçœå€¼
 
 public:
     DbOptions();
@@ -98,13 +98,13 @@ public:
     void setInitialCharSet(const std::string& value);
 
 private:
-    int maxDbConnections_;                 // Á¬½Ó³ØËùÔÊĞíµÄ×î´óÁ¬½ÓÊı
-    StrList initialSqlCmdList_;            // Êı¾İ¿â¸Õ½¨Á¢Á¬½ÓÊ±ÒªÖ´ĞĞµÄÃüÁî
-    std::string initialCharSet_;                // Êı¾İ¿â¸Õ½¨Á¢Á¬½ÓÊ±ÒªÉèÖÃµÄ×Ö·û¼¯
+    int maxDbConnections_;                 // è¿æ¥æ± æ‰€å…è®¸çš„æœ€å¤§è¿æ¥æ•°
+    StrList initialSqlCmdList_;            // æ•°æ®åº“åˆšå»ºç«‹è¿æ¥æ—¶è¦æ‰§è¡Œçš„å‘½ä»¤
+    std::string initialCharSet_;                // æ•°æ®åº“åˆšå»ºç«‹è¿æ¥æ—¶è¦è®¾ç½®çš„å­—ç¬¦é›†
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class DbConnection - Êı¾İ¿âÁ¬½Ó»ùÀà
+// class DbConnection - æ•°æ®åº“è¿æ¥åŸºç±»
 
 class DbConnection : noncopyable
 {
@@ -115,45 +115,45 @@ public:
     DbConnection(Database *database);
     virtual ~DbConnection();
 
-    // ¼¤»îÊı¾İ¿âÁ¬½Ó
+    // æ¿€æ´»æ•°æ®åº“è¿æ¥
     void activateConnection(bool force = false);
 
 protected:
-    // ºÍÊı¾İ¿â½¨Á¢Á¬½Ó(ÈôÊ§°ÜÔòÅ×³öÒì³£)
+    // å’Œæ•°æ®åº“å»ºç«‹è¿æ¥(è‹¥å¤±è´¥åˆ™æŠ›å‡ºå¼‚å¸¸)
     virtual void doConnect() {}
-    // ºÍÊı¾İ¿â¶Ï¿ªÁ¬½Ó
+    // å’Œæ•°æ®åº“æ–­å¼€è¿æ¥
     virtual void doDisconnect() {}
 
 protected:
-    // ½¨Á¢Êı¾İ¿âÁ¬½Ó²¢½øĞĞÏà¹ØÉèÖÃ (ÈôÊ§°ÜÔòÅ×³öÒì³£)
+    // å»ºç«‹æ•°æ®åº“è¿æ¥å¹¶è¿›è¡Œç›¸å…³è®¾ç½® (è‹¥å¤±è´¥åˆ™æŠ›å‡ºå¼‚å¸¸)
     void connect();
-    // ¶Ï¿ªÊı¾İ¿âÁ¬½Ó²¢½øĞĞÏà¹ØÉèÖÃ
+    // æ–­å¼€æ•°æ®åº“è¿æ¥å¹¶è¿›è¡Œç›¸å…³è®¾ç½®
     void disconnect();
-    // ¸Õ½¨Á¢Á¬½ÓÊ±Ö´ĞĞÃüÁî
+    // åˆšå»ºç«‹è¿æ¥æ—¶æ‰§è¡Œå‘½ä»¤
     void execCmdOnConnected();
 
-    // ConnectionPool ½«µ÷ÓÃÏÂÁĞº¯Êı£¬¿ØÖÆÁ¬½ÓµÄÊ¹ÓÃÇé¿ö
-    bool getDbConnection();         // ½èÓÃÁ¬½Ó
-    void returnDbConnection();      // ¹é»¹Á¬½Ó
-    bool isBusy();                  // Á¬½ÓÊÇ·ñ±»½èÓÃ
+    // ConnectionPool å°†è°ƒç”¨ä¸‹åˆ—å‡½æ•°ï¼Œæ§åˆ¶è¿æ¥çš„ä½¿ç”¨æƒ…å†µ
+    bool getDbConnection();         // å€Ÿç”¨è¿æ¥
+    void returnDbConnection();      // å½’è¿˜è¿æ¥
+    bool isBusy();                  // è¿æ¥æ˜¯å¦è¢«å€Ÿç”¨
 
 protected:
-    Database *database_;            // Database ¶ÔÏóµÄÒıÓÃ
-    bool isConnected_;              // ÊÇ·ñÒÑ½¨Á¢Á¬½Ó
-    bool isBusy_;                   // ´ËÁ¬½Óµ±Ç°ÊÇ·ñÕı±»Õ¼ÓÃ
+    Database *database_;            // Database å¯¹è±¡çš„å¼•ç”¨
+    bool isConnected_;              // æ˜¯å¦å·²å»ºç«‹è¿æ¥
+    bool isBusy_;                   // æ­¤è¿æ¥å½“å‰æ˜¯å¦æ­£è¢«å ç”¨
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class DbConnectionPool - Êı¾İ¿âÁ¬½Ó³Ø»ùÀà
+// class DbConnectionPool - æ•°æ®åº“è¿æ¥æ± åŸºç±»
 //
-// ¹¤×÷Ô­Àí:
-// 1. ÀàÖĞÎ¬»¤Ò»¸öÁ¬½ÓÁĞ±í£¬¹ÜÀíµ±Ç°µÄËùÓĞÁ¬½Ó(¿ÕÏĞÁ¬½Ó¡¢Ã¦Á¬½Ó)£¬³õÊ¼Îª¿Õ£¬ÇÒÓĞÒ»¸öÊıÁ¿ÉÏÏŞ¡£
-// 2. ·ÖÅäÁ¬½Ó:
-//    Ê×ÏÈ³¢ÊÔ´ÓÁ¬½ÓÁĞ±íÖĞÕÒ³öÒ»¸ö¿ÕÏĞÁ¬½Ó£¬ÈôÕÒµ½Ôò·ÖÅä³É¹¦£¬Í¬Ê±½«Á¬½ÓÖÃÎªÃ¦×´Ì¬£»ÈôÃ»ÕÒµ½
-//    Ôò: (1)ÈôÁ¬½ÓÊıÎ´´ïµ½ÉÏÏŞ£¬Ôò´´½¨Ò»¸öĞÂµÄ¿ÕÏĞÁ¬½Ó£»(2)ÈôÁ¬½ÓÊıÒÑ´ïµ½ÉÏÏŞ£¬Ôò·ÖÅäÊ§°Ü¡£
-//    Èô·ÖÅäÊ§°Ü(Á¬½ÓÊıÒÑÂú¡¢ÎŞ·¨½¨Á¢ĞÂÁ¬½ÓµÈ)£¬ÔòÅ×³öÒì³£¡£
-// 3. ¹é»¹Á¬½Ó:
-//    Ö»Ğè½«Á¬½ÓÖÃÎª¿ÕÏĞ×´Ì¬¼´¿É£¬ÎŞĞè(Ò²²»¿É)¶Ï¿ªÊı¾İ¿âÁ¬½Ó¡£
+// å·¥ä½œåŸç†:
+// 1. ç±»ä¸­ç»´æŠ¤ä¸€ä¸ªè¿æ¥åˆ—è¡¨ï¼Œç®¡ç†å½“å‰çš„æ‰€æœ‰è¿æ¥(ç©ºé—²è¿æ¥ã€å¿™è¿æ¥)ï¼Œåˆå§‹ä¸ºç©ºï¼Œä¸”æœ‰ä¸€ä¸ªæ•°é‡ä¸Šé™ã€‚
+// 2. åˆ†é…è¿æ¥:
+//    é¦–å…ˆå°è¯•ä»è¿æ¥åˆ—è¡¨ä¸­æ‰¾å‡ºä¸€ä¸ªç©ºé—²è¿æ¥ï¼Œè‹¥æ‰¾åˆ°åˆ™åˆ†é…æˆåŠŸï¼ŒåŒæ—¶å°†è¿æ¥ç½®ä¸ºå¿™çŠ¶æ€ï¼›è‹¥æ²¡æ‰¾åˆ°
+//    åˆ™: (1)è‹¥è¿æ¥æ•°æœªè¾¾åˆ°ä¸Šé™ï¼Œåˆ™åˆ›å»ºä¸€ä¸ªæ–°çš„ç©ºé—²è¿æ¥ï¼›(2)è‹¥è¿æ¥æ•°å·²è¾¾åˆ°ä¸Šé™ï¼Œåˆ™åˆ†é…å¤±è´¥ã€‚
+//    è‹¥åˆ†é…å¤±è´¥(è¿æ¥æ•°å·²æ»¡ã€æ— æ³•å»ºç«‹æ–°è¿æ¥ç­‰)ï¼Œåˆ™æŠ›å‡ºå¼‚å¸¸ã€‚
+// 3. å½’è¿˜è¿æ¥:
+//    åªéœ€å°†è¿æ¥ç½®ä¸ºç©ºé—²çŠ¶æ€å³å¯ï¼Œæ— éœ€(ä¹Ÿä¸å¯)æ–­å¼€æ•°æ®åº“è¿æ¥ã€‚
 
 class DbConnectionPool : noncopyable
 {
@@ -161,22 +161,22 @@ public:
     DbConnectionPool(Database *database);
     virtual ~DbConnectionPool();
 
-    // ·ÖÅäÒ»¸ö¿ÉÓÃµÄ¿ÕÏĞÁ¬½Ó (ÈôÊ§°ÜÔòÅ×³öÒì³£)
+    // åˆ†é…ä¸€ä¸ªå¯ç”¨çš„ç©ºé—²è¿æ¥ (è‹¥å¤±è´¥åˆ™æŠ›å‡ºå¼‚å¸¸)
     virtual DbConnection* getConnection();
-    // ¹é»¹Êı¾İ¿âÁ¬½Ó
+    // å½’è¿˜æ•°æ®åº“è¿æ¥
     virtual void returnConnection(DbConnection *dbConnection);
 
 protected:
     void clearPool();
 
 protected:
-    Database *database_;            // ËùÊô Database ÒıÓÃ
-    PointerList dbConnectionList_;  // µ±Ç°Á¬½ÓÁĞ±í (DbConnection*[])£¬°üº¬¿ÕÏĞÁ¬½ÓºÍÃ¦Á¬½Ó
-    Mutex mutex_;                   // »¥³âËø
+    Database *database_;            // æ‰€å± Database å¼•ç”¨
+    PointerList dbConnectionList_;  // å½“å‰è¿æ¥åˆ—è¡¨ (DbConnection*[])ï¼ŒåŒ…å«ç©ºé—²è¿æ¥å’Œå¿™è¿æ¥
+    Mutex mutex_;                   // äº’æ–¥é”
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class DbFieldDef - ×Ö¶Î¶¨ÒåÀà
+// class DbFieldDef - å­—æ®µå®šä¹‰ç±»
 
 class DbFieldDef
 {
@@ -192,12 +192,12 @@ public:
     int getType() const { return type_; }
 
 protected:
-    std::string name_;          // ×Ö¶ÎÃû³Æ
-    int type_;             // ×Ö¶ÎÀàĞÍ(º¬ÒåÓÉ×ÓÀà¶¨Òå)
+    std::string name_;          // å­—æ®µåç§°
+    int type_;             // å­—æ®µç±»å‹(å«ä¹‰ç”±å­ç±»å®šä¹‰)
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class DbFieldDefList - ×Ö¶Î¶¨ÒåÁĞ±íÀà
+// class DbFieldDefList - å­—æ®µå®šä¹‰åˆ—è¡¨ç±»
 
 class DbFieldDefList
 {
@@ -205,13 +205,13 @@ public:
     DbFieldDefList();
     virtual ~DbFieldDefList();
 
-    // Ìí¼ÓÒ»¸ö×Ö¶Î¶¨Òå¶ÔÏó
+    // æ·»åŠ ä¸€ä¸ªå­—æ®µå®šä¹‰å¯¹è±¡
     void add(DbFieldDef *fieldDef);
-    // ÊÍ·Å²¢Çå¿ÕËùÓĞ×Ö¶Î¶¨Òå¶ÔÏó
+    // é‡Šæ”¾å¹¶æ¸…ç©ºæ‰€æœ‰å­—æ®µå®šä¹‰å¯¹è±¡
     void clear();
-    // ·µ»Ø×Ö¶ÎÃû¶ÔÓ¦µÄ×Ö¶ÎĞòºÅ(0-based)
+    // è¿”å›å­—æ®µåå¯¹åº”çš„å­—æ®µåºå·(0-based)
     int indexOfName(const std::string& name);
-    // ·µ»ØÈ«²¿×Ö¶ÎÃû
+    // è¿”å›å…¨éƒ¨å­—æ®µå
     void getFieldNameList(StrList& list);
 
     DbFieldDef* operator[] (int index);
@@ -222,7 +222,7 @@ private:
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class DbField - ×Ö¶ÎÊı¾İÀà
+// class DbField - å­—æ®µæ•°æ®ç±»
 
 class DbField
 {
@@ -239,7 +239,7 @@ public:
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class DbFieldList - ×Ö¶ÎÊı¾İÁĞ±íÀà
+// class DbFieldList - å­—æ®µæ•°æ®åˆ—è¡¨ç±»
 
 class DbFieldList
 {
@@ -247,9 +247,9 @@ public:
     DbFieldList();
     virtual ~DbFieldList();
 
-    // Ìí¼ÓÒ»¸ö×Ö¶ÎÊı¾İ¶ÔÏó
+    // æ·»åŠ ä¸€ä¸ªå­—æ®µæ•°æ®å¯¹è±¡
     void add(DbField *field);
-    // ÊÍ·Å²¢Çå¿ÕËùÓĞ×Ö¶ÎÊı¾İ¶ÔÏó
+    // é‡Šæ”¾å¹¶æ¸…ç©ºæ‰€æœ‰å­—æ®µæ•°æ®å¯¹è±¡
     void clear();
 
     DbField* operator[] (int index);
@@ -260,7 +260,7 @@ private:
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class DbParam - SQL²ÎÊıÀà
+// class DbParam - SQLå‚æ•°ç±»
 
 class DbParam
 {
@@ -276,13 +276,13 @@ public:
     virtual void setString(const std::string& value) {}
 
 protected:
-    DbQuery *dbQuery_;   // DbQuery ¶ÔÏóÒıÓÃ
-    std::string name_;        // ²ÎÊıÃû³Æ
-    int number_;         // ²ÎÊıĞòºÅ(1-based)
+    DbQuery *dbQuery_;   // DbQuery å¯¹è±¡å¼•ç”¨
+    std::string name_;        // å‚æ•°åç§°
+    int number_;         // å‚æ•°åºå·(1-based)
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class DbParamList - SQL²ÎÊıÁĞ±íÀà
+// class DbParamList - SQLå‚æ•°åˆ—è¡¨ç±»
 
 class DbParamList
 {
@@ -301,22 +301,22 @@ protected:
     virtual DbParam* createParam(const std::string& name, int number);
 
 protected:
-    DbQuery *dbQuery_;       // DbQuery ¶ÔÏóÒıÓÃ
+    DbQuery *dbQuery_;       // DbQuery å¯¹è±¡å¼•ç”¨
     PointerList items_;      // (DbParam* [])
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class DbDataSet - Êı¾İ¼¯Àà
+// class DbDataSet - æ•°æ®é›†ç±»
 //
-// ËµÃ÷:
-// 1. ´ËÀàÖ»Ìá¹©µ¥Ïò±éÀúÊı¾İ¼¯µÄ¹¦ÄÜ¡£
-// 2. Êı¾İ¼¯³õÊ¼»¯(InitDataSet)ºó£¬ÓÎ±êÖ¸ÏòµÚÒ»Ìõ¼ÇÂ¼Ö®Ç°£¬Ğèµ÷ÓÃ Next() ²ÅÖ¸ÏòµÚÒ»Ìõ¼ÇÂ¼¡£
-//    µäĞÍµÄÊı¾İ¼¯±éÀú·½·¨Îª: while(DataSet.Next()) { ... }
+// è¯´æ˜:
+// 1. æ­¤ç±»åªæä¾›å•å‘éå†æ•°æ®é›†çš„åŠŸèƒ½ã€‚
+// 2. æ•°æ®é›†åˆå§‹åŒ–(InitDataSet)åï¼Œæ¸¸æ ‡æŒ‡å‘ç¬¬ä¸€æ¡è®°å½•ä¹‹å‰ï¼Œéœ€è°ƒç”¨ Next() æ‰æŒ‡å‘ç¬¬ä¸€æ¡è®°å½•ã€‚
+//    å…¸å‹çš„æ•°æ®é›†éå†æ–¹æ³•ä¸º: while(DataSet.Next()) { ... }
 //
-// Ô¼¶¨:
-// 1. DbQuery.Query() ´´½¨Ò»¸öĞÂµÄ DbDataSet ¶ÔÏó£¬Ö®ºó±ØĞëÏÈÏú»Ù DbDataSet ¶ÔÏó£¬
-//    ²ÅÄÜÏú»Ù DbQuery ¶ÔÏó¡£
-// 2. DbQuery ÔÚÖ´ĞĞ²éÑ¯Aºó´´½¨ÁËÒ»¸öÊı¾İ¼¯A£¬Ö®ºóÔÚÖ´ĞĞ²éÑ¯BÇ°Ó¦¹Ø±ÕÊı¾İ¼¯A¡£
+// çº¦å®š:
+// 1. DbQuery.Query() åˆ›å»ºä¸€ä¸ªæ–°çš„ DbDataSet å¯¹è±¡ï¼Œä¹‹åå¿…é¡»å…ˆé”€æ¯ DbDataSet å¯¹è±¡ï¼Œ
+//    æ‰èƒ½é”€æ¯ DbQuery å¯¹è±¡ã€‚
+// 2. DbQuery åœ¨æ‰§è¡ŒæŸ¥è¯¢Aååˆ›å»ºäº†ä¸€ä¸ªæ•°æ®é›†Aï¼Œä¹‹ååœ¨æ‰§è¡ŒæŸ¥è¯¢Bå‰åº”å…³é—­æ•°æ®é›†Aã€‚
 
 class DbDataSet : noncopyable
 {
@@ -327,41 +327,41 @@ public:
     DbDataSet(DbQuery *dbQuery);
     virtual ~DbDataSet();
 
-    // ½«ÓÎ±êÖ¸ÏòÆğÊ¼Î»ÖÃ(µÚÒ»Ìõ¼ÇÂ¼Ö®Ç°)
+    // å°†æ¸¸æ ‡æŒ‡å‘èµ·å§‹ä½ç½®(ç¬¬ä¸€æ¡è®°å½•ä¹‹å‰)
     virtual bool rewind() = 0;
-    // ½«ÓÎ±êÖ¸ÏòÏÂÒ»Ìõ¼ÇÂ¼
+    // å°†æ¸¸æ ‡æŒ‡å‘ä¸‹ä¸€æ¡è®°å½•
     virtual bool next() = 0;
 
-    // È¡µÃµ±Ç°Êı¾İ¼¯ÖĞµÄ¼ÇÂ¼×ÜÊı
+    // å–å¾—å½“å‰æ•°æ®é›†ä¸­çš„è®°å½•æ€»æ•°
     virtual UINT64 getRecordCount();
-    // ·µ»ØÊı¾İ¼¯ÊÇ·ñÎª¿Õ
+    // è¿”å›æ•°æ®é›†æ˜¯å¦ä¸ºç©º
     virtual bool isEmpty();
 
-    // È¡µÃµ±Ç°¼ÇÂ¼ÖĞµÄ×Ö¶Î×ÜÊı
+    // å–å¾—å½“å‰è®°å½•ä¸­çš„å­—æ®µæ€»æ•°
     int getFieldCount();
-    // È¡µÃµ±Ç°¼ÇÂ¼ÖĞÄ³¸ö×Ö¶ÎµÄ¶¨Òå (index: 0-based)
+    // å–å¾—å½“å‰è®°å½•ä¸­æŸä¸ªå­—æ®µçš„å®šä¹‰ (index: 0-based)
     DbFieldDef* getFieldDefs(int index);
-    // È¡µÃµ±Ç°¼ÇÂ¼ÖĞÄ³¸ö×Ö¶ÎµÄÊı¾İ (index: 0-based)
+    // å–å¾—å½“å‰è®°å½•ä¸­æŸä¸ªå­—æ®µçš„æ•°æ® (index: 0-based)
     DbField* getFields(int index);
     DbField* getFields(const std::string& name);
 
 protected:
-    // ³õÊ¼»¯Êı¾İ¼¯ (ÈôÊ§°ÜÔòÅ×³öÒì³£)
+    // åˆå§‹åŒ–æ•°æ®é›† (è‹¥å¤±è´¥åˆ™æŠ›å‡ºå¼‚å¸¸)
     virtual void initDataSet() = 0;
-    // ³õÊ¼»¯Êı¾İ¼¯¸÷×Ö¶ÎµÄ¶¨Òå
+    // åˆå§‹åŒ–æ•°æ®é›†å„å­—æ®µçš„å®šä¹‰
     virtual void initFieldDefs() = 0;
 
 protected:
-    DbQuery *dbQuery_;              // DbQuery ¶ÔÏóÒıÓÃ
-    DbFieldDefList dbFieldDefList_; // ×Ö¶Î¶¨Òå¶ÔÏóÁĞ±í
-    DbFieldList dbFieldList_;       // ×Ö¶ÎÊı¾İ¶ÔÏóÁĞ±í
+    DbQuery *dbQuery_;              // DbQuery å¯¹è±¡å¼•ç”¨
+    DbFieldDefList dbFieldDefList_; // å­—æ®µå®šä¹‰å¯¹è±¡åˆ—è¡¨
+    DbFieldList dbFieldList_;       // å­—æ®µæ•°æ®å¯¹è±¡åˆ—è¡¨
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class DbQuery - Êı¾İ²éÑ¯Æ÷Àà
+// class DbQuery - æ•°æ®æŸ¥è¯¢å™¨ç±»
 //
-// ¹¤×÷Ô­Àí:
-// 1. Ö´ĞĞSQL: ´ÓÁ¬½Ó³ØÈ¡µÃÒ»¸ö¿ÕÏĞÁ¬½Ó£¬È»ºóÀûÓÃ´ËÁ¬½ÓÖ´ĞĞSQL£¬×îºó¹é»¹Á¬½Ó¡£
+// å·¥ä½œåŸç†:
+// 1. æ‰§è¡ŒSQL: ä»è¿æ¥æ± å–å¾—ä¸€ä¸ªç©ºé—²è¿æ¥ï¼Œç„¶ååˆ©ç”¨æ­¤è¿æ¥æ‰§è¡ŒSQLï¼Œæœ€åå½’è¿˜è¿æ¥ã€‚
 
 class DbQuery : noncopyable
 {
@@ -372,58 +372,58 @@ public:
     DbQuery(Database *database);
     virtual ~DbQuery();
 
-    // ÉèÖÃSQLÓï¾ä
+    // è®¾ç½®SQLè¯­å¥
     void setSql(const std::string& sql);
 
-    // ¸ù¾İÃû³ÆÈ¡µÃ²ÎÊı¶ÔÏó
+    // æ ¹æ®åç§°å–å¾—å‚æ•°å¯¹è±¡
     virtual DbParam* paramByName(const std::string& name);
-    // ¸ù¾İĞòºÅ(1-based)È¡µÃ²ÎÊı¶ÔÏó
+    // æ ¹æ®åºå·(1-based)å–å¾—å‚æ•°å¯¹è±¡
     virtual DbParam* paramByNumber(int number);
 
-    // Ö´ĞĞSQL (ÎŞ·µ»Ø½á¹û, ÈôÊ§°ÜÔòÅ×³öÒì³£)
+    // æ‰§è¡ŒSQL (æ— è¿”å›ç»“æœ, è‹¥å¤±è´¥åˆ™æŠ›å‡ºå¼‚å¸¸)
     void execute();
-    // Ö´ĞĞSQL (·µ»ØÊı¾İ¼¯, ÈôÊ§°ÜÔòÅ×³öÒì³£)
+    // æ‰§è¡ŒSQL (è¿”å›æ•°æ®é›†, è‹¥å¤±è´¥åˆ™æŠ›å‡ºå¼‚å¸¸)
     DbDataSet* query();
 
-    // ×ª»»×Ö·û´®Ê¹Ö®ÔÚSQLÖĞºÏ·¨ (str ÖĞ¿Éº¬ '\0' ×Ö·û)
+    // è½¬æ¢å­—ç¬¦ä¸²ä½¿ä¹‹åœ¨SQLä¸­åˆæ³• (str ä¸­å¯å« '\0' å­—ç¬¦)
     virtual std::string escapeString(const std::string& str);
-    // È¡µÃÖ´ĞĞSQLºóÊÜÓ°ÏìµÄĞĞÊı
+    // å–å¾—æ‰§è¡ŒSQLåå—å½±å“çš„è¡Œæ•°
     virtual UINT getAffectedRowCount();
-    // È¡µÃ×îºóÒ»Ìõ²åÈëÓï¾äµÄ×ÔÔöIDµÄÖµ
+    // å–å¾—æœ€åä¸€æ¡æ’å…¥è¯­å¥çš„è‡ªå¢IDçš„å€¼
     virtual UINT64 getLastInsertId();
 
-    // È¡µÃ²éÑ¯Æ÷ËùÓÃµÄÊı¾İ¿âÁ¬½Ó
+    // å–å¾—æŸ¥è¯¢å™¨æ‰€ç”¨çš„æ•°æ®åº“è¿æ¥
     DbConnection* getDbConnection();
-    // È¡µÃ Database ¶ÔÏó
+    // å–å¾— Database å¯¹è±¡
     Database* getDatabase() { return database_; }
 
 protected:
-    // ÉèÖÃSQLÓï¾ä
+    // è®¾ç½®SQLè¯­å¥
     virtual void doSetSql(const std::string& sql) {}
-    // Ö´ĞĞSQL (Èô resultDataSet Îª NULL£¬Ôò±íÊ¾ÎŞÊı¾İ¼¯·µ»Ø¡£ÈôÊ§°ÜÔòÅ×³öÒì³£)
+    // æ‰§è¡ŒSQL (è‹¥ resultDataSet ä¸º NULLï¼Œåˆ™è¡¨ç¤ºæ— æ•°æ®é›†è¿”å›ã€‚è‹¥å¤±è´¥åˆ™æŠ›å‡ºå¼‚å¸¸)
     virtual void doExecute(DbDataSet *resultDataSet) {}
 
 protected:
     void ensureConnected();
 
 protected:
-    Database *database_;           // Database ¶ÔÏóÒıÓÃ
-    DbConnection *dbConnection_;   // DbConnection ¶ÔÏóÒıÓÃ
-    DbParamList *dbParamList_;     // SQL ²ÎÊıÁĞ±í
-    std::string sql_;                   // ´ıÖ´ĞĞµÄSQLÓï¾ä
+    Database *database_;           // Database å¯¹è±¡å¼•ç”¨
+    DbConnection *dbConnection_;   // DbConnection å¯¹è±¡å¼•ç”¨
+    DbParamList *dbParamList_;     // SQL å‚æ•°åˆ—è¡¨
+    std::string sql_;                   // å¾…æ‰§è¡Œçš„SQLè¯­å¥
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class DbQueryWrapper - ²éÑ¯Æ÷°ü×°Àà
+// class DbQueryWrapper - æŸ¥è¯¢å™¨åŒ…è£…ç±»
 //
-// ËµÃ÷: ´ËÀàÓÃÓÚ°ü×° DbQuery ¶ÔÏó£¬×Ô¶¯ÊÍ·Å±»°ü×°µÄ¶ÔÏó£¬·ÀÖ¹×ÊÔ´Ğ¹Â©¡£
-// Ê¾Àı:
+// è¯´æ˜: æ­¤ç±»ç”¨äºåŒ…è£… DbQuery å¯¹è±¡ï¼Œè‡ªåŠ¨é‡Šæ”¾è¢«åŒ…è£…çš„å¯¹è±¡ï¼Œé˜²æ­¢èµ„æºæ³„æ¼ã€‚
+// ç¤ºä¾‹:
 //      int main()
 //      {
 //          DbQueryWrapper query( MyDatabase.createDbQuery() );
 //          query->setSql("select * from users");
 //          /* ... */
-//          // Õ»¶ÔÏó query »á×Ô¶¯Ïú»Ù£¬Óë´ËÍ¬Ê±±»°ü×°µÄ¶Ñ¶ÔÏóÒ²×Ô¶¯ÊÍ·Å¡£
+//          // æ ˆå¯¹è±¡ query ä¼šè‡ªåŠ¨é”€æ¯ï¼Œä¸æ­¤åŒæ—¶è¢«åŒ…è£…çš„å †å¯¹è±¡ä¹Ÿè‡ªåŠ¨é‡Šæ”¾ã€‚
 //      }
 
 class DbQueryWrapper
@@ -439,12 +439,12 @@ private:
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class DbDataSetWrapper - Êı¾İ¼¯°ü×°Àà
+// class DbDataSetWrapper - æ•°æ®é›†åŒ…è£…ç±»
 //
-// ËµÃ÷:
-// 1. ´ËÀàÓÃÓÚ°ü×° DbDataSet ¶ÔÏó£¬×Ô¶¯ÊÍ·Å±»°ü×°µÄ¶ÔÏó£¬·ÀÖ¹×ÊÔ´Ğ¹Â©¡£
-// 2. Ã¿´Î¸ø°ü×°Æ÷¸³Öµ(Wrapper = DataSet)£¬ÉÏ´Î±»°ü×°µÄ¶ÔÏó×Ô¶¯ÊÍ·Å¡£
-// Ê¾Àı:
+// è¯´æ˜:
+// 1. æ­¤ç±»ç”¨äºåŒ…è£… DbDataSet å¯¹è±¡ï¼Œè‡ªåŠ¨é‡Šæ”¾è¢«åŒ…è£…çš„å¯¹è±¡ï¼Œé˜²æ­¢èµ„æºæ³„æ¼ã€‚
+// 2. æ¯æ¬¡ç»™åŒ…è£…å™¨èµ‹å€¼(Wrapper = DataSet)ï¼Œä¸Šæ¬¡è¢«åŒ…è£…çš„å¯¹è±¡è‡ªåŠ¨é‡Šæ”¾ã€‚
+// ç¤ºä¾‹:
 //      int main()
 //      {
 //          DbQueryWrapper query( MyDatabase.CreateDbQuery() );
@@ -454,7 +454,7 @@ private:
 //          ds = query->query();
 //          /* ... */
 //
-//          // Õ»¶ÔÏó query ºÍ ds »á×Ô¶¯Ïú»Ù£¬Óë´ËÍ¬Ê±±»°ü×°µÄ¶Ñ¶ÔÏóÒ²×Ô¶¯ÊÍ·Å¡£
+//          // æ ˆå¯¹è±¡ query å’Œ ds ä¼šè‡ªåŠ¨é”€æ¯ï¼Œä¸æ­¤åŒæ—¶è¢«åŒ…è£…çš„å †å¯¹è±¡ä¹Ÿè‡ªåŠ¨é‡Šæ”¾ã€‚
 //      }
 
 class DbDataSetWrapper
@@ -477,7 +477,7 @@ private:
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class Database - Êı¾İ¿âÀà
+// class Database - æ•°æ®åº“ç±»
 
 class Database : noncopyable
 {
@@ -485,7 +485,7 @@ public:
     Database();
     virtual ~Database();
 
-    // Àà¹¤³§·½·¨:
+    // ç±»å·¥å‚æ–¹æ³•:
     virtual DbConnParams* createDbConnParams() { return new DbConnParams(); }
     virtual DbOptions* createDbOptions() { return new DbOptions(); }
     virtual DbConnection* createDbConnection() = 0;
@@ -503,9 +503,9 @@ private:
     void ensureInited();
 
 protected:
-    DbConnParams *dbConnParams_;             // Êı¾İ¿âÁ¬½Ó²ÎÊı
-    DbOptions *dbOptions_;                   // Êı¾İ¿âÅäÖÃ²ÎÊı
-    DbConnectionPool *dbConnectionPool_;     // Êı¾İ¿âÁ¬½Ó³Ø
+    DbConnParams *dbConnParams_;             // æ•°æ®åº“è¿æ¥å‚æ•°
+    DbOptions *dbOptions_;                   // æ•°æ®åº“é…ç½®å‚æ•°
+    DbConnectionPool *dbConnectionPool_;     // æ•°æ®åº“è¿æ¥æ± 
 };
 
 #endif // _DATABASE_H_

@@ -9,7 +9,7 @@
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// class Stream - Á÷ »ùÀà
+// class Stream - æµ åŸºç±»
 
 enum SEEK_ORIGIN
 {
@@ -39,9 +39,9 @@ public:
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// class FileStream - ÎÄ¼şÁ÷Àà
+// class FileStream - æ–‡ä»¶æµç±»
 
-// ÎÄ¼şÁ÷´ò¿ª·½Ê½ (UINT openMode)
+// æ–‡ä»¶æµæ‰“å¼€æ–¹å¼ (UINT openMode)
 #ifdef _COMPILER_WIN
 enum
 {
@@ -69,7 +69,7 @@ enum
 };
 #endif
 
-// È±Ê¡ÎÄ¼ş´æÈ¡È¨ÏŞ (rights)
+// ç¼ºçœæ–‡ä»¶å­˜å–æƒé™ (rights)
 #ifdef _COMPILER_WIN
 enum { DEFAULT_FILE_ACCESS_RIGHTS = 0 };
 #endif
@@ -115,13 +115,13 @@ private:
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// class MemoryStream - ÄÚ´æÁ÷Àà
+// class MemoryStream - å†…å­˜æµç±»
 
 class MemoryStream : public Stream
 {
 public:
-	enum { DEFAULT_MEMORY_DELTA = 1024 };    // È±Ê¡ÄÚ´æÔö³¤²½³¤ (×Ö½ÚÊı£¬±ØĞëÊÇ 2 µÄ N ´Î·½)
-	enum { MIN_MEMORY_DELTA = 256 };         // ×îĞ¡ÄÚ´æÔö³¤²½³¤
+	enum { DEFAULT_MEMORY_DELTA = 1024 };    // ç¼ºçœå†…å­˜å¢é•¿æ­¥é•¿ (å­—èŠ‚æ•°ï¼Œå¿…é¡»æ˜¯ 2 çš„ N æ¬¡æ–¹)
+	enum { MIN_MEMORY_DELTA = 256 };         // æœ€å°å†…å­˜å¢é•¿æ­¥é•¿
 
 public:
 	explicit MemoryStream(int memoryDelta = DEFAULT_MEMORY_DELTA);
@@ -160,7 +160,7 @@ private:
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// class Buffer - »º´æÀà
+// class Buffer - ç¼“å­˜ç±»
 
 class Buffer
 {

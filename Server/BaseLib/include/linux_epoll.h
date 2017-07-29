@@ -21,7 +21,7 @@
 class EpollObject;
 #endif
 
-// ÌáÇ°ÉùÃ÷
+// æå‰å£°æ˜
 class EventLoop;
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -29,7 +29,7 @@ class EventLoop;
 #ifdef _COMPILER_LINUX
 
 ///////////////////////////////////////////////////////////////////////////////
-// class EpollObject - Linux EPoll ¹¦ÄÜ·â×°
+// class EpollObject - Linux EPoll åŠŸèƒ½å°è£…
 
 class EpollObject
 {
@@ -74,10 +74,10 @@ private:
     void processEvents(int eventCount);
 
 private:
-    EventLoop *eventLoop_;        // ËùÊô EventLoop
-    int epollFd_;                 // EPoll µÄÎÄ¼şÃèÊö·û
-    EventList events_;            // ´æ·Å epoll_wait() ·µ»ØµÄÊÂ¼ş
-    EventPipe pipeFds_;           // ÓÃÓÚ»½ĞÑ epoll_wait() µÄ¹ÜµÀ
+    EventLoop *eventLoop_;        // æ‰€å± EventLoop
+    int epollFd_;                 // EPoll çš„æ–‡ä»¶æè¿°ç¬¦
+    EventList events_;            // å­˜æ”¾ epoll_wait() è¿”å›çš„äº‹ä»¶
+    EventPipe pipeFds_;           // ç”¨äºå”¤é†’ epoll_wait() çš„ç®¡é“
     NotifyEventCallback onNotifyEvent_;
 };
 

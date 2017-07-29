@@ -5,7 +5,7 @@
 #include "GlobalDefs.h"
 #include "StreamClass.h"
 ///////////////////////////////////////////////////////////////////////////////
-// class Strings - 字符串列表抽象类
+// class Strings - 瀛楃涓插垪琛ㄦ娊璞＄被
 
 class Strings
 {
@@ -117,7 +117,7 @@ protected:
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class StrList - 字符串列表类
+// class StrList - 瀛楃涓插垪琛ㄧ被
 
 class StrList : public Strings
 {

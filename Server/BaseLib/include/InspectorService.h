@@ -8,7 +8,7 @@
 #include "Options.h"
 #include "UtilClass.h"
 #include "Exceptions.h"
-#include "TcpServer.h"
+#include "TCPServer.h"
 #include "BaseHttp.h"
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -17,7 +17,7 @@ struct MyStruct
 	int b;
 	int c;
 
-	//ĞòÁĞ»¯
+	//åºåˆ—åŒ–
 	BEGIN_SERIALIZE_TO_JSON
 		ADD_DOC_JSON(a)
 		ADD_DOC_JSON(b)
@@ -37,7 +37,7 @@ struct MyStruct
 	END_SERIALIZE_TO_JSON
 
 
-	//·´ĞòÁĞ»¯
+	//ååºåˆ—åŒ–
 	BEGIN_DESERIALIZE_FROM_JSON
 		a = GET_DOC_JSON_MEMBER("a", int32);
 		b = GET_DOC_JSON_MEMBER("b", int32);
@@ -89,7 +89,7 @@ struct MyStruct
 */
 /************************************************************************/
 
-// »ù´¡±äÁ¿µÄĞ£Ñé  
+// åŸºç¡€å˜é‡çš„æ ¡éªŒ  
 #define json_check_is_bool(value, strKey) (value.HasMember(strKey) && value[strKey].IsBool())  
 #define json_check_is_string(value, strKey) (value.HasMember(strKey) && value[strKey].IsString())  
 #define json_check_is_int32(value, strKey) (value.HasMember(strKey) && value[strKey].IsInt())  
@@ -103,7 +103,7 @@ struct MyStruct
 #define json_check_is_array(value, strKey) (value.HasMember(strKey) && value[strKey].IsArray())  
 #define json_check_is_obj(value, strKey) (value.HasMember(strKey) && value[strKey].IsObject())  
 
-// µÃµ½¶ÔÓ¦ÀàĞÍµÄÊı¾İ£¬Èç¹ûÊı¾İ²»´æÔÚÔòµÃµ½Ò»¸öÄ¬ÈÏÖµ  
+// å¾—åˆ°å¯¹åº”ç±»å‹çš„æ•°æ®ï¼Œå¦‚æœæ•°æ®ä¸å­˜åœ¨åˆ™å¾—åˆ°ä¸€ä¸ªé»˜è®¤å€¼  
 #define json_check_bool(value, strKey) (json_check_is_bool(value, strKey) && value[strKey].GetBool())  
 #define json_check_string(value, strKey) (json_check_is_string(value, strKey) ? value[strKey].GetString() : "")  
 #define json_check_int32(value, strKey) (json_check_is_int32(value, strKey) ? value[strKey].GetInt() : 0)  
@@ -124,11 +124,11 @@ struct MyStruct
 #define json_double(value) (value.IsDouble() ? value.GetDouble() : 0)  
 
 
-// µÃµ½ValueÖ¸Õë  
+// å¾—åˆ°ValueæŒ‡é’ˆ  
 #define json_check_value_ptr(value, strKey) (((value).HasMember(strKey)) ? &((value)[strKey]) : nullptr)  
 
 
-//json ĞòÁĞ»¯
+//json åºåˆ—åŒ–
 #define  BEGIN_SERIALIZE_TO_JSON  \
 	     void OnInitSerializeToJson(std::string& out){\
               rapidjson::Document document;\
@@ -158,7 +158,7 @@ struct MyStruct
           out = buffer.GetString();\
 		}
 
-//json ·´ĞòÁĞ»¯
+//json ååºåˆ—åŒ–
 #define  BEGIN_DESERIALIZE_FROM_JSON \
         void OnJsonStringDeSerialize(std::string& jsonStr)\
 		{ \

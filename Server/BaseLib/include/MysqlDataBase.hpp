@@ -1,11 +1,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 // MysqlDataBase.h
 // Classes:
-//   * MySqlConnection       - Êı¾İ¿âÁ¬½ÓÀà
-//   * MySqlField            - ×Ö¶ÎÊı¾İÀà
-//   * MySqlDataSet          - Êı¾İ¼¯Àà
-//   * MySqlQuery            - Êı¾İ²éÑ¯Æ÷Àà
-//   * MySqlDatabase         - Êı¾İ¿âÀà
+//   * MySqlConnection       - æ•°æ®åº“è¿æ¥ç±»
+//   * MySqlField            - å­—æ®µæ•°æ®ç±»
+//   * MySqlDataSet          - æ•°æ®é›†ç±»
+//   * MySqlQuery            - æ•°æ®æŸ¥è¯¢å™¨ç±»
+//   * MySqlDatabase         - æ•°æ®åº“ç±»
 ///////////////////////////////////////////////////////////////////////////////
 
 #ifndef __DBI_MYSQL_H_
@@ -19,7 +19,7 @@
 #include <mysql.h>
 
 ///////////////////////////////////////////////////////////////////////////////
-// ÌáÇ°ÉùÃ÷
+// æå‰å£°æ˜
 
 class MySqlConnection;
 class MySqlField;
@@ -28,7 +28,7 @@ class MySqlQuery;
 class MySqlDatabase;
 
 ///////////////////////////////////////////////////////////////////////////////
-// ´íÎóĞÅÏ¢ (Error Message)
+// é”™è¯¯ä¿¡æ¯ (Error Message)
 
 const char* const SEM_MYSQL_INIT_ERROR = "mysql init error.";
 const char* const SEM_MYSQL_NUM_FIELDS_ERROR = "mysql_num_fields error.";
@@ -39,7 +39,7 @@ const char* const SEM_MYSQL_CONNECTED = "Connected to MySQL server. (%p)";
 const char* const SEM_MYSQL_LOST_CONNNECTION = "Lost connection to MySQL server.";
 
 ///////////////////////////////////////////////////////////////////////////////
-// class MySqlConnection - Êı¾İ¿âÁ¬½ÓÀà
+// class MySqlConnection - æ•°æ®åº“è¿æ¥ç±»
 
 class MySqlConnection : public DbConnection
 {
@@ -53,7 +53,7 @@ public:
 
 	}
 
-    // ½¨Á¢Á¬½Ó (ÈôÊ§°ÜÔòÅ×³öÒì³£)
+    // å»ºç«‹è¿æ¥ (è‹¥å¤±è´¥åˆ™æŠ›å‡ºå¼‚å¸¸)
 	virtual void doConnect()
 	{
 		static Mutex s_mutex;
@@ -85,21 +85,21 @@ public:
 
 		INFO_LOG(SEM_MYSQL_CONNECTED, &connObject_);
 	}
-    // ¶Ï¿ªÁ¬½Ó
+    // æ–­å¼€è¿æ¥
     virtual void doDisconnect()
 	{
 		mysql_close(&connObject_);
 	}
 
-    // È¡µÃMySQLÁ¬½Ó¶ÔÏó
+    // å–å¾—MySQLè¿æ¥å¯¹è±¡
     MYSQL& getConnObject() { return connObject_; }
 
 private:
-    MYSQL connObject_;            // Á¬½Ó¶ÔÏó
+    MYSQL connObject_;            // è¿æ¥å¯¹è±¡
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class MySqlField - ×Ö¶ÎÊı¾İÀà
+// class MySqlField - å­—æ®µæ•°æ®ç±»
 
 class MySqlField : public DbField
 {
@@ -134,12 +134,12 @@ public:
 	}
 
 private:
-    char* dataPtr_;               // Ö¸Ïò×Ö¶ÎÊı¾İ
-    int dataSize_;                // ×Ö¶ÎÊı¾İµÄ×Ü×Ö½ÚÊı
+    char* dataPtr_;               // æŒ‡å‘å­—æ®µæ•°æ®
+    int dataSize_;                // å­—æ®µæ•°æ®çš„æ€»å­—èŠ‚æ•°
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class MySqlDataSet - Êı¾İ¼¯Àà
+// class MySqlDataSet - æ•°æ®é›†ç±»
 
 class MySqlDataSet : public DbDataSet
 {
@@ -216,14 +216,14 @@ public:
 
 protected:
 	//-----------------------------------------------------------------------------
-	// ÃèÊö: ³õÊ¼»¯Êı¾İ¼¯ (Èô³õÊ¼»¯Ê§°ÜÔòÅ×³öÒì³£)
+	// æè¿°: åˆå§‹åŒ–æ•°æ®é›† (è‹¥åˆå§‹åŒ–å¤±è´¥åˆ™æŠ›å‡ºå¼‚å¸¸)
 	//-----------------------------------------------------------------------------
 	virtual void initDataSet()
 	{
-		// ´ÓMySQL·şÎñÆ÷Ò»´ÎĞÔ»ñÈ¡ËùÓĞĞĞ
+		// ä»MySQLæœåŠ¡å™¨ä¸€æ¬¡æ€§è·å–æ‰€æœ‰è¡Œ
 		res_ = mysql_store_result(&getConnObject());
 
-		// Èç¹û»ñÈ¡Ê§°Ü
+		// å¦‚æœè·å–å¤±è´¥
 		if (!res_)
 		{
 			ThrowDbException(formatString(SEM_MYSQL_STORE_RESULT_ERROR,
@@ -232,7 +232,7 @@ protected:
 	}
 
 	//-----------------------------------------------------------------------------
-	// ÃèÊö: ³õÊ¼»¯Êı¾İ¼¯¸÷×Ö¶ÎµÄ¶¨Òå
+	// æè¿°: åˆå§‹åŒ–æ•°æ®é›†å„å­—æ®µçš„å®šä¹‰
 	//-----------------------------------------------------------------------------
 	virtual void initFieldDefs()
 	{
@@ -269,12 +269,12 @@ private:
 	}
 
 private:
-    MYSQL_RES* res_;      // MySQL²éÑ¯½á¹û¼¯
-    MYSQL_ROW row_;       // MySQL²éÑ¯½á¹ûĞĞ
+    MYSQL_RES* res_;      // MySQLæŸ¥è¯¢ç»“æœé›†
+    MYSQL_ROW row_;       // MySQLæŸ¥è¯¢ç»“æœè¡Œ
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class MySqlQuery - ²éÑ¯Æ÷Àà
+// class MySqlQuery - æŸ¥è¯¢å™¨ç±»
 
 class MySqlQuery : public DbQuery
 {
@@ -290,7 +290,7 @@ public:
 	}
 
 	//-----------------------------------------------------------------------------
-	// ÃèÊö: ×ª»»×Ö·û´®Ê¹Ö®ÔÚSQLÖĞºÏ·¨
+	// æè¿°: è½¬æ¢å­—ç¬¦ä¸²ä½¿ä¹‹åœ¨SQLä¸­åˆæ³•
 	//-----------------------------------------------------------------------------
     virtual std::string escapeString(const std::string& str)
 	{
@@ -310,7 +310,7 @@ public:
 	}
 
 	//-----------------------------------------------------------------------------
-	// ÃèÊö: »ñÈ¡Ö´ĞĞSQLºóÊÜÓ°ÏìµÄĞĞÊı
+	// æè¿°: è·å–æ‰§è¡ŒSQLåå—å½±å“çš„è¡Œæ•°
 	//-----------------------------------------------------------------------------
     virtual UINT getAffectedRowCount()
 	{
@@ -323,7 +323,7 @@ public:
 	}
 
 	//-----------------------------------------------------------------------------
-	// ÃèÊö: »ñÈ¡×îºóÒ»Ìõ²åÈëÓï¾äµÄ×ÔÔöIDµÄÖµ
+	// æè¿°: è·å–æœ€åä¸€æ¡æ’å…¥è¯­å¥çš„è‡ªå¢IDçš„å€¼
 	//-----------------------------------------------------------------------------
 	virtual UINT64 getLastInsertId()
 	{
@@ -339,25 +339,25 @@ protected:
 	virtual void doExecute(DbDataSet *resultDataSet)
 	{
 		/*
-		¼´£ºÖ»ÒªÓÃ mysql_real_connect() Á¬½Óµ½Êı¾İ¿â(¶ø²»ÊÇ mysql_connect())£¬ÄÇÃ´
-		ÔÚ mysql_real_query() µ÷ÓÃÊ±¼´Ê¹Á¬½Ó¶ªÊ§(±ÈÈçTCPÁ¬½Ó¶Ï¿ª)£¬¸Ãµ÷ÓÃÒ²»á³¢ÊÔ
-		È¥ÖØĞÂÁ¬½ÓÊı¾İ¿â¡£¸ÃÌØĞÔ¾­²âÊÔ±»Ö¤Ã÷ÊôÊµ¡£
+		å³ï¼šåªè¦ç”¨ mysql_real_connect() è¿æ¥åˆ°æ•°æ®åº“(è€Œä¸æ˜¯ mysql_connect())ï¼Œé‚£ä¹ˆ
+		åœ¨ mysql_real_query() è°ƒç”¨æ—¶å³ä½¿è¿æ¥ä¸¢å¤±(æ¯”å¦‚TCPè¿æ¥æ–­å¼€)ï¼Œè¯¥è°ƒç”¨ä¹Ÿä¼šå°è¯•
+		å»é‡æ–°è¿æ¥æ•°æ®åº“ã€‚è¯¥ç‰¹æ€§ç»æµ‹è¯•è¢«è¯æ˜å±å®ã€‚
 
-		×¢:
-		1. ¶ÔÓÚ <= 5.0.3 µÄ°æ±¾£¬MySQLÄ¬ÈÏ»áÖØÁ¬£»´ËºóµÄ°æ±¾Ğèµ÷ÓÃ mysql_options()
-		Ã÷È·Ö¸¶¨ MYSQL_OPT_RECONNECT Îª true£¬²Å»áÖØÁ¬¡£
-		2. ÎªÁËÔÚÁ¬½Ó¶ªÊ§²¢ÖØÁ¬ºó£¬ÄÜÖ´ĞĞ¡°Êı¾İ¿â¸Õ½¨Á¢Á¬½ÓÊ±ÒªÖ´ĞĞµÄÃüÁî¡±£¬³ÌĞòÃ÷È·
-		Ö¸¶¨²»ÈÃ mysql_real_query() ×Ô¶¯ÖØÁ¬£¬¶øÊÇÓÉ³ÌĞòÏÔÊ½ÖØÁ¬¡£
+		æ³¨:
+		1. å¯¹äº <= 5.0.3 çš„ç‰ˆæœ¬ï¼ŒMySQLé»˜è®¤ä¼šé‡è¿ï¼›æ­¤åçš„ç‰ˆæœ¬éœ€è°ƒç”¨ mysql_options()
+		æ˜ç¡®æŒ‡å®š MYSQL_OPT_RECONNECT ä¸º trueï¼Œæ‰ä¼šé‡è¿ã€‚
+		2. ä¸ºäº†åœ¨è¿æ¥ä¸¢å¤±å¹¶é‡è¿åï¼Œèƒ½æ‰§è¡Œâ€œæ•°æ®åº“åˆšå»ºç«‹è¿æ¥æ—¶è¦æ‰§è¡Œçš„å‘½ä»¤â€ï¼Œç¨‹åºæ˜ç¡®
+		æŒ‡å®šä¸è®© mysql_real_query() è‡ªåŠ¨é‡è¿ï¼Œè€Œæ˜¯ç”±ç¨‹åºæ˜¾å¼é‡è¿ã€‚
 		*/
 
 		for (int times = 0; times < 2; times++)
 		{
 			int r = mysql_real_query(&getConnObject(), sql_.c_str(), (int)sql_.length());
 
-			// Èç¹ûÖ´ĞĞSQLÊ§°Ü
+			// å¦‚æœæ‰§è¡ŒSQLå¤±è´¥
 			if (r != 0)
 			{
-				// Èç¹ûÊÇÊ×´Î£¬²¢ÇÒ´íÎóÀàĞÍÎªÁ¬½Ó¶ªÊ§£¬ÔòÖØÊÔÁ¬½Ó
+				// å¦‚æœæ˜¯é¦–æ¬¡ï¼Œå¹¶ä¸”é”™è¯¯ç±»å‹ä¸ºè¿æ¥ä¸¢å¤±ï¼Œåˆ™é‡è¯•è¿æ¥
 				if (times == 0)
 				{
 					int errNum = mysql_errno(&getConnObject());
@@ -365,13 +365,13 @@ protected:
 					{
 						INFO_LOG(SEM_MYSQL_LOST_CONNNECTION);
 
-						// Ç¿ÖÆÖØĞÂÁ¬½Ó
+						// å¼ºåˆ¶é‡æ–°è¿æ¥
 						getDbConnection()->activateConnection(true);
 						continue;
 					}
 				}
 
-				// ·ñÔòÅ×³öÒì³£
+				// å¦åˆ™æŠ›å‡ºå¼‚å¸¸
 				std::string sql(sql_);
 				if (sql.length() > 1024 * 2)
 				{

@@ -4,22 +4,22 @@
 #include "GlobalDefs.h"
 //////////////////////////////////////////////////////////////////////////
 
-//MD5 ¼ÓÃÜÀà
+//MD5 åŠ å¯†ç±»
 class CMD5Encrypt
 {
-	//º¯Êı¶¨Òå
+	//å‡½æ•°å®šä¹‰
 private:
-	//¹¹Ôìº¯Êı
+	//æ„é€ å‡½æ•°
 	CMD5Encrypt() {}
 
-	//¹¦ÄÜº¯Êı
+	//åŠŸèƒ½å‡½æ•°
 public:
-	//Éú³ÉÃÜÎÄ
+	//ç”Ÿæˆå¯†æ–‡
 	static void EncryptData(const char * pszSrcData, char szMD5Result[33]);
 };
 
 /////////////////////////////////////////////////////////////////////////////////
-//DES ¼ÓÃÜÀà
+//DES åŠ å¯†ç±»
 #include <stdlib.h>
 #define DES_ENCRYPT	1
 #define DES_DECRYPT	0
@@ -46,23 +46,23 @@ typedef struct DES_ks
 
 class CDESEncrypt
 {
-	//º¯Êı¶¨Òå
+	//å‡½æ•°å®šä¹‰
 public:
-	//¹¹Ôìº¯Êı
+	//æ„é€ å‡½æ•°
 	CDESEncrypt() {}
 
-	//¹¦ÄÜº¯Êı
+	//åŠŸèƒ½å‡½æ•°
 public:
 	void SetKey(const_DES_cblock *key);
 
 	/**
-	* @brief DES¼ÓÃÜ½âÃÜ
-	* @param inData ÊäÈëÊı¾İ£¨¼ÓÃÜÊ±ÎªÃ÷ÎÄ£¬½âÃÜÊ±ÎªÃÜÎÄ£©
-	* @param inSize ÊäÈëÊı¾İ³¤¶È
-	* @param outBuff Êä³ö»º³åÇø
-	* @param buffSize Êä³ö»º³åÇø´óĞ¡
-	* @param enc true ¼ÓÃÜ£¬false ½âÃÜ
-	* @return unsigned int  <0¼ÓÃÜ»ò½âÃÜÊ§°Ü£¬>=0 Êä³öÊı¾İÕ¼Êä³ö»º³åÇøµÄÊµ¼Ê´óĞ¡
+	* @brief DESåŠ å¯†è§£å¯†
+	* @param inData è¾“å…¥æ•°æ®ï¼ˆåŠ å¯†æ—¶ä¸ºæ˜æ–‡ï¼Œè§£å¯†æ—¶ä¸ºå¯†æ–‡ï¼‰
+	* @param inSize è¾“å…¥æ•°æ®é•¿åº¦
+	* @param outBuff è¾“å‡ºç¼“å†²åŒº
+	* @param buffSize è¾“å‡ºç¼“å†²åŒºå¤§å°
+	* @param enc true åŠ å¯†ï¼Œfalse è§£å¯†
+	* @return unsigned int  <0åŠ å¯†æˆ–è§£å¯†å¤±è´¥ï¼Œ>=0 è¾“å‡ºæ•°æ®å è¾“å‡ºç¼“å†²åŒºçš„å®é™…å¤§å°
 	*/
 	int EncdecData(void* inData, unsigned int inSize, void* outBuff, unsigned int buffSize, bool enc);
 

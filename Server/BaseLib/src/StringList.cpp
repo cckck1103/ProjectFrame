@@ -458,7 +458,7 @@ std::string Strings::getCommaText() const
 	const_cast<Strings&>(*this).setDelimiter(DEFAULT_DELIMITER);
 	const_cast<Strings&>(*this).setQuoteChar(DEFAULT_QUOTE_CHAR);
 
-	std::string result = getDelimitedText();  // ²»¿ÉÒÔÅ×³öÒì³£
+	std::string result = getDelimitedText();  // ä¸å¯ä»¥æŠ›å‡ºå¼‚å¸¸
 
 	const_cast<Strings&>(*this).defined_ = bakDefined;
 	const_cast<Strings&>(*this).delimiter_ = bakDelimiter;

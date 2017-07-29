@@ -1,13 +1,13 @@
 ///////////////////////////////////////////////////////////////////////////////
-// ÎÄ¼şÃû³Æ: Options.h
-// ¹¦ÄÜÃèÊö: È«¾ÖÅäÖÃ
+// æ–‡ä»¶åç§°: Options.h
+// åŠŸèƒ½æè¿°: å…¨å±€é…ç½®
 ///////////////////////////////////////////////////////////////////////////////
 
 #ifndef _OPTIONS_H_
 #define _OPTIONS_H_
 
 ///////////////////////////////////////////////////////////////////////////////
-// Æ½Ì¨¶¨Òå
+// å¹³å°å®šä¹‰
 
 #if defined(_MSC_VER)
 #define _COMPILER_WIN
@@ -18,7 +18,7 @@
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////
-// ±àÒëÆ÷Ïà¹ØÉèÖÃ
+// ç¼–è¯‘å™¨ç›¸å…³è®¾ç½®
 
 #ifdef _COMPILER_WIN
 #undef _WIN32_WINNT
@@ -39,9 +39,9 @@
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// ÆäËü
+// å…¶å®ƒ
 
-// ·ÀÖ¹ winsock2.h ºÍ winsock.h Í¬Ê±°üº¬ÒıÆğ³åÍ»
+// é˜²æ­¢ winsock2.h å’Œ winsock.h åŒæ—¶åŒ…å«å¼•èµ·å†²çª
 #ifdef _COMPILER_WIN
 #define _WINSOCKAPI_
 #endif
@@ -55,6 +55,7 @@
 #ifdef __GNUC__
 #include <ext/hash_map>
 #include <ext/hash_set>
+#include <semaphore.h>
 #endif
 
 #ifdef _COMPILER_WIN
@@ -65,27 +66,4 @@
 #define EXT_STL_NAMESPACE   __gnu_cxx
 #endif
 
-#ifdef _COMPILER_LINUX
-namespace EXT_STL_NAMESPACE
-{
-	template <class _CharT, class _Traits, class _Alloc>
-	inline size_t stl_string_hash(const basic_string<_CharT, _Traits, _Alloc>& s)
-	{
-		unsigned long h = 0;
-		size_t len = s.size();
-		const _CharT* data = s.data();
-		for (size_t i = 0; i < len; ++i)
-			h = 5 * h + data[i];
-		return size_t(h);
-	}
-
-	template <> struct hash<string> {
-		size_t operator()(const string& s) const { return stl_string_hash(s); }
-	};
-
-	template <> struct hash<wstring> {
-		size_t operator()(const wstring& s) const { return stl_string_hash(s); }
-	};
-}
-#endif
 #endif // _OPTIONS_H_

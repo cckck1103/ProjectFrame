@@ -10,7 +10,7 @@
 #include "SysUtils.h"
 #include "BaseSocket.h"
 #include "Exceptions.h"
-#include "TcpServer.h"
+#include "TCPServer.h"
 #include "BaseApplication.h"
 #include "StreamClass.h"
 
@@ -732,14 +732,14 @@ public:
 					WORD port);
 	virtual ~WebSocketServer();
 
-	// 接受了一个新的TCP连接
+	// 鎺ュ彈浜嗕竴涓柊鐨凾CP杩炴帴
 	virtual void onTcpConnected(const TcpConnectionPtr& connection);
-	// 断开了一个TCP连接
+	// 鏂紑浜嗕竴涓猅CP杩炴帴
 	virtual void onTcpDisconnected(const TcpConnectionPtr& connection);
-	// TCP连接上的一个接收任务已完成
+	// TCP杩炴帴涓婄殑涓�涓帴鏀朵换鍔″凡瀹屾垚
 	virtual void onTcpRecvComplete(const TcpConnectionPtr& connection, void *packetBuffer,
 		int packetSize, const Context& context);
-	// TCP连接上的一个发送任务已完成
+	// TCP杩炴帴涓婄殑涓�涓彂閫佷换鍔″凡瀹屾垚
 	virtual void onTcpSendComplete(const TcpConnectionPtr& connection, const Context& context);
 
 	void open();

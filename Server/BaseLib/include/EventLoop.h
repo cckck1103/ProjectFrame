@@ -93,7 +93,7 @@ protected:
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class EventLoopThread - ÊÂ¼şÑ­»·Ö´ĞĞÏß³Ì
+// class EventLoopThread - äº‹ä»¶å¾ªç¯æ‰§è¡Œçº¿ç¨‹
 
 class EventLoopThread : public Thread
 {
@@ -107,7 +107,7 @@ private:
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class EventLoopList - ÊÂ¼şÑ­»·ÁĞ±í
+// class EventLoopList - äº‹ä»¶å¾ªç¯åˆ—è¡¨
 
 class EventLoopList : noncopyable
 {
@@ -138,7 +138,7 @@ protected:
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class OsEventLoop - Æ½Ì¨Ïà¹ØµÄÊÂ¼şÑ­»·»ùÀà
+// class OsEventLoop - å¹³å°ç›¸å…³çš„äº‹ä»¶å¾ªç¯åŸºç±»
 
 class OsEventLoop : public EventLoop
 {

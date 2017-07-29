@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-// ÎÄ¼şÃû³Æ: http.cpp
-// ¹¦ÄÜÃèÊö: HTTP¿Í»§¶Ë
+// æ–‡ä»¶åç§°: http.cpp
+// åŠŸèƒ½æè¿°: HTTPå®¢æˆ·ç«¯
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "BaseHttp.h"
@@ -1572,10 +1572,10 @@ void HttpServer::onTcpSendComplete(const TcpConnectionPtr& connection, const Con
 					Masking-key:  0 or 4 bytes
 */
 
-/// ½«´Óclient·¢¹ıÀ´µÄÊı¾İÖ¡½øĞĞ½âÂë
-/// inbuf      : ½ÓÊÕµ½µÄclient·¢ËÍµÄÊı¾İ
-/// insize     : ½ÓÊÕµ½µÄÊı¾İ´óĞ¡
-/// outbuf     : ½âÂë»º³åÇø
+/// å°†ä»clientå‘è¿‡æ¥çš„æ•°æ®å¸§è¿›è¡Œè§£ç 
+/// inbuf      : æ¥æ”¶åˆ°çš„clientå‘é€çš„æ•°æ®
+/// insize     : æ¥æ”¶åˆ°çš„æ•°æ®å¤§å°
+/// outbuf     : è§£ç ç¼“å†²åŒº
 /// return     : WsFrameType
 WsFrameType decodeFrame(const char* inbuf, int inlength, std::vector<char>* outbuf)
 {
@@ -1647,11 +1647,11 @@ WsFrameType decodeFrame(const char* inbuf, int inlength, std::vector<char>* outb
 	return WS_ERROR_FRAME;
 }
 
-/// ½«·¢»Ø¸øclientµÄÊı¾İ½øĞĞ±àÂë
-/// msg        : ·¢»Ø¸øclientµÄÊı¾İ
-/// msglen     : ·¢»ØµÄÊı¾İ´óĞ¡
-/// outbuf     : ±àÂë»º³åÇø
-/// outsize    : ±àÂë»º³åÇø´óĞ¡£¨½¨Òéoutsize > insize + 10£©
+/// å°†å‘å›ç»™clientçš„æ•°æ®è¿›è¡Œç¼–ç 
+/// msg        : å‘å›ç»™clientçš„æ•°æ®
+/// msglen     : å‘å›çš„æ•°æ®å¤§å°
+/// outbuf     : ç¼–ç ç¼“å†²åŒº
+/// outsize    : ç¼–ç ç¼“å†²åŒºå¤§å°ï¼ˆå»ºè®®outsize > insize + 10ï¼‰
 int encodeFrame(WsFrameType frame_type, const char* msg, int msg_length, char* outbuf, int bufsize)
 {
 	//std::cout << "makeFrame : " <<  frame_type << "\t" << msg << "\t" << msg_length << "\n";
@@ -1737,7 +1737,7 @@ void WebSocketPacketSplitter(const char *data, int bytes, int& retrieveBytes)
 	retrieveBytes = payload_length + pos + 4;
 }
 
-// ÎŞÂÛÊÕµ½¶àÉÙ×Ö½Ú¶¼Á¢¼´»ñÈ¡µÄ·Ö°üÆ÷
+// æ— è®ºæ”¶åˆ°å¤šå°‘å­—èŠ‚éƒ½ç«‹å³è·å–çš„åˆ†åŒ…å™¨
 const PacketSplitter WEBSOCKET_PACKET_SPLITTER = &WebSocketPacketSplitter;
 
 WebSocketServer::WebSocketServer(std::shared_ptr<IoService> service,
@@ -1764,7 +1764,7 @@ void WebSocketServer::close()
 	m_TcpServer.close();
 }
 
-// ½ÓÊÜÁËÒ»¸öĞÂµÄTCPÁ¬½Ó
+// æ¥å—äº†ä¸€ä¸ªæ–°çš„TCPè¿æ¥
 void WebSocketServer::onTcpConnected(const TcpConnectionPtr& connection)
 {
 	INFO_LOG("new websocket connected %x", connection.get());
@@ -1773,7 +1773,7 @@ void WebSocketServer::onTcpConnected(const TcpConnectionPtr& connection)
 
 }
 
-// ¶Ï¿ªÁËÒ»¸öTCPÁ¬½Ó
+// æ–­å¼€äº†ä¸€ä¸ªTCPè¿æ¥
 void WebSocketServer::onTcpDisconnected(const TcpConnectionPtr& connection)
 {
 	if (m_callback)
@@ -1782,7 +1782,7 @@ void WebSocketServer::onTcpDisconnected(const TcpConnectionPtr& connection)
 		m_callback->onTcpDisconnected(connection);
 	}
 }
-// TCPÁ¬½ÓÉÏµÄÒ»¸ö½ÓÊÕÈÎÎñÒÑÍê³É
+// TCPè¿æ¥ä¸Šçš„ä¸€ä¸ªæ¥æ”¶ä»»åŠ¡å·²å®Œæˆ
 void WebSocketServer::onTcpRecvComplete(const TcpConnectionPtr& connection, void *packetBuffer,
 	int packetSize, const Context& context)
 {
@@ -1847,7 +1847,7 @@ void WebSocketServer::onTcpRecvComplete(const TcpConnectionPtr& connection, void
 }
 
 
-// TCPÁ¬½ÓÉÏµÄÒ»¸ö·¢ËÍÈÎÎñÒÑÍê³É
+// TCPè¿æ¥ä¸Šçš„ä¸€ä¸ªå‘é€ä»»åŠ¡å·²å®Œæˆ
 void WebSocketServer::onTcpSendComplete(const TcpConnectionPtr& connection, const Context& context)
 {
 	if (m_callback)

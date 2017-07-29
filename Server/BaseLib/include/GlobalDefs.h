@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-// ÎÄ¼şÃû³Æ: GlobalDefs.h
-// ¹¦ÄÜÃèÊö: È«¾Ö¶¨Òå
+// æ–‡ä»¶åç§°: GlobalDefs.h
+// åŠŸèƒ½æè¿°: å…¨å±€å®šä¹‰
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -10,7 +10,6 @@
 #include "Options.h"
 
 #include <stdio.h>
-#include <basetsd.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <functional>
@@ -21,11 +20,6 @@
 #include <map>
 #include <list>
 
-#ifdef _COMPILER_WIN
-#include <basetsd.h>
-#else
-#include <stdint.h>
-#endif
 
 #ifdef _COMPILER_WIN
 typedef INT8      int8_t;
@@ -93,7 +87,7 @@ const char FILE_EXT_DELIM = '.';
 const char* const S_CRLF = "\n";
 #endif
 
-// ÎÄ¼şÊôĞÔ
+// æ–‡ä»¶å±æ€§
 const unsigned int FA_READ_ONLY = 0x00000001;
 const unsigned int FA_HIDDEN = 0x00000002;
 const unsigned int FA_SYS_FILE = 0x00000004;
@@ -103,7 +97,7 @@ const unsigned int FA_ARCHIVE = 0x00000020;
 const unsigned int FA_SYM_LINK = 0x00000040;    // Linux Only
 const unsigned int FA_ANY_FILE = 0x0000007F;
 
-// Ê±¼äÏà¹Ø
+// æ—¶é—´ç›¸å…³
 const int MILLISECS_PER_SECOND = 1000;
 const int SECONDS_PER_MINUTE = 60;
 const int MINUTES_PER_HOUR = 60;
@@ -112,7 +106,7 @@ const int SECONDS_PER_HOUR = 3600;
 const int SECONDS_PER_DAY = 86400;
 
 
-// ·¶Î§Öµ
+// èŒƒå›´å€¼
 #define MAXCHAR     0x7f
 #define MAXSHORT    0x7fff
 #define MAXINT      0x7fffffff
@@ -120,7 +114,7 @@ const int SECONDS_PER_DAY = 86400;
 #define MAXWORD     0xffff
 #define MAXDWORD    0xffffffff
 
-// Strings Ïà¹Ø³£Á¿¶¨Òå
+// Strings ç›¸å…³å¸¸é‡å®šä¹‰
 #define DEFAULT_DELIMITER            ','
 #define DEFAULT_QUOTE_CHAR           '\"'
 #define DEFAULT_NAME_VALUE_SEP       '='
@@ -138,7 +132,7 @@ const int SECONDS_PER_DAY = 86400;
 const int TIMEOUT_INFINITE = -1;
 
 ///////////////////////////////////////////////////////////////////////////////
-// ºê¶¨Òå
+// å®å®šä¹‰
 extern void internalAssert(const char *condition, const char *fileName, int lineNumber);
 
 

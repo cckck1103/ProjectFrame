@@ -7,6 +7,7 @@
 #include "ErrMsgs.h"
 #include "Exceptions.h"
 #include "ObjectArray.h"
+#include "SysUtils.h"
 #include "BaseMutex.h"
 #include <deque>
 
@@ -48,7 +49,7 @@ struct Any
 	Any(const Any& that) : m_ptr(that.Clone()), m_tpIndex(that.m_tpIndex) {}
 	Any(Any && that) : m_ptr(std::move(that.m_ptr)), m_tpIndex(that.m_tpIndex) {}
 
-	//´´½¨ÖÇÄÜÖ¸ÕëÊ±£¬¶ÔÓÚÒ»°ãµÄÀàĞÍ£¬Í¨¹ıstd::decayÀ´ÒÆ³ıÒıÓÃºÍcv·û£¬´Ó¶ø»ñÈ¡Ô­Ê¼ÀàĞÍ
+	//åˆ›å»ºæ™ºèƒ½æŒ‡é’ˆæ—¶ï¼Œå¯¹äºä¸€èˆ¬çš„ç±»å‹ï¼Œé€šè¿‡std::decayæ¥ç§»é™¤å¼•ç”¨å’Œcvç¬¦ï¼Œä»è€Œè·å–åŸå§‹ç±»å‹
 	template<typename U, class = typename std::enable_if<!std::is_same<typename std::decay<U>::type, Any>::value, U>::type> Any(U && value) : m_ptr(new Derived < typename std::decay<U>::type>(std::forward<U>(value))),
 		m_tpIndex(std::type_index(typeid(typename std::decay<U>::type))) {}
 
@@ -59,7 +60,7 @@ struct Any
 		return m_tpIndex == std::type_index(typeid(U));
 	}
 
-	//½«Any×ª»»ÎªÊµ¼ÊµÄÀàĞÍ
+	//å°†Anyè½¬æ¢ä¸ºå®é™…çš„ç±»å‹
 	template<class U>
 	U& AnyCast()
 	{
@@ -124,7 +125,7 @@ typedef Any Context;
 const Context EMPTY_CONTEXT = Context();
 
 ///////////////////////////////////////////////////////////////////////////////
-// class ObjectContext - ´Ó´ËÀà¼Ì³Ğ¸ø¶ÔÏóÌí¼ÓÉÏÏÂÎÄ
+// class ObjectContext - ä»æ­¤ç±»ç»§æ‰¿ç»™å¯¹è±¡æ·»åŠ ä¸Šä¸‹æ–‡
 
 class ObjectContext
 {
@@ -137,7 +138,7 @@ private:
 };
 
 //////////////////////////////////////////////////////////////////////////
-//Õ»¿Õ¼äÊ¹ÓÃ   Ò»°ãÔÚ±ä³¤Ğ­ÒéÖĞÊ¹ÓÃ
+//æ ˆç©ºé—´ä½¿ç”¨   ä¸€èˆ¬åœ¨å˜é•¿åè®®ä¸­ä½¿ç”¨
 #define  LOCAL_CACHE_DATA_SIZE  1024 * 32
 class LocalCacheData
 {
@@ -161,18 +162,18 @@ private:
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// class SeqNumberAlloc - ÕûÊıĞòÁĞºÅ·ÖÅäÆ÷Àà
+// class SeqNumberAlloc - æ•´æ•°åºåˆ—å·åˆ†é…å™¨ç±»
 //
-// ËµÃ÷:
-// 1. ´ËÀàÒÔÏß³Ì°²È«·½Ê½Éú³ÉÒ»¸ö²»¶ÏµİÔöµÄÕûÊıĞòÁĞ£¬ÓÃ»§¿ÉÒÔÖ¸¶¨ĞòÁĞµÄÆğÊ¼Öµ£»
-// 2. ´ËÀàÒ»°ãÓÃÓÚÊı¾İ°üµÄË³ĞòºÅ¿ØÖÆ£»
+// è¯´æ˜:
+// 1. æ­¤ç±»ä»¥çº¿ç¨‹å®‰å…¨æ–¹å¼ç”Ÿæˆä¸€ä¸ªä¸æ–­é€’å¢çš„æ•´æ•°åºåˆ—ï¼Œç”¨æˆ·å¯ä»¥æŒ‡å®šåºåˆ—çš„èµ·å§‹å€¼ï¼›
+// 2. æ­¤ç±»ä¸€èˆ¬ç”¨äºæ•°æ®åŒ…çš„é¡ºåºå·æ§åˆ¶ï¼›
 
 class SeqNumberAlloc : noncopyable
 {
 public:
 	explicit SeqNumberAlloc(UINT64 startId = 0);
 
-	// ·µ»ØÒ»¸öĞÂ·ÖÅäµÄID
+	// è¿”å›ä¸€ä¸ªæ–°åˆ†é…çš„ID
 	UINT64 allocId();
 
 private:
@@ -182,7 +183,7 @@ private:
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// class CallbackList - »Øµ÷ÁĞ±í
+// class CallbackList - å›è°ƒåˆ—è¡¨
 
 template<typename T>
 class CallbackList
@@ -205,7 +206,7 @@ private:
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// class BlockingQueue - ×èÈû¶ÓÁĞÀà
+// class BlockingQueue - é˜»å¡é˜Ÿåˆ—ç±»
 
 template<typename T>
 class BlockingQueue : noncopyable
@@ -245,7 +246,7 @@ private:
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class SignalMasker - ĞÅºÅÆÁ±ÎÀà
+// class SignalMasker - ä¿¡å·å±è”½ç±»
 
 #ifdef _COMPILER_LINUX
 class SignalMasker : noncopyable
@@ -254,16 +255,16 @@ public:
 	explicit SignalMasker(bool isAutoRestore = false);
 	virtual ~SignalMasker();
 
-	// ÉèÖÃ Block/UnBlock ²Ù×÷ËùĞèµÄĞÅºÅ¼¯ºÏ
+	// è®¾ç½® Block/UnBlock æ“ä½œæ‰€éœ€çš„ä¿¡å·é›†åˆ
 	void setSignals(int sigCount, ...);
 	void setSignals(int sigCount, va_list argList);
 
-	// ÔÚ½ø³Ìµ±Ç°×èÈûĞÅºÅ¼¯ÖĞÌí¼Ó setSignals ÉèÖÃµÄĞÅºÅ
+	// åœ¨è¿›ç¨‹å½“å‰é˜»å¡ä¿¡å·é›†ä¸­æ·»åŠ  setSignals è®¾ç½®çš„ä¿¡å·
 	void block();
-	// ÔÚ½ø³Ìµ±Ç°×èÈûĞÅºÅ¼¯ÖĞ½â³ı setSignals ÉèÖÃµÄĞÅºÅ
+	// åœ¨è¿›ç¨‹å½“å‰é˜»å¡ä¿¡å·é›†ä¸­è§£é™¤ setSignals è®¾ç½®çš„ä¿¡å·
 	void unBlock();
 
-	// ½«½ø³Ì×èÈûĞÅºÅ¼¯»Ö¸´Îª Block/UnBlock Ö®Ç°µÄ×´Ì¬
+	// å°†è¿›ç¨‹é˜»å¡ä¿¡å·é›†æ¢å¤ä¸º Block/UnBlock ä¹‹å‰çš„çŠ¶æ€
 	void restore();
 
 private:
@@ -281,7 +282,7 @@ private:
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// class Url - URL½âÎöÀà
+// class Url - URLè§£æç±»
 
 class Url
 {

@@ -45,209 +45,209 @@
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// ÌáÇ°ÉùÃ÷
+// æå‰å£°æ˜
 
 class Buffer;
 class StrList;
 
 ///////////////////////////////////////////////////////////////////////////////
-// ÀàĞÍ¶¨Òå
+// ç±»å‹å®šä¹‰
 
-// ÎÄ¼ş²éÕÒ¼ÇÂ¼
+// æ–‡ä»¶æŸ¥æ‰¾è®°å½•
 struct FileFindItem
 {
-    INT64 fileSize;         // ÎÄ¼ş´óĞ¡
-    std::string fileName;   // ÎÄ¼şÃû(²»º¬Â·¾¶)
-    UINT attr;              // ÎÄ¼şÊôĞÔ
+    INT64 fileSize;         // æ–‡ä»¶å¤§å°
+    std::string fileName;   // æ–‡ä»¶å(ä¸å«è·¯å¾„)
+    UINT attr;              // æ–‡ä»¶å±æ€§
 };
 
 typedef std::vector<FileFindItem> FileFindResult;
 
 ///////////////////////////////////////////////////////////////////////////////
-// ÔÓÏîº¯Êı
+// æ‚é¡¹å‡½æ•°
 
 //-----------------------------------------------------------------------------
-//-- ×Ö·û´®º¯Êı:
+//-- å­—ç¬¦ä¸²å‡½æ•°:
 
 /*
-* º¯ÊıÃû£º isIntStr
-* ¹¦ÄÜ£º   ÅĞ¶Ï×Ö·û´®ÊÇ·ñÎªÕûÊı
-* ²ÎÊı£º   str 
-* ·µ»ØÖµ£º true ÊÇ  false ·ñ 
+* å‡½æ•°åï¼š isIntStr
+* åŠŸèƒ½ï¼š   åˆ¤æ–­å­—ç¬¦ä¸²æ˜¯å¦ä¸ºæ•´æ•°
+* å‚æ•°ï¼š   str 
+* è¿”å›å€¼ï¼š true æ˜¯  false å¦ 
 */
 bool isIntStr(const std::string& str);
 
 /*
-* º¯ÊıÃû£º isInt64Str
-* ¹¦ÄÜ£º   ÅĞ¶Ï×Ö·û´®ÊÇ·ñÎª64Î»ÕûÊı
-* ²ÎÊı£º   str
-* ·µ»ØÖµ£º true ÊÇ  false ·ñ
+* å‡½æ•°åï¼š isInt64Str
+* åŠŸèƒ½ï¼š   åˆ¤æ–­å­—ç¬¦ä¸²æ˜¯å¦ä¸º64ä½æ•´æ•°
+* å‚æ•°ï¼š   str
+* è¿”å›å€¼ï¼š true æ˜¯  false å¦
 */
 bool isInt64Str(const std::string& str);
 
 /*
-* º¯ÊıÃû£º isFloatStr
-* ¹¦ÄÜ£º   ÅĞ¶Ï×Ö·û´®ÊÇ·ñÎªFloat
-* ²ÎÊı£º   str
-* ·µ»ØÖµ£º true ÊÇ  false ·ñ
+* å‡½æ•°åï¼š isFloatStr
+* åŠŸèƒ½ï¼š   åˆ¤æ–­å­—ç¬¦ä¸²æ˜¯å¦ä¸ºFloat
+* å‚æ•°ï¼š   str
+* è¿”å›å€¼ï¼š true æ˜¯  false å¦
 */
 bool isFloatStr(const std::string& str);
 
 /*
-* º¯ÊıÃû£º isFloatStr
-* ¹¦ÄÜ£º   ÅĞ¶Ï×Ö·û´®ÊÇ·ñÎªBool
-* ²ÎÊı£º   str
-* ·µ»ØÖµ£º true ÊÇ  false ·ñ
+* å‡½æ•°åï¼š isFloatStr
+* åŠŸèƒ½ï¼š   åˆ¤æ–­å­—ç¬¦ä¸²æ˜¯å¦ä¸ºBool
+* å‚æ•°ï¼š   str
+* è¿”å›å€¼ï¼š true æ˜¯  false å¦
 */
 bool isBoolStr(const std::string& str);
 
 /*
-* º¯ÊıÃû£º formatString
-* ¹¦ÄÜ£º   ¸ñÊ½»¯×Ö·û´®
-* ²ÎÊı£º   format
+* å‡½æ•°åï¼š formatString
+* åŠŸèƒ½ï¼š   æ ¼å¼åŒ–å­—ç¬¦ä¸²
+* å‚æ•°ï¼š   format
            vlist
-* ·µ»ØÖµ£º std::string
+* è¿”å›å€¼ï¼š std::string
 */
 std::string formatString(const char *format, ...);
 
 /*
-* º¯ÊıÃû£º formatString
-* ¹¦ÄÜ£º   ¸ñÊ½»¯×Ö·û´®
-* ²ÎÊı£º   format
+* å‡½æ•°åï¼š formatString
+* åŠŸèƒ½ï¼š   æ ¼å¼åŒ–å­—ç¬¦ä¸²
+* å‚æ•°ï¼š   format
 vlist
-* ·µ»ØÖµ£º std::string
+* è¿”å›å€¼ï¼š std::string
 */
 void formatStringV(std::string& result, const char *format, va_list argList);
 
 /*
-* º¯ÊıÃû£º strToInt
-* ¹¦ÄÜ£º   string ×ª»» int 
-* ²ÎÊı£º   str          ×Ö·û´®
-           defaultVal   Ä¬ÈÏÖµ
-* ·µ»ØÖµ£º int
+* å‡½æ•°åï¼š strToInt
+* åŠŸèƒ½ï¼š   string è½¬æ¢ int 
+* å‚æ•°ï¼š   str          å­—ç¬¦ä¸²
+           defaultVal   é»˜è®¤å€¼
+* è¿”å›å€¼ï¼š int
 */
 int strToInt(const std::string& str, int defaultVal = 0);
 
 /*
-* º¯ÊıÃû£º strToInt64
-* ¹¦ÄÜ£º   string ×ª»» INT64
-* ²ÎÊı£º   str          ×Ö·û´®
-		   defaultVal   Ä¬ÈÏÖµ
-* ·µ»ØÖµ£º INT64
+* å‡½æ•°åï¼š strToInt64
+* åŠŸèƒ½ï¼š   string è½¬æ¢ INT64
+* å‚æ•°ï¼š   str          å­—ç¬¦ä¸²
+		   defaultVal   é»˜è®¤å€¼
+* è¿”å›å€¼ï¼š INT64
 */
 INT64 strToInt64(const std::string& str, INT64 defaultVal = 0);
 
 /*
-* º¯ÊıÃû£º strToInt64
-* ¹¦ÄÜ£º   string ×ª»» INT64
-* ²ÎÊı£º   int          
-* ·µ»ØÖµ£º string
+* å‡½æ•°åï¼š strToInt64
+* åŠŸèƒ½ï¼š   string è½¬æ¢ INT64
+* å‚æ•°ï¼š   int          
+* è¿”å›å€¼ï¼š string
 */
 std::string intToStr(int value);
 
 /*
-* º¯ÊıÃû£º strToInt64
-* ¹¦ÄÜ£º   string ×ª»» INT64
-* ²ÎÊı£º   int
-* ·µ»ØÖµ£º string
+* å‡½æ•°åï¼š strToInt64
+* åŠŸèƒ½ï¼š   string è½¬æ¢ INT64
+* å‚æ•°ï¼š   int
+* è¿”å›å€¼ï¼š string
 */
 std::string intToStr(INT64 value);
 
 /*
-* º¯ÊıÃû£º strToFloat
-* ¹¦ÄÜ£º   string ×ª»» double
-* ²ÎÊı£º   std::string
-* ·µ»ØÖµ£º double
+* å‡½æ•°åï¼š strToFloat
+* åŠŸèƒ½ï¼š   string è½¬æ¢ double
+* å‚æ•°ï¼š   std::string
+* è¿”å›å€¼ï¼š double
 */
 double strToFloat(const std::string& str, double defaultVal = 0);
 
 /*
-* º¯ÊıÃû£º floatToStr
-* ¹¦ÄÜ£º   double ×ª»» string
-* ²ÎÊı£º   double
-* ·µ»ØÖµ£º string
+* å‡½æ•°åï¼š floatToStr
+* åŠŸèƒ½ï¼š   double è½¬æ¢ string
+* å‚æ•°ï¼š   double
+* è¿”å›å€¼ï¼š string
 */
 std::string floatToStr(double value, const char *format = "%f");
 
 /*
-* º¯ÊıÃû£º strToBool
-* ¹¦ÄÜ£º   string ×ª»» bool
-* ²ÎÊı£º   string
-* ·µ»ØÖµ£º bool
+* å‡½æ•°åï¼š strToBool
+* åŠŸèƒ½ï¼š   string è½¬æ¢ bool
+* å‚æ•°ï¼š   string
+* è¿”å›å€¼ï¼š bool
 */
 bool strToBool(const std::string& str, bool defaultVal = false);
 
 /*
-* º¯ÊıÃû£º boolToStr
-* ¹¦ÄÜ£º   bool ×ª»» string
-* ²ÎÊı£º   bool
-* ·µ»ØÖµ£º string
+* å‡½æ•°åï¼š boolToStr
+* åŠŸèƒ½ï¼š   bool è½¬æ¢ string
+* å‚æ•°ï¼š   bool
+* è¿”å›å€¼ï¼š string
 */
 std::string boolToStr(bool value, bool useBoolStrs = false);
 
 /*
-* º¯ÊıÃû£º sameText
-* ¹¦ÄÜ£º   ±È½ÏÁ½¸ö×Ö·û´®ÊÇ·ñÏàµÈ   (²»Çø·Ö´óĞ¡Ğ´)
-* ²ÎÊı£º   str
-* ·µ»ØÖµ£º true ÊÇ  false ·ñ
+* å‡½æ•°åï¼š sameText
+* åŠŸèƒ½ï¼š   æ¯”è¾ƒä¸¤ä¸ªå­—ç¬¦ä¸²æ˜¯å¦ç›¸ç­‰   (ä¸åŒºåˆ†å¤§å°å†™)
+* å‚æ•°ï¼š   str
+* è¿”å›å€¼ï¼š true æ˜¯  false å¦
 */
 bool sameText(const std::string& str1, const std::string& str2);
 
 /*
-* º¯ÊıÃû£º compareText
-* ¹¦ÄÜ£º   ±È½ÏÁ½¸ö×Ö·û´®ÊÇ·ñÏàµÈ   (²»Çø·Ö´óĞ¡Ğ´)
-* ²ÎÊı£º   char*
-* ·µ»ØÖµ£º true ÊÇ  false ·ñ
+* å‡½æ•°åï¼š compareText
+* åŠŸèƒ½ï¼š   æ¯”è¾ƒä¸¤ä¸ªå­—ç¬¦ä¸²æ˜¯å¦ç›¸ç­‰   (ä¸åŒºåˆ†å¤§å°å†™)
+* å‚æ•°ï¼š   char*
+* è¿”å›å€¼ï¼š true æ˜¯  false å¦
 */
 int compareText(const char* str1, const char* str2);
 
 /*
-* º¯ÊıÃû£º trimString
-* ¹¦ÄÜ£º   È¥µô×Ö·û´®Í·Î²µÄ¿Õ°××Ö·û (ASCII <= 32)
-* ²ÎÊı£º   str
-* ·µ»ØÖµ£º str
+* å‡½æ•°åï¼š trimString
+* åŠŸèƒ½ï¼š   å»æ‰å­—ç¬¦ä¸²å¤´å°¾çš„ç©ºç™½å­—ç¬¦ (ASCII <= 32)
+* å‚æ•°ï¼š   str
+* è¿”å›å€¼ï¼š str
 */
 std::string trimString(const std::string& str);
 
 /*
-* º¯ÊıÃû£º upperCase
-* ¹¦ÄÜ£º   ×Ö·û´®±ä´óĞ´
-* ²ÎÊı£º   str
-* ·µ»ØÖµ£º str
+* å‡½æ•°åï¼š upperCase
+* åŠŸèƒ½ï¼š   å­—ç¬¦ä¸²å˜å¤§å†™
+* å‚æ•°ï¼š   str
+* è¿”å›å€¼ï¼š str
 */
 std::string upperCase(const std::string& str);
 
 /*
-* º¯ÊıÃû£º lowerCase
-* ¹¦ÄÜ£º   ×Ö·û´®±äĞ¡Ğ´
-* ²ÎÊı£º   str
-* ·µ»ØÖµ£º str
+* å‡½æ•°åï¼š lowerCase
+* åŠŸèƒ½ï¼š   å­—ç¬¦ä¸²å˜å°å†™
+* å‚æ•°ï¼š   str
+* è¿”å›å€¼ï¼š str
 */
 std::string lowerCase(const std::string& str);
 
 /*
-*  º¯ÊıÃû  repalceString
-*  ÃèÊö: ×Ö·û´®Ìæ»»
-*  ²ÎÊı:
-*    sourceStr			- Ô´´®
-*    oldPattern			- Ô´´®ÖĞ½«±»Ìæ»»µÄ×Ö·û´®
-*    newPattern			- È¡´ú oldPattern µÄ×Ö·û´®
-*    replaceAll			- ÊÇ·ñÌæ»»Ô´´®ÖĞËùÓĞÆ¥ÅäµÄ×Ö·û´®(ÈôÎªfalse£¬ÔòÖ»Ìæ»»µÚÒ»´¦)
-*    caseSensitive		- ÊÇ·ñÇø·Ö´óĞ¡Ğ´
-*  ·µ»Ø:
-*   ½øĞĞÌæ»»¶¯×÷Ö®ºóµÄ×Ö·û´®
+*  å‡½æ•°å  repalceString
+*  æè¿°: å­—ç¬¦ä¸²æ›¿æ¢
+*  å‚æ•°:
+*    sourceStr			- æºä¸²
+*    oldPattern			- æºä¸²ä¸­å°†è¢«æ›¿æ¢çš„å­—ç¬¦ä¸²
+*    newPattern			- å–ä»£ oldPattern çš„å­—ç¬¦ä¸²
+*    replaceAll			- æ˜¯å¦æ›¿æ¢æºä¸²ä¸­æ‰€æœ‰åŒ¹é…çš„å­—ç¬¦ä¸²(è‹¥ä¸ºfalseï¼Œåˆ™åªæ›¿æ¢ç¬¬ä¸€å¤„)
+*    caseSensitive		- æ˜¯å¦åŒºåˆ†å¤§å°å†™
+*  è¿”å›:
+*   è¿›è¡Œæ›¿æ¢åŠ¨ä½œä¹‹åçš„å­—ç¬¦ä¸²
 */
 std::string repalceString(const std::string& sourceStr, const std::string& oldPattern,
 	const std::string& newPattern, bool replaceAll = false, bool caseSensitive = true);
 
 //-----------------------------------------------------------------------------
-// ÃèÊö: ·Ö¸î×Ö·û´®
-// ²ÎÊı:
-//   sourceStr   - Ô´´®
-//   splitter  - ·Ö¸ô·û
-//   strList     - ´æ·Å·Ö¸îÖ®ºóµÄ×Ö·û´®ÁĞ±í
-//   trimResult - ÊÇ·ñ¶Ô·Ö¸îºóµÄ½á¹û½øĞĞ trim ´¦Àí
-// Ê¾Àı:
+// æè¿°: åˆ†å‰²å­—ç¬¦ä¸²
+// å‚æ•°:
+//   sourceStr   - æºä¸²
+//   splitter  - åˆ†éš”ç¬¦
+//   strList     - å­˜æ”¾åˆ†å‰²ä¹‹åçš„å­—ç¬¦ä¸²åˆ—è¡¨
+//   trimResult - æ˜¯å¦å¯¹åˆ†å‰²åçš„ç»“æœè¿›è¡Œ trim å¤„ç†
+// ç¤ºä¾‹:
 //   ""          -> []
 //   " "         -> [" "]
 //   ","         -> ["", ""]
@@ -258,16 +258,16 @@ void splitString(const std::string& sourceStr, char splitter, StrList& strList,
 	bool trimResult = false);
 
 //-----------------------------------------------------------------------------
-// ÃèÊö: ·Ö¸î×Ö·û´®²¢×ª»»³ÉÕûĞÍÊıÁĞ±í
-// ²ÎÊı:
-//   sourceStr  - Ô´´®
-//   splitter - ·Ö¸ô·û
-//   intList    - ´æ·Å·Ö¸îÖ®ºóµÄÕûĞÍÊıÁĞ±í
+// æè¿°: åˆ†å‰²å­—ç¬¦ä¸²å¹¶è½¬æ¢æˆæ•´å‹æ•°åˆ—è¡¨
+// å‚æ•°:
+//   sourceStr  - æºä¸²
+//   splitter - åˆ†éš”ç¬¦
+//   intList    - å­˜æ”¾åˆ†å‰²ä¹‹åçš„æ•´å‹æ•°åˆ—è¡¨
 //-----------------------------------------------------------------------------
 void splitStringToInt(const std::string& sourceStr, char splitter, IntegerArray& intList);
 
 //-----------------------------------------------------------------------------
-// ÃèÊö: ´ÓÔ´´®ÖĞ»ñÈ¡Ò»¸ö×Ó´®
+// æè¿°: ä»æºä¸²ä¸­è·å–ä¸€ä¸ªå­ä¸²
 //
 // For example:
 //   inputStr(before)   delimiter  del       inputStr(after)   result(after)
@@ -281,7 +281,7 @@ void splitStringToInt(const std::string& sourceStr, char splitter, IntegerArray&
 std::string fetchStr(std::string& inputStr, char delimiter = ' ', bool del = true);
 
 //-----------------------------------------------------------------------------
-// ÃèÊö: ÔÚÊı×ÖÖĞ¼ä²åÈë¶ººÅ½øĞĞÊı¾İ·Ö×é
+// æè¿°: åœ¨æ•°å­—ä¸­é—´æ’å…¥é€—å·è¿›è¡Œæ•°æ®åˆ†ç»„
 //-----------------------------------------------------------------------------
 std::string addThousandSep(const INT64& number);
 
@@ -324,279 +324,279 @@ std::string getDequotedStr(const char* str, char quoteChar = '"');
 
 
 //-----------------------------------------------------------------------------
-//-- ÏµÍ³Ïà¹Ø:
+//-- ç³»ç»Ÿç›¸å…³:
 
 /*
-* º¯ÊıÃû£º getLastSysError
-* ¹¦ÄÜ£º   »ñÈ¡×îºóÒ»´Î´íÎóĞÅÏ¢
-* ²ÎÊı£º
-* ·µ»ØÖµ£º int
+* å‡½æ•°åï¼š getLastSysError
+* åŠŸèƒ½ï¼š   è·å–æœ€åä¸€æ¬¡é”™è¯¯ä¿¡æ¯
+* å‚æ•°ï¼š
+* è¿”å›å€¼ï¼š int
 */
 int getLastSysError();
 
 /*
-* º¯ÊıÃû£º getCurThreadId
-* ¹¦ÄÜ£º   »ñÈ¡µ±Ç°Ïß³Ìid
-* ²ÎÊı£º
-* ·µ»ØÖµ£º THREAD_ID
+* å‡½æ•°åï¼š getCurThreadId
+* åŠŸèƒ½ï¼š   è·å–å½“å‰çº¿ç¨‹id
+* å‚æ•°ï¼š
+* è¿”å›å€¼ï¼š THREAD_ID
 */
 THREAD_ID getCurThreadId();
 
 /*
-* º¯ÊıÃû£º sysErrorMessage
-* ¹¦ÄÜ£º   »ñÈ¡ÏµÍ³´íÎóĞÅÏ¢
-* ²ÎÊı£º   code
-* ·µ»ØÖµ£º string
+* å‡½æ•°åï¼š sysErrorMessage
+* åŠŸèƒ½ï¼š   è·å–ç³»ç»Ÿé”™è¯¯ä¿¡æ¯
+* å‚æ•°ï¼š   code
+* è¿”å›å€¼ï¼š string
 */
 std::string sysErrorMessage(int errorCode);
 
 /*
-* º¯ÊıÃû£º getCurTicks
-* ¹¦ÄÜ£º   »ñÈ¡µ±Ç°ºÁÃëÊı
-* ²ÎÊı£º   
-* ·µ»ØÖµ£º UINT64
+* å‡½æ•°åï¼š getCurTicks
+* åŠŸèƒ½ï¼š   è·å–å½“å‰æ¯«ç§’æ•°
+* å‚æ•°ï¼š   
+* è¿”å›å€¼ï¼š UINT64
 */
 UINT64 getCurTicks();
 
 
 /*
-* º¯ÊıÃû£º getTickDiff
-* ¹¦ÄÜ£º   È¡µÃÁ½¸ö Ticks Ö®²î
-* ²ÎÊı£º   oldTicks   newTicks
-* ·µ»ØÖµ£º UINT64
+* å‡½æ•°åï¼š getTickDiff
+* åŠŸèƒ½ï¼š   å–å¾—ä¸¤ä¸ª Ticks ä¹‹å·®
+* å‚æ•°ï¼š   oldTicks   newTicks
+* è¿”å›å€¼ï¼š UINT64
 */
 UINT64 getTickDiff(UINT64 oldTicks, UINT64 newTicks);
 
 /*
-* º¯ÊıÃû£º sleepSeconds
-* ¹¦ÄÜ£º   Ë¯Ãß seconds Ãë£¬¿É¾«È·µ½ÄÉÃë¡£
-* ²ÎÊı£º   seconds        - Ë¯ÃßµÄÃëÊı£¬¿ÉÎªĞ¡Êı£¬¿É¾«È·µ½ÄÉÃë (Êµ¼Ê¾«È·¶ÈÈ¡¾öÓÚ²Ù×÷ÏµÍ³)
-           allowInterrupt - ÊÇ·ñÔÊĞíĞÅºÅÖĞ¶Ï
-* ·µ»ØÖµ£º 
+* å‡½æ•°åï¼š sleepSeconds
+* åŠŸèƒ½ï¼š   ç¡çœ  seconds ç§’ï¼Œå¯ç²¾ç¡®åˆ°çº³ç§’ã€‚
+* å‚æ•°ï¼š   seconds        - ç¡çœ çš„ç§’æ•°ï¼Œå¯ä¸ºå°æ•°ï¼Œå¯ç²¾ç¡®åˆ°çº³ç§’ (å®é™…ç²¾ç¡®åº¦å–å†³äºæ“ä½œç³»ç»Ÿ)
+           allowInterrupt - æ˜¯å¦å…è®¸ä¿¡å·ä¸­æ–­
+* è¿”å›å€¼ï¼š 
 */
 void sleepSeconds(double seconds, bool allowInterrupt);
 
 //-----------------------------------------------------------------------------
-//-- Ëæ»úÊı:
+//-- éšæœºæ•°:
 /*
-* º¯ÊıÃû£º randomize
-* ¹¦ÄÜ£º   Ëæ»ú»¯ "Ëæ»úÊıÖÖ×Ó"
-* ²ÎÊı£º  
-* ·µ»ØÖµ£º 
+* å‡½æ•°åï¼š randomize
+* åŠŸèƒ½ï¼š   éšæœºåŒ– "éšæœºæ•°ç§å­"
+* å‚æ•°ï¼š  
+* è¿”å›å€¼ï¼š 
 */
 void randomize();
 
 
 /*
-* º¯ÊıÃû£º randomize
-* ¹¦ÄÜ£º   ·µ»Ø [min..max] Ö®¼äµÄÒ»¸öËæ»úÊı£¬°üº¬±ß½ç
-* ²ÎÊı£º
-* ·µ»ØÖµ£º
+* å‡½æ•°åï¼š randomize
+* åŠŸèƒ½ï¼š   è¿”å› [min..max] ä¹‹é—´çš„ä¸€ä¸ªéšæœºæ•°ï¼ŒåŒ…å«è¾¹ç•Œ
+* å‚æ•°ï¼š
+* è¿”å›å€¼ï¼š
 */
 int getRandom(int min, int max);
 
 //-----------------------------------------------------------------------------
-//-- ÎÄ¼şºÍÄ¿Â¼:
+//-- æ–‡ä»¶å’Œç›®å½•:
 
 /*
-* º¯ÊıÃû£º fileExists
-* ¹¦ÄÜ£º   ¼ì²éÎÄ¼şÊÇ·ñ´æÔÚ
-* ²ÎÊı£º   fileName
-* ·µ»ØÖµ£º
+* å‡½æ•°åï¼š fileExists
+* åŠŸèƒ½ï¼š   æ£€æŸ¥æ–‡ä»¶æ˜¯å¦å­˜åœ¨
+* å‚æ•°ï¼š   fileName
+* è¿”å›å€¼ï¼š
 */
 bool fileExists(const std::string& fileName);
 
 /*
-* º¯ÊıÃû£º directoryExists
-* ¹¦ÄÜ£º   ¼ì²éÄ¿Â¼ÊÇ·ñ´æÔÚ
-* ²ÎÊı£º   fileName
-* ·µ»ØÖµ£º
+* å‡½æ•°åï¼š directoryExists
+* åŠŸèƒ½ï¼š   æ£€æŸ¥ç›®å½•æ˜¯å¦å­˜åœ¨
+* å‚æ•°ï¼š   fileName
+* è¿”å›å€¼ï¼š
 */
 bool directoryExists(const std::string& dir);
 
 
 /*
-* º¯ÊıÃû£º createDir
-* ¹¦ÄÜ£º   ´´½¨Ä¿Â¼
+* å‡½æ•°åï¼š createDir
+* åŠŸèƒ½ï¼š   åˆ›å»ºç›®å½•
 			createDir("C:\\test");
   			createDir("/home/test");
 */
 bool createDir(const std::string& dir);
 
 /*
-* º¯ÊıÃû£º deleteDir
-* ¹¦ÄÜ£º   É¾³ıÄ¿Â¼
-* ²ÎÊı£º   dir       - ´ıÉ¾³ıµÄÄ¿Â¼
-           recursive - ÊÇ·ñµİ¹éÉ¾³ı
-* ·µ»ØÖµ£º true   - ³É¹¦  false  - Ê§°Ü
+* å‡½æ•°åï¼š deleteDir
+* åŠŸèƒ½ï¼š   åˆ é™¤ç›®å½•
+* å‚æ•°ï¼š   dir       - å¾…åˆ é™¤çš„ç›®å½•
+           recursive - æ˜¯å¦é€’å½’åˆ é™¤
+* è¿”å›å€¼ï¼š true   - æˆåŠŸ  false  - å¤±è´¥
 */
 bool deleteDir(const std::string& dir, bool recursive = false);
 
 /*
-* º¯ÊıÃû£º extractFilePath
-* ¹¦ÄÜ£º   ´ÓÎÄ¼şÃû×Ö·û´®ÖĞÈ¡³öÎÄ¼şÂ·¾¶
-* ²ÎÊı£º
-* ·µ»ØÖµ£º
-* Ê¾Àı:
-//   extractFilePath("C:\\MyDir\\test.c");         ·µ»Ø: "C:\\MyDir\\"
-//   extractFilePath("C:");                        ·µ»Ø: "C:\\"
-//   extractFilePath("/home/user1/data/test.c");   ·µ»Ø: "/home/user1/data/"
+* å‡½æ•°åï¼š extractFilePath
+* åŠŸèƒ½ï¼š   ä»æ–‡ä»¶åå­—ç¬¦ä¸²ä¸­å–å‡ºæ–‡ä»¶è·¯å¾„
+* å‚æ•°ï¼š
+* è¿”å›å€¼ï¼š
+* ç¤ºä¾‹:
+//   extractFilePath("C:\\MyDir\\test.c");         è¿”å›: "C:\\MyDir\\"
+//   extractFilePath("C:");                        è¿”å›: "C:\\"
+//   extractFilePath("/home/user1/data/test.c");   è¿”å›: "/home/user1/data/"
 */
 std::string extractFilePath(const std::string& fileName);
 
 /*
-* º¯ÊıÃû£º extractFileName
-* ¹¦ÄÜ£º   ´ÓÎÄ¼şÃû×Ö·û´®ÖĞÈ¡³öµ¥¶ÀµÄÎÄ¼şÃû
-* ²ÎÊı£º   fileName - °üº¬Â·¾¶µÄÎÄ¼şÃû
-* ·µ»ØÖµ£º
-// Ê¾Àı:
-//   extractFileName("C:\\MyDir\\test.c");         ·µ»Ø: "test.c"
-//   extractFilePath("/home/user1/data/test.c");   ·µ»Ø: "test.c"
+* å‡½æ•°åï¼š extractFileName
+* åŠŸèƒ½ï¼š   ä»æ–‡ä»¶åå­—ç¬¦ä¸²ä¸­å–å‡ºå•ç‹¬çš„æ–‡ä»¶å
+* å‚æ•°ï¼š   fileName - åŒ…å«è·¯å¾„çš„æ–‡ä»¶å
+* è¿”å›å€¼ï¼š
+// ç¤ºä¾‹:
+//   extractFileName("C:\\MyDir\\test.c");         è¿”å›: "test.c"
+//   extractFilePath("/home/user1/data/test.c");   è¿”å›: "test.c"
 */
 std::string extractFileName(const std::string& fileName);
 
 /*
-* º¯ÊıÃû£º extractFileExt
-* ¹¦ÄÜ£º   ´ÓÎÄ¼şÃû×Ö·û´®ÖĞÈ¡³öÎÄ¼şÀ©Õ¹Ãû
-* ²ÎÊı£º   fileName - ÎÄ¼şÃû (¿É°üº¬Â·¾¶)
-* ·µ»ØÖµ£º
-// Ê¾Àı:
-//   extractFileExt("C:\\MyDir\\test.txt");         ·µ»Ø:  ".txt"
-//   extractFileExt("/home/user1/data/test.c");     ·µ»Ø:  ".c"
+* å‡½æ•°åï¼š extractFileExt
+* åŠŸèƒ½ï¼š   ä»æ–‡ä»¶åå­—ç¬¦ä¸²ä¸­å–å‡ºæ–‡ä»¶æ‰©å±•å
+* å‚æ•°ï¼š   fileName - æ–‡ä»¶å (å¯åŒ…å«è·¯å¾„)
+* è¿”å›å€¼ï¼š
+// ç¤ºä¾‹:
+//   extractFileExt("C:\\MyDir\\test.txt");         è¿”å›:  ".txt"
+//   extractFileExt("/home/user1/data/test.c");     è¿”å›:  ".c"
 */
 std::string extractFileExt(const std::string& fileName);
 
 /*
-* º¯ÊıÃû£º changeFileExt
-* ¹¦ÄÜ£º   ¸Ä±äÎÄ¼şÃû×Ö·û´®ÖĞµÄÎÄ¼şÀ©Õ¹Ãû
-* ²ÎÊı£º   fileName - Ô­ÎÄ¼şÃû (¿É°üº¬Â·¾¶)
-           ext      - ĞÂµÄÎÄ¼şÀ©Õ¹Ãû
-* ·µ»ØÖµ£º ĞÂµÄÎÄ¼şÃû
-// Ê¾Àı:
-			changeFileExt("c:\\test.txt", ".new");        ·µ»Ø:  "c:\\test.new"
-//			changeFileExt("test.txt", ".new");            ·µ»Ø:  "test.new"
-//			changeFileExt("test", ".new");                ·µ»Ø:  "test.new"
-//			changeFileExt("test.txt", "");                ·µ»Ø:  "test"
-//			changeFileExt("test.txt", ".");               ·µ»Ø:  "test."
-//			changeFileExt("/home/user1/test.c", ".new");  ·µ»Ø:  "/home/user1/test.new"
+* å‡½æ•°åï¼š changeFileExt
+* åŠŸèƒ½ï¼š   æ”¹å˜æ–‡ä»¶åå­—ç¬¦ä¸²ä¸­çš„æ–‡ä»¶æ‰©å±•å
+* å‚æ•°ï¼š   fileName - åŸæ–‡ä»¶å (å¯åŒ…å«è·¯å¾„)
+           ext      - æ–°çš„æ–‡ä»¶æ‰©å±•å
+* è¿”å›å€¼ï¼š æ–°çš„æ–‡ä»¶å
+// ç¤ºä¾‹:
+			changeFileExt("c:\\test.txt", ".new");        è¿”å›:  "c:\\test.new"
+//			changeFileExt("test.txt", ".new");            è¿”å›:  "test.new"
+//			changeFileExt("test", ".new");                è¿”å›:  "test.new"
+//			changeFileExt("test.txt", "");                è¿”å›:  "test"
+//			changeFileExt("test.txt", ".");               è¿”å›:  "test."
+//			changeFileExt("/home/user1/test.c", ".new");  è¿”å›:  "/home/user1/test.new"
 */
 std::string changeFileExt(const std::string& fileName, const std::string& ext);
 
 /*
-* º¯ÊıÃû£º forceDirectories
-* ¹¦ÄÜ£º   Ç¿ÖÆ´´½¨Ä¿Â¼
-* ²ÎÊı£º    
-* ·µ»ØÖµ£º  true   - ³É¹¦  false  - Ê§°Ü
+* å‡½æ•°åï¼š forceDirectories
+* åŠŸèƒ½ï¼š   å¼ºåˆ¶åˆ›å»ºç›®å½•
+* å‚æ•°ï¼š    
+* è¿”å›å€¼ï¼š  true   - æˆåŠŸ  false  - å¤±è´¥
 */
 bool forceDirectories(std::string dir);
 
 /*
-* º¯ÊıÃû£º deleteFile
-* ¹¦ÄÜ£º   É¾³ıÎÄ¼ş
-* ²ÎÊı£º
-* ·µ»ØÖµ£º  true   - ³É¹¦  false  - Ê§°Ü
+* å‡½æ•°åï¼š deleteFile
+* åŠŸèƒ½ï¼š   åˆ é™¤æ–‡ä»¶
+* å‚æ•°ï¼š
+* è¿”å›å€¼ï¼š  true   - æˆåŠŸ  false  - å¤±è´¥
 */
 bool deleteFile(const std::string& fileName);
 
 /*
-* º¯ÊıÃû£º removeFile
-* ¹¦ÄÜ£º   É¾³ıÎÄ¼ş
-* ²ÎÊı£º
-* ·µ»ØÖµ£º true   - ³É¹¦  false  - Ê§°Ü
+* å‡½æ•°åï¼š removeFile
+* åŠŸèƒ½ï¼š   åˆ é™¤æ–‡ä»¶
+* å‚æ•°ï¼š
+* è¿”å›å€¼ï¼š true   - æˆåŠŸ  false  - å¤±è´¥
 */
 bool removeFile(const std::string& fileName);
 
 /*
-* º¯ÊıÃû£º renameFile
-* ¹¦ÄÜ£º   ÎÄ¼şÖØÃüÃû
-* ²ÎÊı£º
-* ·µ»ØÖµ£º true   - ³É¹¦  false  - Ê§°Ü
+* å‡½æ•°åï¼š renameFile
+* åŠŸèƒ½ï¼š   æ–‡ä»¶é‡å‘½å
+* å‚æ•°ï¼š
+* è¿”å›å€¼ï¼š true   - æˆåŠŸ  false  - å¤±è´¥
 */
 bool renameFile(const std::string& oldFileName, const std::string& newFileName);
 
 /*
-* º¯ÊıÃû£º getFileSize
-* ¹¦ÄÜ£º   È¡µÃÎÄ¼şµÄ´óĞ¡¡£ÈôÊ§°ÜÔò·µ»Ø-1
-* ²ÎÊı£º
-* ·µ»ØÖµ£º true   - ³É¹¦  false  - Ê§°Ü
+* å‡½æ•°åï¼š getFileSize
+* åŠŸèƒ½ï¼š   å–å¾—æ–‡ä»¶çš„å¤§å°ã€‚è‹¥å¤±è´¥åˆ™è¿”å›-1
+* å‚æ•°ï¼š
+* è¿”å›å€¼ï¼š true   - æˆåŠŸ  false  - å¤±è´¥
 */
 INT64 getFileSize(const std::string& fileName);
 
 
 /*
-* º¯ÊıÃû£º findFiles
-* ¹¦ÄÜ£º   ÔÚÖ¸¶¨Â·¾¶ÏÂ²éÕÒ·ûºÏÌõ¼şµÄÎÄ¼ş
-* ²ÎÊı£º    path    - Ö¸¶¨ÔÚÄÄ¸öÂ·¾¶ÏÂ½øĞĞ²éÕÒ£¬²¢±ØĞëÖ¸¶¨Í¨Åä·û
-			attr      - Ö»²éÕÒ·ûºÏ´ËÊôĞÔµÄÎÄ¼ş
-			findResult - ´«»Ø²éÕÒ½á¹û
-* ·µ»ØÖµ£º 
-// Ê¾Àı:
+* å‡½æ•°åï¼š findFiles
+* åŠŸèƒ½ï¼š   åœ¨æŒ‡å®šè·¯å¾„ä¸‹æŸ¥æ‰¾ç¬¦åˆæ¡ä»¶çš„æ–‡ä»¶
+* å‚æ•°ï¼š    path    - æŒ‡å®šåœ¨å“ªä¸ªè·¯å¾„ä¸‹è¿›è¡ŒæŸ¥æ‰¾ï¼Œå¹¶å¿…é¡»æŒ‡å®šé€šé…ç¬¦
+			attr      - åªæŸ¥æ‰¾ç¬¦åˆæ­¤å±æ€§çš„æ–‡ä»¶
+			findResult - ä¼ å›æŸ¥æ‰¾ç»“æœ
+* è¿”å›å€¼ï¼š 
+// ç¤ºä¾‹:
 //   findFiles("C:\\test\\*.*", FA_ANY_FILE & ~FA_HIDDEN, fr);
 //   findFiles("/home/*.log", FA_ANY_FILE & ~FA_SYM_LINK, fr);
 */
 void findFiles(const std::string& path, UINT attr, FileFindResult& findResult);
 
 /*
-* º¯ÊıÃû£º pathWithSlash
-* ¹¦ÄÜ£º   ²¹È«Â·¾¶×Ö·û´®ºóÃæµÄ "\" »ò "/"
-* ²ÎÊı£º
-* ·µ»ØÖµ£º
+* å‡½æ•°åï¼š pathWithSlash
+* åŠŸèƒ½ï¼š   è¡¥å…¨è·¯å¾„å­—ç¬¦ä¸²åé¢çš„ "\" æˆ– "/"
+* å‚æ•°ï¼š
+* è¿”å›å€¼ï¼š
 */
 std::string pathWithSlash(const std::string& path);
 
 /*
-* º¯ÊıÃû£º pathWithoutSlash
-* ¹¦ÄÜ£º   È¥µôÂ·¾¶×Ö·û´®ºóÃæµÄ "\" »ò "/"
-* ²ÎÊı£º
-* ·µ»ØÖµ£º
+* å‡½æ•°åï¼š pathWithoutSlash
+* åŠŸèƒ½ï¼š   å»æ‰è·¯å¾„å­—ç¬¦ä¸²åé¢çš„ "\" æˆ– "/"
+* å‚æ•°ï¼š
+* è¿”å›å€¼ï¼š
 */
 std::string pathWithoutSlash(const std::string& path);
 
 /*
-* º¯ÊıÃû£º getAppExeName
-* ¹¦ÄÜ£º   È¡µÃ¿ÉÖ´ĞĞÎÄ¼şµÄÃû³Æ
-* ²ÎÊı£º
-* ·µ»ØÖµ£º
+* å‡½æ•°åï¼š getAppExeName
+* åŠŸèƒ½ï¼š   å–å¾—å¯æ‰§è¡Œæ–‡ä»¶çš„åç§°
+* å‚æ•°ï¼š
+* è¿”å›å€¼ï¼š
 */
 std::string getAppExeName(bool includePath = true);
 
 /*
-* º¯ÊıÃû£º getAppPath
-* ¹¦ÄÜ£º   È¡µÃ¿ÉÖ´ĞĞÎÄ¼şËùÔÚµÄÂ·¾¶
-* ²ÎÊı£º
-* ·µ»ØÖµ£º
+* å‡½æ•°åï¼š getAppPath
+* åŠŸèƒ½ï¼š   å–å¾—å¯æ‰§è¡Œæ–‡ä»¶æ‰€åœ¨çš„è·¯å¾„
+* å‚æ•°ï¼š
+* è¿”å›å€¼ï¼š
 */
 std::string getAppPath();
 
 /*
-* º¯ÊıÃû£º getAppSubPath
-* ¹¦ÄÜ£º   È¡µÃ¿ÉÖ´ĞĞÎÄ¼şËùÔÚµÄÂ·¾¶µÄ×ÓÄ¿Â¼
-* ²ÎÊı£º
-* ·µ»ØÖµ£º
+* å‡½æ•°åï¼š getAppSubPath
+* åŠŸèƒ½ï¼š   å–å¾—å¯æ‰§è¡Œæ–‡ä»¶æ‰€åœ¨çš„è·¯å¾„çš„å­ç›®å½•
+* å‚æ•°ï¼š
+* è¿”å›å€¼ï¼š
 */
 std::string getAppSubPath(const std::string& subDir = "");
 
-//È¡Ğ¡
+//å–å°
 template <typename T>
 const T& min(const T& a, const T& b) { return ((a < b) ? a : b); }
 
-//È¡´ó
+//å–å¤§
 template <typename T>
 const T& max(const T& a, const T& b) { return ((a < b) ? b : a); }
 
-//·¶Î§ÅĞ¶Ï
+//èŒƒå›´åˆ¤æ–­
 template <typename T>
 const T& ensureRange(const T& value, const T& minVal, const T& maxVal)
 {
 	return (value > maxVal) ? maxVal : (value < minVal ? minVal : value);
 }
 
-//½»»»Öµ
+//äº¤æ¢å€¼
 template <typename T>
-void swap(T& a, T& b) { T temp(a); a = b; b = temp; }
+void obj_swap(T& a, T& b) { T temp(a); a = b; b = temp; }
 
 
-//±È½ÏÖµ
+//æ¯”è¾ƒå€¼
 template <typename T>
 int compare(const T& a, const T& b) { return (a < b) ? -1 : (a > b ? 1 : 0); }
 

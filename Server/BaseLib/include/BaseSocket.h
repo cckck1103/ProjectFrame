@@ -35,7 +35,7 @@
 #include "GlobalDefs.h"
 
 ///////////////////////////////////////////////////////////////////////////////
-// ÌáÇ°ÉùÃ÷
+// æå‰å£°æ˜
 
 class InetAddress;
 class Socket;
@@ -52,7 +52,7 @@ class UdpListenerThreadPool;
 class TcpListenerThread;
 
 ///////////////////////////////////////////////////////////////////////////////
-// ³£Á¿¶¨Òå
+// å¸¸é‡å®šä¹‰
 
 #ifdef _COMPILER_WIN
 const int SS_SD_RECV            = 0;
@@ -146,7 +146,7 @@ const int SS_ENOTEMPTY          = ENOTEMPTY;
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////
-// ´íÎóĞÅÏ¢ (Socket Error Message)
+// é”™è¯¯ä¿¡æ¯ (Socket Error Message)
 
 const char* const SSEM_ERROR             = "Socket Error #%d: %s";
 const char* const SSEM_SOCKETERROR       = "Socket error";
@@ -193,7 +193,7 @@ const char* const SSEM_EHOSTUNREACH      = "No route to host.";
 const char* const SSEM_ENOTEMPTY         = "Directory not empty";
 
 ///////////////////////////////////////////////////////////////////////////////
-// ÀàĞÍ¶¨Òå
+// ç±»å‹å®šä¹‰
 
 #ifdef _COMPILER_WIN
 typedef int socklen_t;
@@ -205,100 +205,100 @@ typedef int SOCKET;
 
 typedef struct sockaddr_in SockAddr;
 
-// ÍøÂçĞ­ÒéÀàĞÍ(UDP|TCP)
+// ç½‘ç»œåè®®ç±»å‹(UDP|TCP)
 enum NET_PROTO_TYPE
 {
     NPT_UDP,        // UDP
     NPT_TCP         // TCP
 };
 
-// DTP Ğ­ÒéÀàĞÍ(TCP|UTP)
+// DTP åè®®ç±»å‹(TCP|UTP)
 enum DTP_PROTO_TYPE
 {
     DPT_TCP,        // TCP
     DPT_UTP         // UTP (UDP Transfer Protocol)
 };
 
-// Òì²½Á¬½ÓµÄ×´Ì¬
+// å¼‚æ­¥è¿æ¥çš„çŠ¶æ€
 enum ASYNC_CONNECT_STATE
 {
-    ACS_NONE,       // ÉĞÎ´·¢ÆğÁ¬½Ó
-    ACS_CONNECTING, // ÉĞÎ´Á¬½ÓÍê±Ï£¬ÇÒÉĞÎ´·¢Éú´íÎó
-    ACS_CONNECTED,  // Á¬½ÓÒÑ½¨Á¢³É¹¦
-    ACS_FAILED      // Á¬½Ó¹ı³ÌÖĞ·¢ÉúÁË´íÎó£¬µ¼ÖÂÁ¬½ÓÊ§°Ü
+    ACS_NONE,       // å°šæœªå‘èµ·è¿æ¥
+    ACS_CONNECTING, // å°šæœªè¿æ¥å®Œæ¯•ï¼Œä¸”å°šæœªå‘ç”Ÿé”™è¯¯
+    ACS_CONNECTED,  // è¿æ¥å·²å»ºç«‹æˆåŠŸ
+    ACS_FAILED      // è¿æ¥è¿‡ç¨‹ä¸­å‘ç”Ÿäº†é”™è¯¯ï¼Œå¯¼è‡´è¿æ¥å¤±è´¥
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// ÔÓÏîº¯Êı
+// æ‚é¡¹å‡½æ•°
 
-//ÍøÂç³õÊ¼»¯
+//ç½‘ç»œåˆå§‹åŒ–
 void networkInitialize();
 
-//ÍøÂç½áÊø»¯
+//ç½‘ç»œç»“æŸåŒ–
 void networkFinalize();
 
-//ÅĞ¶ÏÍøÂçÊÇ·ñ³õÊ¼»¯
+//åˆ¤æ–­ç½‘ç»œæ˜¯å¦åˆå§‹åŒ–
 bool isNetworkInited();
 
-//³õÊ¼»¯ÍøÂç
+//åˆå§‹åŒ–ç½‘ç»œ
 void ensureNetworkInited();
 
-//»ñÈ¡×îºóÒ»´Î³ö´í´íÎóÂë
+//è·å–æœ€åä¸€æ¬¡å‡ºé”™é”™è¯¯ç 
 int SocketGetLastError();
 
-//»ñÈ¡´íÎóĞÅÏ¢
+//è·å–é”™è¯¯ä¿¡æ¯
 std::string SocketGetErrorMsg(int errorCode);
 
-//È¡µÃ×îºó´íÎóµÄ¶ÔÓ¦ĞÅÏ¢
+//å–å¾—æœ€åé”™è¯¯çš„å¯¹åº”ä¿¡æ¯
 std::string SocketGetLastErrMsg();
 
-//¹Ø±Õsocket
+//å…³é—­socket
 void CloseSocket(SOCKET handle);
 
-// ÕûĞÎIP(Ö÷»ú×Ö½ÚË³Ğò) -> ´®ĞÍIP
+// æ•´å½¢IP(ä¸»æœºå­—èŠ‚é¡ºåº) -> ä¸²å‹IP
 std::string ipToString(UINT ip);
 
-// ´®ĞÍIP -> ÕûĞÎIP(Ö÷»ú×Ö½ÚË³Ğò)
+// ä¸²å‹IP -> æ•´å½¢IP(ä¸»æœºå­—èŠ‚é¡ºåº)
 UINT stringToIp(const std::string& str);
 
-//È¡µÃÌ×½Ó×ÖµÄ¡°±¾µØµØÖ·¡±
+//å–å¾—å¥—æ¥å­—çš„â€œæœ¬åœ°åœ°å€â€
 InetAddress getSocketLocalAddr(SOCKET handle);
 
-//È¡µÃÌ×½Ó×ÖµÄ¡°¶Ô¶ËµØÖ·¡±
+//å–å¾—å¥—æ¥å­—çš„â€œå¯¹ç«¯åœ°å€â€
 InetAddress getSocketPeerAddr(SOCKET handle);
 
-//È¡µÃ¿ÕÏĞ¶Ë¿ÚºÅ
-// ²ÎÊı:
-//   proto      - ÍøÂçĞ­Òé(UDP,TCP)
-//   startPort  - ÆğÊ¼¶Ë¿ÚºÅ
-//   checkTimes - ¼ì²â´ÎÊı
-// ·µ»Ø:
-//   ¿ÕÏĞ¶Ë¿ÚºÅ (ÈôÊ§°ÜÔò·µ»Ø 0)
+//å–å¾—ç©ºé—²ç«¯å£å·
+// å‚æ•°:
+//   proto      - ç½‘ç»œåè®®(UDP,TCP)
+//   startPort  - èµ·å§‹ç«¯å£å·
+//   checkTimes - æ£€æµ‹æ¬¡æ•°
+// è¿”å›:
+//   ç©ºé—²ç«¯å£å· (è‹¥å¤±è´¥åˆ™è¿”å› 0)
 int getFreePort(NET_PROTO_TYPE proto, int startPort, int checkTimes);
 
-// È¡µÃ±¾»úIPÁĞ±í
+// å–å¾—æœ¬æœºIPåˆ—è¡¨
 void getLocalIpList(StrList& ipList);
 
-//È¡µÃ±¾»úIP
+//å–å¾—æœ¬æœºIP
 std::string getLocalIp();
 
-//ÓòÃûµØÖ· -> IPµØÖ·   ÈôÊ§°Ü£¬Ôò·µ»Ø¿Õ×Ö·û´®¡£
+//åŸŸååœ°å€ -> IPåœ°å€   è‹¥å¤±è´¥ï¼Œåˆ™è¿”å›ç©ºå­—ç¬¦ä¸²ã€‚
 std::string lookupHostAddr(const std::string& host);
 
-//È¡×îºóµÄ´íÎóÂë²¢Å×³öÒì³£
+//å–æœ€åçš„é”™è¯¯ç å¹¶æŠ›å‡ºå¼‚å¸¸
 void ThrowSocketLastError();
 
 ///////////////////////////////////////////////////////////////////////////////
-// class InetAddress - IPv4µØÖ·Àà
+// class InetAddress - IPv4åœ°å€ç±»
 
-#pragma pack(1)     // 1×Ö½Ú¶ÔÆë
+#pragma pack(1)     // 1å­—èŠ‚å¯¹é½
 
-// µØÖ·ĞÅÏ¢
+// åœ°å€ä¿¡æ¯
 class InetAddress
 {
 public:
-    UINT ip;        // IP   (Ö÷»ú×Ö½ÚË³Ğò)
-    WORD port;      // ¶Ë¿Ú (Ö÷»ú×Ö½ÚË³Ğò)
+    UINT ip;        // IP   (ä¸»æœºå­—èŠ‚é¡ºåº)
+    WORD port;      // ç«¯å£ (ä¸»æœºå­—èŠ‚é¡ºåº)
 public:
     InetAddress() : ip(0), port(0) {}
     InetAddress(UINT _ip, WORD _port) : ip(_ip), port(_port) {}
@@ -337,7 +337,7 @@ public:
 #pragma pack()
 
 ///////////////////////////////////////////////////////////////////////////////
-// class Socket - Ì×½Ó×ÖÀà
+// class Socket - å¥—æ¥å­—ç±»
 
 class Socket : noncopyable
 {
@@ -372,16 +372,16 @@ private:
     void doClose();
 
 protected:
-    bool isActive_;     // Ì×½Ó×ÖÊÇ·ñ×¼±¸¾ÍĞ÷
-    SOCKET handle_;     // Ì×½Ó×Ö¾ä±ú
-    int domain_;        // Ì×½Ó×ÖµÄĞ­Òé¼Ò×å (PF_UNIX, PF_INET, PF_INET6, PF_IPX, ...)
-    int type_;          // Ì×½Ó×ÖÀàĞÍ£¬±ØĞëÖ¸¶¨ (SOCK_STREAM, SOCK_DGRAM, SOCK_RAW, SOCK_RDM, SOCK_SEQPACKET)
-    int protocol_;      // Ì×½Ó×ÖËùÓÃĞ­Òé£¬¿ÉÎª0 (IPPROTO_IP, IPPROTO_UDP, IPPROTO_TCP, ...)
-    bool isBlockMode_;  // ÊÇ·ñÎª×èÈûÄ£Ê½ (È±Ê¡Îª×èÈûÄ£Ê½)
+    bool isActive_;     // å¥—æ¥å­—æ˜¯å¦å‡†å¤‡å°±ç»ª
+    SOCKET handle_;     // å¥—æ¥å­—å¥æŸ„
+    int domain_;        // å¥—æ¥å­—çš„åè®®å®¶æ— (PF_UNIX, PF_INET, PF_INET6, PF_IPX, ...)
+    int type_;          // å¥—æ¥å­—ç±»å‹ï¼Œå¿…é¡»æŒ‡å®š (SOCK_STREAM, SOCK_DGRAM, SOCK_RAW, SOCK_RDM, SOCK_SEQPACKET)
+    int protocol_;      // å¥—æ¥å­—æ‰€ç”¨åè®®ï¼Œå¯ä¸º0 (IPPROTO_IP, IPPROTO_UDP, IPPROTO_TCP, ...)
+    bool isBlockMode_;  // æ˜¯å¦ä¸ºé˜»å¡æ¨¡å¼ (ç¼ºçœä¸ºé˜»å¡æ¨¡å¼)
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class TcpSocket - TCP Ì×½Ó×ÖÀà
+// class TcpSocket - TCP å¥—æ¥å­—ç±»
 
 class TcpSocket : public Socket
 {
@@ -397,7 +397,7 @@ public:
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class BaseTcpConnection - TCP Connection »ùÀà
+// class BaseTcpConnection - TCP Connection åŸºç±»
 
 class BaseTcpConnection :
     noncopyable,
@@ -442,7 +442,7 @@ private:
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class BaseTcpClient - TCP Client »ùÀà
+// class BaseTcpClient - TCP Client åŸºç±»
 
 class BaseTcpClient : noncopyable
 {
@@ -450,11 +450,11 @@ public:
     BaseTcpClient();
     virtual ~BaseTcpClient();
 
-    // ×èÈûÊ½Á¬½Ó
+    // é˜»å¡å¼è¿æ¥
     void connect(const std::string& ip, int port);
-    // Òì²½(·Ç×èÈûÊ½)Á¬½Ó (·µ»Ø enum ASYNC_CONNECT_STATE)
+    // å¼‚æ­¥(éé˜»å¡å¼)è¿æ¥ (è¿”å› enum ASYNC_CONNECT_STATE)
     int asyncConnect(const std::string& ip, int port, int timeoutMSecs = -1);
-    // ¼ì²éÒì²½Á¬½ÓµÄ×´Ì¬ (·µ»Ø enum ASYNC_CONNECT_STATE)
+    // æ£€æŸ¥å¼‚æ­¥è¿æ¥çš„çŠ¶æ€ (è¿”å› enum ASYNC_CONNECT_STATE)
     int checkAsyncConnectState(int timeoutMSecs = -1);
 
     bool isConnected() { return connection_ && connection_->isConnected(); }
@@ -471,7 +471,7 @@ protected:
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class BaseTcpServer - TCP Server »ùÀà
+// class BaseTcpServer - TCP Server åŸºç±»
 
 class BaseTcpServer :
     noncopyable,
@@ -485,7 +485,7 @@ public:
         BaseTcpConnection *connection)> TcpSvrAcceptConnCallback;
 
 public:
-    enum { LISTEN_QUEUE_SIZE = 30 };   // TCP¼àÌı¶ÓÁĞ³¤¶È
+    enum { LISTEN_QUEUE_SIZE = 30 };   // TCPç›‘å¬é˜Ÿåˆ—é•¿åº¦
 
 public:
     BaseTcpServer();
@@ -521,7 +521,7 @@ private:
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// class ListenerThread - ¼àÌıÏß³ÌÀà
+// class ListenerThread - ç›‘å¬çº¿ç¨‹ç±»
 
 class ListenerThread : public Thread
 {
@@ -544,7 +544,7 @@ protected:
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// class TcpListenerThread - TCP·şÎñÆ÷¼àÌıÏß³ÌÀà
+// class TcpListenerThread - TCPæœåŠ¡å™¨ç›‘å¬çº¿ç¨‹ç±»
 
 class TcpListenerThread : public ListenerThread
 {

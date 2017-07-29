@@ -30,12 +30,12 @@
 #include "UtilClass.h"
 #include "ObjectArray.h"
 ///////////////////////////////////////////////////////////////////////////////
-/* ËµÃ÷
+/* è¯´æ˜
 
-	Ò»¡¢WindowsÆ½Ì¨ÏÂºÍLinuxÆ½Ì¨ÏÂÏß³ÌµÄÖ÷ÒªÇø±ğ:
+	ä¸€ã€Windowså¹³å°ä¸‹å’ŒLinuxå¹³å°ä¸‹çº¿ç¨‹çš„ä¸»è¦åŒºåˆ«:
 
-	1. WindowsÏß³ÌÓµÓĞHandleºÍThreadId£¬¶øLinuxÏß³ÌÖ»ÓĞThreadId¡£
-	2. WindowsÏß³ÌÖ»ÓĞThreadPriority£¬¶øLinuxÏß³ÌÓĞThreadPolicyºÍThreadPriority¡£
+	1. Windowsçº¿ç¨‹æ‹¥æœ‰Handleå’ŒThreadIdï¼Œè€ŒLinuxçº¿ç¨‹åªæœ‰ThreadIdã€‚
+	2. Windowsçº¿ç¨‹åªæœ‰ThreadPriorityï¼Œè€ŒLinuxçº¿ç¨‹æœ‰ThreadPolicyå’ŒThreadPriorityã€‚
 
 */
 ///////////////////////////////////////////////////////////////////////////////
@@ -43,10 +43,10 @@
 	class Thread;
 
 	///////////////////////////////////////////////////////////////////////////////
-	// ÀàĞÍ¶¨Òå
+	// ç±»å‹å®šä¹‰
 
 #ifdef _COMPILER_WIN
-	// Ïß³ÌÓÅÏÈ¼¶
+	// çº¿ç¨‹ä¼˜å…ˆçº§
 	enum
 	{
 		THREAD_PRI_IDLE = 0,
@@ -59,7 +59,7 @@
 #endif
 
 #ifdef _COMPILER_LINUX
-	// Ïß³Ìµ÷¶È²ßÂÔ
+	// çº¿ç¨‹è°ƒåº¦ç­–ç•¥
 	enum
 	{
 		THREAD_POL_DEFAULT = SCHED_OTHER,
@@ -67,7 +67,7 @@
 		THREAD_POL_FIFO = SCHED_FIFO
 	};
 
-	// Ïß³ÌÓÅÏÈ¼¶
+	// çº¿ç¨‹ä¼˜å…ˆçº§
 	enum
 	{
 		THREAD_PRI_DEFAULT = 0,
@@ -78,7 +78,7 @@
 #endif
 
 	///////////////////////////////////////////////////////////////////////////////
-	// class ThreadImpl - Æ½Ì¨Ïß³ÌÊµÏÖ»ùÀà
+	// class ThreadImpl - å¹³å°çº¿ç¨‹å®ç°åŸºç±»
 
 	class ThreadImpl : noncopyable
 	{
@@ -98,14 +98,14 @@
 		void interruptSleep() { isSleepInterrupted_ = true; }
 		bool isRunning() { return isExecuting_; }
 
-		// ÊôĞÔ (getter)
+		// å±æ€§ (getter)
 		Thread* getThread() { return (Thread*)&thread_; }
 		THREAD_ID getThreadId() const { return threadId_; }
 		int isTerminated() const { return terminated_; }
 		int getReturnValue() const { return returnValue_; }
 		bool isAutoDelete() const { return isAutoDelete_; }
 		int getTermElapsedSecs() const;
-		// ÊôĞÔ (setter)
+		// å±æ€§ (setter)
 		void setThreadId(THREAD_ID value) { threadId_ = value; }
 		void setExecuting(bool value) { isExecuting_ = value; }
 		void setTerminated(bool value);
@@ -121,19 +121,19 @@
 		void checkNotRunning();
 
 	protected:
-		Thread& thread_;              // Ïà¹ØÁªµÄ Thread ¶ÔÏó
-		THREAD_ID threadId_;          // Ïß³ÌID (Ïß³ÌÔÚÄÚºËÖĞµÄID)
-		bool isExecuting_;            // Ïß³ÌÊÇ·ñÕıÔÚÖ´ĞĞÏß³Ìº¯Êı
-		bool isRunCalled_;            // run() º¯ÊıÊÇ·ñÒÑ±»µ÷ÓÃ¹ı
-		int termTime_;                // µ÷ÓÃ terminate() Ê±µÄÊ±¼ä´Á
-		bool isAutoDelete_;           // Ïß³ÌÍË³öÊ±ÊÇ·ñÍ¬Ê±ÊÍ·ÅÀà¶ÔÏó
-		bool terminated_;             // ÊÇ·ñÓ¦ÍË³öµÄ±êÖ¾
-		bool isSleepInterrupted_;     // Ë¯ÃßÊÇ·ñ±»ÖĞ¶Ï
-		int returnValue_;             // Ïß³Ì·µ»ØÖµ (¿ÉÔÚ execute º¯ÊıÖĞĞŞ¸Ä´ËÖµ£¬º¯Êı waitFor ·µ»Ø´ËÖµ)
+		Thread& thread_;              // ç›¸å…³è”çš„ Thread å¯¹è±¡
+		THREAD_ID threadId_;          // çº¿ç¨‹ID (çº¿ç¨‹åœ¨å†…æ ¸ä¸­çš„ID)
+		bool isExecuting_;            // çº¿ç¨‹æ˜¯å¦æ­£åœ¨æ‰§è¡Œçº¿ç¨‹å‡½æ•°
+		bool isRunCalled_;            // run() å‡½æ•°æ˜¯å¦å·²è¢«è°ƒç”¨è¿‡
+		int termTime_;                // è°ƒç”¨ terminate() æ—¶çš„æ—¶é—´æˆ³
+		bool isAutoDelete_;           // çº¿ç¨‹é€€å‡ºæ—¶æ˜¯å¦åŒæ—¶é‡Šæ”¾ç±»å¯¹è±¡
+		bool terminated_;             // æ˜¯å¦åº”é€€å‡ºçš„æ ‡å¿—
+		bool isSleepInterrupted_;     // ç¡çœ æ˜¯å¦è¢«ä¸­æ–­
+		int returnValue_;             // çº¿ç¨‹è¿”å›å€¼ (å¯åœ¨ execute å‡½æ•°ä¸­ä¿®æ”¹æ­¤å€¼ï¼Œå‡½æ•° waitFor è¿”å›æ­¤å€¼)
 	};
 
 	///////////////////////////////////////////////////////////////////////////////
-	// class WinThreadImpl - WindowsÆ½Ì¨Ïß³ÌÊµÏÖÀà
+	// class WinThreadImpl - Windowså¹³å°çº¿ç¨‹å®ç°ç±»
 
 #ifdef _COMPILER_WIN
 	class WinThreadImpl : public ThreadImpl
@@ -157,13 +157,13 @@
 		void checkThreadError(bool success);
 
 	protected:
-		HANDLE handle_;               // Ïß³Ì¾ä±ú
-		int priority_;                // Ïß³ÌÓÅÏÈ¼¶
+		HANDLE handle_;               // çº¿ç¨‹å¥æŸ„
+		int priority_;                // çº¿ç¨‹ä¼˜å…ˆçº§
 	};
 #endif
 
 	///////////////////////////////////////////////////////////////////////////////
-	// class LinuxThreadImpl - LinuxÆ½Ì¨Ïß³ÌÊµÏÖÀà
+	// class LinuxThreadImpl - Linuxå¹³å°çº¿ç¨‹å®ç°ç±»
 
 #ifdef _COMPILER_LINUX
 	class LinuxThreadImpl : public ThreadImpl
@@ -190,15 +190,15 @@
 		void checkThreadError(int errorCode);
 
 	protected:
-		pthread_t pthreadId_;         // POSIXÏß³ÌID
-		int policy_;                  // Ïß³Ìµ÷¶È²ßÂÔ (THREAD_POLICY_XXX)
-		int priority_;                // Ïß³ÌÓÅÏÈ¼¶ (0..99)
-		Semaphore *execSem_;          // ÓÃÓÚÆô¶¯Ïß³Ìº¯ÊıÊ±ÔİÊ±×èÈû
+		pthread_t pthreadId_;         // POSIXçº¿ç¨‹ID
+		int policy_;                  // çº¿ç¨‹è°ƒåº¦ç­–ç•¥ (THREAD_POLICY_XXX)
+		int priority_;                // çº¿ç¨‹ä¼˜å…ˆçº§ (0..99)
+		Semaphore *execSem_;          // ç”¨äºå¯åŠ¨çº¿ç¨‹å‡½æ•°æ—¶æš‚æ—¶é˜»å¡
 	};
 #endif
 
 	///////////////////////////////////////////////////////////////////////////////
-	// class Thread - Ïß³ÌÀà
+	// class Thread - çº¿ç¨‹ç±»
 
 	class Thread : noncopyable
 	{
@@ -209,33 +209,33 @@
 		Thread() : threadImpl_(this) {}
 		virtual ~Thread() {}
 
-		// ´´½¨Ò»¸öÏß³Ì²¢ÂíÉÏÖ´ĞĞ
+		// åˆ›å»ºä¸€ä¸ªçº¿ç¨‹å¹¶é©¬ä¸Šæ‰§è¡Œ
 		static Thread* create(const ThreadProc& threadProc);
 
-		// ´´½¨²¢Ö´ĞĞÏß³Ì¡£
-		// ×¢: ´Ë³ÉÔ±·½·¨ÔÚ¶ÔÏóÉùÃ÷ÖÜÆÚÖĞÖ»¿Éµ÷ÓÃÒ»´Î¡£
+		// åˆ›å»ºå¹¶æ‰§è¡Œçº¿ç¨‹ã€‚
+		// æ³¨: æ­¤æˆå‘˜æ–¹æ³•åœ¨å¯¹è±¡å£°æ˜å‘¨æœŸä¸­åªå¯è°ƒç”¨ä¸€æ¬¡ã€‚
 		void run() { threadImpl_.run(); }
 
-		// Í¨ÖªÏß³ÌÍË³ö (×ÔÔ¸ÍË³ö»úÖÆ)
-		// ×¢: ÈôÏß³ÌÓÉÓÚÄ³Ğ©×èÈûÊ½²Ù×÷³Ù³Ù²»ÍË³ö£¬¿Éµ÷ÓÃ kill() Ç¿ĞĞÍË³ö¡£
+		// é€šçŸ¥çº¿ç¨‹é€€å‡º (è‡ªæ„¿é€€å‡ºæœºåˆ¶)
+		// æ³¨: è‹¥çº¿ç¨‹ç”±äºæŸäº›é˜»å¡å¼æ“ä½œè¿Ÿè¿Ÿä¸é€€å‡ºï¼Œå¯è°ƒç”¨ kill() å¼ºè¡Œé€€å‡ºã€‚
 		void terminate() { threadImpl_.terminate(); }
 
-		// Ç¿ĞĞÉ±ËÀÏß³Ì (Ç¿ĞĞÍË³ö»úÖÆ)
+		// å¼ºè¡Œæ€æ­»çº¿ç¨‹ (å¼ºè¡Œé€€å‡ºæœºåˆ¶)
 		void kill() { threadImpl_.kill(); }
 
-		// µÈ´ıÏß³ÌÍË³ö
+		// ç­‰å¾…çº¿ç¨‹é€€å‡º
 		int waitFor() { return threadImpl_.waitFor(); }
 
-		// ½øÈëË¯Ãß×´Ì¬ (Ë¯Ãß¹ı³ÌÖĞ»á¼ì²â terminated_ µÄ×´Ì¬)
-		// ×¢: ´Ëº¯Êı±ØĞëÓÉÏß³Ì×Ô¼ºµ÷ÓÃ·½¿ÉÉúĞ§¡£
+		// è¿›å…¥ç¡çœ çŠ¶æ€ (ç¡çœ è¿‡ç¨‹ä¸­ä¼šæ£€æµ‹ terminated_ çš„çŠ¶æ€)
+		// æ³¨: æ­¤å‡½æ•°å¿…é¡»ç”±çº¿ç¨‹è‡ªå·±è°ƒç”¨æ–¹å¯ç”Ÿæ•ˆã€‚
 		void sleep(double seconds) { threadImpl_.sleep(seconds); }
-		// ´ò¶ÏË¯Ãß
+		// æ‰“æ–­ç¡çœ 
 		void interruptSleep() { threadImpl_.interruptSleep(); }
 
-		// ÅĞ¶ÏÏß³ÌÊÇ·ñÕıÔÚÔËĞĞ
+		// åˆ¤æ–­çº¿ç¨‹æ˜¯å¦æ­£åœ¨è¿è¡Œ
 		bool isRunning() { return threadImpl_.isRunning(); }
 
-		// ÊôĞÔ (getter)
+		// å±æ€§ (getter)
 		THREAD_ID getThreadId() const { return threadImpl_.getThreadId(); }
 		int isTerminated() const { return threadImpl_.isTerminated(); }
 		int getReturnValue() const { return threadImpl_.getReturnValue(); }
@@ -248,7 +248,7 @@
 		int getPolicy() const { return threadImpl_.getPolicy(); }
 		int getPriority() const { return threadImpl_.getPriority(); }
 #endif
-		// ÊôĞÔ (setter)
+		// å±æ€§ (setter)
 		void setTerminated(bool value) { threadImpl_.setTerminated(value); }
 		void setReturnValue(int value) { threadImpl_.setReturnValue(value); }
 		void setAutoDelete(bool value) { threadImpl_.setAutoDelete(value); }
@@ -261,21 +261,21 @@
 #endif
 
 	protected:
-		// Ïß³ÌµÄÖ´ĞĞº¯Êı£¬×ÓÀà±ØĞëÖØĞ´¡£
+		// çº¿ç¨‹çš„æ‰§è¡Œå‡½æ•°ï¼Œå­ç±»å¿…é¡»é‡å†™ã€‚
 		virtual void execute() { if (threadProc_) threadProc_(*this); }
 
-		// ÔÚÖ´ĞĞÍê execute() ºó£¬ÓÀÔ¶»áÖ´ĞĞ´Ëº¯Êı¡£
+		// åœ¨æ‰§è¡Œå®Œ execute() åï¼Œæ°¸è¿œä¼šæ‰§è¡Œæ­¤å‡½æ•°ã€‚
 		virtual void afterExecute() {}
 
-		// Ö´ĞĞ terminate() Ç°µÄ¸½¼Ó²Ù×÷¡£
-		// ×¢: ÓÉÓÚ terminate() ÊôÓÚ×ÔÔ¸ÍË³ö»úÖÆ£¬ÎªÁËÄÜÈÃÏß³ÌÄÜ¾¡¿ìÍË³ö£¬³ıÁË
-		// terminated_ ±êÖ¾±»ÉèÎª true Ö®Íâ£¬ÓĞÊ±»¹Ó¦µ±²¹³äÒ»Ğ©¸½¼ÓµÄ²Ù×÷ÒÔ
-		// ±ãÄÜÈÃÏß³Ì¾¡¿ì´Ó×èÈû²Ù×÷ÖĞ½âÍÑ³öÀ´¡£
+		// æ‰§è¡Œ terminate() å‰çš„é™„åŠ æ“ä½œã€‚
+		// æ³¨: ç”±äº terminate() å±äºè‡ªæ„¿é€€å‡ºæœºåˆ¶ï¼Œä¸ºäº†èƒ½è®©çº¿ç¨‹èƒ½å°½å¿«é€€å‡ºï¼Œé™¤äº†
+		// terminated_ æ ‡å¿—è¢«è®¾ä¸º true ä¹‹å¤–ï¼Œæœ‰æ—¶è¿˜åº”å½“è¡¥å……ä¸€äº›é™„åŠ çš„æ“ä½œä»¥
+		// ä¾¿èƒ½è®©çº¿ç¨‹å°½å¿«ä»é˜»å¡æ“ä½œä¸­è§£è„±å‡ºæ¥ã€‚
 		virtual void beforeTerminate() {}
 
-		// Ö´ĞĞ kill() Ç°µÄ¸½¼Ó²Ù×÷¡£
-		// ×¢: Ïß³Ì±»É±ËÀºó£¬ÓÃ»§Ëù¹ÜÀíµÄÄ³Ğ©ÖØÒª×ÊÔ´¿ÉÄÜÎ´ÄÜµÃµ½ÊÍ·Å£¬±ÈÈçËø×ÊÔ´
-		// (»¹Î´À´µÃ¼°½âËø±ã±»É±ÁË)£¬ËùÒÔÖØÒª×ÊÔ´µÄÊÍ·Å¹¤×÷±ØĞëÔÚ beforeKill ÖĞ½øĞĞ¡£
+		// æ‰§è¡Œ kill() å‰çš„é™„åŠ æ“ä½œã€‚
+		// æ³¨: çº¿ç¨‹è¢«æ€æ­»åï¼Œç”¨æˆ·æ‰€ç®¡ç†çš„æŸäº›é‡è¦èµ„æºå¯èƒ½æœªèƒ½å¾—åˆ°é‡Šæ”¾ï¼Œæ¯”å¦‚é”èµ„æº
+		// (è¿˜æœªæ¥å¾—åŠè§£é”ä¾¿è¢«æ€äº†)ï¼Œæ‰€ä»¥é‡è¦èµ„æºçš„é‡Šæ”¾å·¥ä½œå¿…é¡»åœ¨ beforeKill ä¸­è¿›è¡Œã€‚
 		virtual void beforeKill() {}
 
 	private:
@@ -292,7 +292,7 @@
 	};
 
 	///////////////////////////////////////////////////////////////////////////////
-	// class ThreadList - Ïß³ÌÁĞ±í
+	// class ThreadList - çº¿ç¨‹åˆ—è¡¨
 
 	class ThreadList : noncopyable
 	{
@@ -320,7 +320,7 @@
 	};
 
 	///////////////////////////////////////////////////////////////////////////////
-	// class ThreadPool - Ïß³Ì³Ø
+	// class ThreadPool - çº¿ç¨‹æ± 
 
 	class ThreadPool : noncopyable
 	{

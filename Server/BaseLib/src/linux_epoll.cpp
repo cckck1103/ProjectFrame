@@ -1,7 +1,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////
-// ÎÄ¼şÃû³Æ: linux_epoll.cpp
-// ¹¦ÄÜÃèÊö: EPoll ÊµÏÖ
+// æ–‡ä»¶åç§°: linux_epoll.cpp
+// åŠŸèƒ½æè¿°: EPoll å®ç°
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "linux_epoll.h"
@@ -32,7 +32,7 @@ EpollObject::~EpollObject()
 }
 
 //-----------------------------------------------------------------------------
-// ÃèÊö: Ö´ĞĞÒ»´Î EPoll ÂÖÑ­
+// æè¿°: æ‰§è¡Œä¸€æ¬¡ EPoll è½®å¾ª
 //-----------------------------------------------------------------------------
 void EpollObject::poll()
 {
@@ -57,7 +57,7 @@ void EpollObject::poll()
 }
 
 //-----------------------------------------------------------------------------
-// ÃèÊö: »½ĞÑÕıÔÚ×èÈûµÄ Poll() º¯Êı
+// æè¿°: å”¤é†’æ­£åœ¨é˜»å¡çš„ Poll() å‡½æ•°
 //-----------------------------------------------------------------------------
 void EpollObject::wakeup()
 {
@@ -66,7 +66,7 @@ void EpollObject::wakeup()
 }
 
 //-----------------------------------------------------------------------------
-// ÃèÊö: Ïò EPoll ÖĞÌí¼ÓÒ»¸öÁ¬½Ó
+// æè¿°: å‘ EPoll ä¸­æ·»åŠ ä¸€ä¸ªè¿æ¥
 //-----------------------------------------------------------------------------
 void EpollObject::addConnection(BaseTcpConnection *connection, bool enableSend, bool enableRecv)
 {
@@ -76,7 +76,7 @@ void EpollObject::addConnection(BaseTcpConnection *connection, bool enableSend, 
 }
 
 //-----------------------------------------------------------------------------
-// ÃèÊö: ¸üĞÂ EPoll ÖĞµÄÒ»¸öÁ¬½Ó
+// æè¿°: æ›´æ–° EPoll ä¸­çš„ä¸€ä¸ªè¿æ¥
 //-----------------------------------------------------------------------------
 void EpollObject::updateConnection(BaseTcpConnection *connection, bool enableSend, bool enableRecv)
 {
@@ -86,7 +86,7 @@ void EpollObject::updateConnection(BaseTcpConnection *connection, bool enableSen
 }
 
 //-----------------------------------------------------------------------------
-// ÃèÊö: ´Ó EPoll ÖĞÉ¾³ıÒ»¸öÁ¬½Ó
+// æè¿°: ä» EPoll ä¸­åˆ é™¤ä¸€ä¸ªè¿æ¥
 //-----------------------------------------------------------------------------
 void EpollObject::removeConnection(BaseTcpConnection *connection)
 {
@@ -96,7 +96,7 @@ void EpollObject::removeConnection(BaseTcpConnection *connection)
 }
 
 //-----------------------------------------------------------------------------
-// ÃèÊö: ÉèÖÃ»Øµ÷
+// æè¿°: è®¾ç½®å›è°ƒ
 //-----------------------------------------------------------------------------
 void EpollObject::setNotifyEventCallback(const NotifyEventCallback& callback)
 {
@@ -129,7 +129,7 @@ void EpollObject::createPipe()
     if (::pipe(pipeFds_) == 0)
         epollControl(EPOLL_CTL_ADD, NULL, pipeFds_[0], false, true);
     else
-        logger().writeStr(SEM_CREATE_PIPE_ERROR);
+       ERROR_LOG(SEM_CREATE_PIPE_ERROR);
 }
 
 //-----------------------------------------------------------------------------
@@ -149,7 +149,7 @@ void EpollObject::destroyPipe()
 void EpollObject::epollControl(int operation, void *param, int handle,
     bool enableSend, bool enableRecv)
 {
-    // ×¢: ²ÉÓÃ Level Triggered (LT, Ò²³Æ "µçÆ½´¥·¢") Ä£Ê½
+    // æ³¨: é‡‡ç”¨ Level Triggered (LT, ä¹Ÿç§° "ç”µå¹³è§¦å‘") æ¨¡å¼
 
     struct epoll_event event;
     memset(&event, 0, sizeof(event));
@@ -166,7 +166,7 @@ void EpollObject::epollControl(int operation, void *param, int handle,
 }
 
 //-----------------------------------------------------------------------------
-// ÃèÊö: ´¦Àí¹ÜµÀÊÂ¼ş
+// æè¿°: å¤„ç†ç®¡é“äº‹ä»¶
 //-----------------------------------------------------------------------------
 void EpollObject::processPipeEvent()
 {
@@ -175,7 +175,7 @@ void EpollObject::processPipeEvent()
 }
 
 //-----------------------------------------------------------------------------
-// ÃèÊö: ´¦Àí EPoll ÂÖÑ­ºóµÄÊÂ¼ş
+// æè¿°: å¤„ç† EPoll è½®å¾ªåçš„äº‹ä»¶
 //-----------------------------------------------------------------------------
 void EpollObject::processEvents(int eventCount)
 {

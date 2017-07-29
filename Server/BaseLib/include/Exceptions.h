@@ -10,7 +10,7 @@
 #include "ErrMsgs.h"
 
 ///////////////////////////////////////////////////////////////////////////////
-// class Exception - 异常基类
+// class Exception - 寮傚父鍩虹被
 
 class Exception : std::exception
 {

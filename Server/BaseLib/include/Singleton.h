@@ -5,7 +5,7 @@
 #include "UtilClass.h"
 
 ///////////////////////////////////////////////////////////////////////////////
-// class Singleton - È«¾Öµ¥ÀıÀà
+// class Singleton - å…¨å±€å•ä¾‹ç±»
 
 #ifdef _COMPILER_WIN
 

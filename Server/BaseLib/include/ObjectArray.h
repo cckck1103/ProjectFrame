@@ -8,17 +8,17 @@
 
 /************************************************************************/
 /*
-PointerList - ÁÐ±íÀà
-ËµÃ÷:
-1. ´ËÀàµÄÊµÏÖÔ­ÀíÓë Delphi::TList ÍêÈ«ÏàÍ¬£»
-2. ´ËÁÐ±íÀàÓÐÈçÏÂÓÅµã:
-a. ¹«ÓÐ·½·¨¼òµ¥Ã÷È· (STLËäÎÞ±ÈÇ¿´óµ«ÉÔÏÔ»ÞÉ¬)£»
-b. Ö§³ÖÏÂ±êËæ»ú´æÈ¡¸÷¸öÔªËØ (STL::list²»Ö§³Ö)£»
-c. Ö§³Ö¿ìËÙ»ñÈ¡ÁÐ±í³¤¶È (STL::list²»Ö§³Ö)£»
-d. Ö§³ÖÎ²²¿¿ìËÙÔöÉ¾ÔªËØ£»
-3. ´ËÁÐ±íÀàÓÐÈçÏÂÈ±µã:
-a. ²»Ö§³ÖÍ·²¿ºÍÖÐ²¿µÄ¿ìËÙÔöÉ¾ÔªËØ£»
-b. Ö»Ö§³Öµ¥Ò»ÀàÐÍÔªËØ(PointerÀàÐÍ)£»
+PointerList - åˆ—è¡¨ç±»
+è¯´æ˜Ž:
+1. æ­¤ç±»çš„å®žçŽ°åŽŸç†ä¸Ž Delphi::TList å®Œå…¨ç›¸åŒï¼›
+2. æ­¤åˆ—è¡¨ç±»æœ‰å¦‚ä¸‹ä¼˜ç‚¹:
+a. å…¬æœ‰æ–¹æ³•ç®€å•æ˜Žç¡® (STLè™½æ— æ¯”å¼ºå¤§ä½†ç¨æ˜¾æ™¦æ¶©)ï¼›
+b. æ”¯æŒä¸‹æ ‡éšæœºå­˜å–å„ä¸ªå…ƒç´  (STL::listä¸æ”¯æŒ)ï¼›
+c. æ”¯æŒå¿«é€ŸèŽ·å–åˆ—è¡¨é•¿åº¦ (STL::listä¸æ”¯æŒ)ï¼›
+d. æ”¯æŒå°¾éƒ¨å¿«é€Ÿå¢žåˆ å…ƒç´ ï¼›
+3. æ­¤åˆ—è¡¨ç±»æœ‰å¦‚ä¸‹ç¼ºç‚¹:
+a. ä¸æ”¯æŒå¤´éƒ¨å’Œä¸­éƒ¨çš„å¿«é€Ÿå¢žåˆ å…ƒç´ ï¼›
+b. åªæ”¯æŒå•ä¸€ç±»åž‹å…ƒç´ (Pointerç±»åž‹)ï¼›
 /************************************************************************/
 class PointerList
 {
@@ -27,100 +27,100 @@ public:
 	virtual ~PointerList();
 
 	/*
-	* º¯ÊýÃû£º add
-	* ¹¦ÄÜ£º   ÏòÁÐ±íÖÐÌí¼ÓÔªËØ
-	* ²ÎÊý£º   POINTER
-	* ·µ»ØÖµ£º list Ê£Óà¸öÊý
+	* å‡½æ•°åï¼š add
+	* åŠŸèƒ½ï¼š   å‘åˆ—è¡¨ä¸­æ·»åŠ å…ƒç´ 
+	* å‚æ•°ï¼š   POINTER
+	* è¿”å›žå€¼ï¼š list å‰©ä½™ä¸ªæ•°
 	*/
 	int				add(POINTER item);
 
 	/*
-	* º¯ÊýÃû£º insert
-	* ¹¦ÄÜ£º   ÏòÁÐ±íÖÐ²åÈëÔªËØ
-	* ²ÎÊý£º   index - ²åÈëÎ»ÖÃÏÂ±êºÅ(0-based)
-	* ·µ»ØÖµ£º void
+	* å‡½æ•°åï¼š insert
+	* åŠŸèƒ½ï¼š   å‘åˆ—è¡¨ä¸­æ’å…¥å…ƒç´ 
+	* å‚æ•°ï¼š   index - æ’å…¥ä½ç½®ä¸‹æ ‡å·(0-based)
+	* è¿”å›žå€¼ï¼š void
 	*/
 	void insert(int index, POINTER item);
 
 
 	/*
-	* º¯ÊýÃû£º del
-	* ¹¦ÄÜ£º   ´ÓÁÐ±íÖÐÉ¾³ýÔªËØ
-	* ²ÎÊý£º   index - ÏÂ±êºÅ(0-based)
-	* ·µ»ØÖµ£º void
+	* å‡½æ•°åï¼š del
+	* åŠŸèƒ½ï¼š   ä»Žåˆ—è¡¨ä¸­åˆ é™¤å…ƒç´ 
+	* å‚æ•°ï¼š   index - ä¸‹æ ‡å·(0-based)
+	* è¿”å›žå€¼ï¼š void
 	*/
 	void del(int index);
 
 	/*
-	* º¯ÊýÃû£º remove
-	* ¹¦ÄÜ£º   ´ÓÁÐ±íÖÐÉ¾³ýÔªËØ
-	* ²ÎÊý£º   POINTER
-	* ·µ»ØÖµ£º ±»É¾³ýÔªËØÔÚÁÐ±íÖÐµÄÏÂ±êºÅ(0-based)£¬ÈôÎ´ÕÒµ½£¬Ôò·µ»Ø -1.
+	* å‡½æ•°åï¼š remove
+	* åŠŸèƒ½ï¼š   ä»Žåˆ—è¡¨ä¸­åˆ é™¤å…ƒç´ 
+	* å‚æ•°ï¼š   POINTER
+	* è¿”å›žå€¼ï¼š è¢«åˆ é™¤å…ƒç´ åœ¨åˆ—è¡¨ä¸­çš„ä¸‹æ ‡å·(0-based)ï¼Œè‹¥æœªæ‰¾åˆ°ï¼Œåˆ™è¿”å›ž -1.
 	*/
 	int remove(POINTER item);
 
 	/*
-	* º¯ÊýÃû£º extract
-	* ¹¦ÄÜ£º   ´ÓÁÐ±íÖÐÉ¾³ýÔªËØ
-	* ²ÎÊý£º   POINTER
-	* ·µ»ØÖµ£º ±»É¾³ýµÄÔªËØÖµ£¬ÈôÎ´ÕÒµ½£¬Ôò·µ»Ø NULL.
+	* å‡½æ•°åï¼š extract
+	* åŠŸèƒ½ï¼š   ä»Žåˆ—è¡¨ä¸­åˆ é™¤å…ƒç´ 
+	* å‚æ•°ï¼š   POINTER
+	* è¿”å›žå€¼ï¼š è¢«åˆ é™¤çš„å…ƒç´ å€¼ï¼Œè‹¥æœªæ‰¾åˆ°ï¼Œåˆ™è¿”å›ž NULL.
 	*/
 	POINTER extract(POINTER item);
 
 	/*
-	* º¯ÊýÃû£º move
-	* ¹¦ÄÜ£º   ÒÆ¶¯Ò»¸öÔªËØµ½ÐÂµÄÎ»ÖÃ
-	* ²ÎÊý£º   curIndex   
+	* å‡½æ•°åï¼š move
+	* åŠŸèƒ½ï¼š   ç§»åŠ¨ä¸€ä¸ªå…ƒç´ åˆ°æ–°çš„ä½ç½®
+	* å‚æ•°ï¼š   curIndex   
 	           newIndex
-	* ·µ»ØÖµ£º void
+	* è¿”å›žå€¼ï¼š void
 	*/
 	void move(int curIndex, int newIndex);
 
 	/*
-	* º¯ÊýÃû£º resize
-	* ¹¦ÄÜ£º   ¸Ä±äÁÐ±íµÄ´óÐ¡
-	* ²ÎÊý£º   count
-	* ·µ»ØÖµ£º void
+	* å‡½æ•°åï¼š resize
+	* åŠŸèƒ½ï¼š   æ”¹å˜åˆ—è¡¨çš„å¤§å°
+	* å‚æ•°ï¼š   count
+	* è¿”å›žå€¼ï¼š void
 	*/
 	void resize(int count);
 
 	/*
-	* º¯ÊýÃû£º clear
-	* ¹¦ÄÜ£º   Çå¿ÕÁÐ±í
-	* ²ÎÊý£º   
-	* ·µ»ØÖµ£º void
+	* å‡½æ•°åï¼š clear
+	* åŠŸèƒ½ï¼š   æ¸…ç©ºåˆ—è¡¨
+	* å‚æ•°ï¼š   
+	* è¿”å›žå€¼ï¼š void
 	*/
 	void clear();
 
 	/*
-	* º¯ÊýÃû£º first
-	* ¹¦ÄÜ£º   ·µ»ØÁÐ±íÖÐµÄÊ×¸öÔªËØ (ÈôÁÐ±íÎª¿ÕÔòÅ×³öÒì³£)
-	* ²ÎÊý£º
-	* ·µ»ØÖµ£º POINTER
+	* å‡½æ•°åï¼š first
+	* åŠŸèƒ½ï¼š   è¿”å›žåˆ—è¡¨ä¸­çš„é¦–ä¸ªå…ƒç´  (è‹¥åˆ—è¡¨ä¸ºç©ºåˆ™æŠ›å‡ºå¼‚å¸¸)
+	* å‚æ•°ï¼š
+	* è¿”å›žå€¼ï¼š POINTER
 	*/
 	POINTER first() const;
 
 	/*
-	* º¯ÊýÃû£º first
-	* ¹¦ÄÜ£º   ·µ»ØÁÐ±íÖÐµÄÊ×¸öÔªËØ (ÈôÁÐ±íÎª¿ÕÔòÅ×³öÒì³£)
-	* ²ÎÊý£º
-	* ·µ»ØÖµ£º POINTER
+	* å‡½æ•°åï¼š first
+	* åŠŸèƒ½ï¼š   è¿”å›žåˆ—è¡¨ä¸­çš„é¦–ä¸ªå…ƒç´  (è‹¥åˆ—è¡¨ä¸ºç©ºåˆ™æŠ›å‡ºå¼‚å¸¸)
+	* å‚æ•°ï¼š
+	* è¿”å›žå€¼ï¼š POINTER
 	*/
 	POINTER last() const;
 
 	/*
-	* º¯ÊýÃû£º indexOf
-	* ¹¦ÄÜ£º   ·µ»ØÔªËØÔÚÁÐ±íÖÐµÄÏÂ±êºÅ (ÈôÎ´ÕÒµ½Ôò·µ»Ø -1)
-	* ²ÎÊý£º   POINTER
-	* ·µ»ØÖµ£º int
+	* å‡½æ•°åï¼š indexOf
+	* åŠŸèƒ½ï¼š   è¿”å›žå…ƒç´ åœ¨åˆ—è¡¨ä¸­çš„ä¸‹æ ‡å· (è‹¥æœªæ‰¾åˆ°åˆ™è¿”å›ž -1)
+	* å‚æ•°ï¼š   POINTER
+	* è¿”å›žå€¼ï¼š int
 	*/
 	int indexOf(POINTER item) const;
 
 	/*
-	* º¯ÊýÃû£º getCount
-	* ¹¦ÄÜ£º   ·µ»ØÁÐ±íÖÐÔªËØ×ÜÊý
-	* ²ÎÊý£º   
-	* ·µ»ØÖµ£º int
+	* å‡½æ•°åï¼š getCount
+	* åŠŸèƒ½ï¼š   è¿”å›žåˆ—è¡¨ä¸­å…ƒç´ æ€»æ•°
+	* å‚æ•°ï¼š   
+	* è¿”å›žå€¼ï¼š int
 	*/
 	int getCount() const;
 
@@ -145,7 +145,7 @@ private:
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// class CustomObjectList - ¶ÔÏóÁÐ±í»ùÀà
+// class CustomObjectList - å¯¹è±¡åˆ—è¡¨åŸºç±»
 
 template<typename ObjectType>
 class CustomObjectList
@@ -305,14 +305,14 @@ protected:
 	void setOwnsObjects(bool value) { isOwnsObjects_ = value; }
 
 protected:
-	PointerList items_;       // ¶ÔÏóÁÐ±í
+	PointerList items_;       // å¯¹è±¡åˆ—è¡¨
 	mutable InternalMutex mutex_;
-	bool isOwnsObjects_;      // ÔªËØ±»É¾³ýÊ±£¬ÊÇ·ñ×Ô¶¯ÊÍ·ÅÔªËØ¶ÔÏó
+	bool isOwnsObjects_;      // å…ƒç´ è¢«åˆ é™¤æ—¶ï¼Œæ˜¯å¦è‡ªåŠ¨é‡Šæ”¾å…ƒç´ å¯¹è±¡
 };
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// class ObjectList - ¶ÔÏóÁÐ±íÀà
+// class ObjectList - å¯¹è±¡åˆ—è¡¨ç±»
 
 template<typename ObjectType>
 class ObjectList : public CustomObjectList<ObjectType>
@@ -345,17 +345,17 @@ public:
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// class PropertyList - ÊôÐÔÁÐ±íÀà
+// class PropertyList - å±žæ€§åˆ—è¡¨ç±»
 //
-// ËµÃ÷:
-// 1. ÊôÐÔÁÐ±íÖÐµÄÃ¿¸öÏîÄ¿ÓÉÊôÐÔÃû(Name)ºÍÊôÐÔÖµ(Value)×é³É¡£
-// 2. ÊôÐÔÃû²»¿ÉÖØ¸´£¬²»Çø·Ö´óÐ¡Ð´£¬ÇÒÆäÖÐ²»¿Éº¬ÓÐµÈºÅ"="¡£ÊôÐÔÖµ¿ÉÎªÈÎÒâÖµ¡£
+// è¯´æ˜Ž:
+// 1. å±žæ€§åˆ—è¡¨ä¸­çš„æ¯ä¸ªé¡¹ç›®ç”±å±žæ€§å(Name)å’Œå±žæ€§å€¼(Value)ç»„æˆã€‚
+// 2. å±žæ€§åä¸å¯é‡å¤ï¼Œä¸åŒºåˆ†å¤§å°å†™ï¼Œä¸”å…¶ä¸­ä¸å¯å«æœ‰ç­‰å·"="ã€‚å±žæ€§å€¼å¯ä¸ºä»»æ„å€¼ã€‚
 
 class PropertyList
 {
 public:
-	enum { NAME_VALUE_SEP = '=' };        // Name ºÍ Value Ö®¼äµÄ·Ö¸ô·û
-	enum { PROP_ITEM_SEP = ',' };        // ÊôÐÔÏîÄ¿Ö®¼äµÄ·Ö¸ô·û
+	enum { NAME_VALUE_SEP = '=' };        // Name å’Œ Value ä¹‹é—´çš„åˆ†éš”ç¬¦
+	enum { PROP_ITEM_SEP = ',' };        // å±žæ€§é¡¹ç›®ä¹‹é—´çš„åˆ†éš”ç¬¦
 	enum { PROP_ITEM_QUOT = '"' };
 
 	struct PropertyItem
