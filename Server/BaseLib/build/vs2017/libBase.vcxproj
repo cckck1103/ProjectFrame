@@ -147,6 +147,7 @@
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>../../include;../../../thirdlib</AdditionalIncludeDirectories>
       <ProgramDataBaseFileName>$(OutDir)BaseLib_d.pdb</ProgramDataBaseFileName>
+      <DisableSpecificWarnings>4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Lib>
       <OutputFile>$(OutDir)BaseLib_d.lib</OutputFile>
@@ -169,6 +170,7 @@
       <ProgramDataBaseFileName>$(OutDir)BaseLib.pdb</ProgramDataBaseFileName>
       <AdditionalIncludeDirectories>../../include;../../../thirdlib</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

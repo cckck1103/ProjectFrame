@@ -49,6 +49,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 //stl
 #ifdef _COMPILER_WIN
+#include <windows.h>
 #include <hash_map>
 #include <hash_set>
 #endif
